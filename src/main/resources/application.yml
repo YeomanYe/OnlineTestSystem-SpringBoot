@@ -4,3 +4,5 @@ spring:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     username: qzdms
     password: qzdms
+server:
+  context-path: /ots

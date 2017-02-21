@@ -11,7 +11,7 @@ import java.util.Map;
  */
 @Controller
 public class LoginController {
-    @RequestMapping(path = "/")
+    @RequestMapping(path = "/login.html")
     public String loginPage(){
         System.out.println("success");
         return "login";
@@ -23,6 +23,7 @@ public class LoginController {
      */
     @PostMapping(path="/login")
     public String login(){
+        System.out.println("login");
         return null;
     }
 }
