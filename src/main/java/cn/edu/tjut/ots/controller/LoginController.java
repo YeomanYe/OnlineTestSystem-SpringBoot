@@ -13,7 +13,6 @@ import java.util.Map;
 public class LoginController {
     @RequestMapping(path = "/login.html")
     public String loginPage(){
-        System.out.println("success");
         return "login";
     }
 
