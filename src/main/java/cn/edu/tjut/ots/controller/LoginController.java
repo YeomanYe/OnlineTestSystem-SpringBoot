@@ -21,8 +21,11 @@ public class LoginController {
      * @return
      */
     @PostMapping(path="/login")
-    public String login(){
-        System.out.println("login");
-        return null;
+    public String login(@RequestParam(value = "username",required = true) String username,
+                        @RequestParam(value = "password",required = false) String password){
+        if(username!=null && !"".equals(username)){
+            return "index";
+        }
+        return "login";
     }
 }
