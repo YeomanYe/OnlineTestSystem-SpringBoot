@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:qzdms
+    url: jdbc:oracle:thin:@localhost:1521:orcl
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    username: qzdms
-    password: qzdms
+    username: ots
+    password: ots
 server:
   context-path: /ots

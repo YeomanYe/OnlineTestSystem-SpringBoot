@@ -7,7 +7,6 @@ import java.util.Map;
 
 /**
  * 登陆控制器
- * Created by KINGBOOK on 2017/2/20.
  */
 @Controller
 public class LoginController {
