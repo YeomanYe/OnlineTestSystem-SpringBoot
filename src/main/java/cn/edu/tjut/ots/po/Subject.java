@@ -2,6 +2,8 @@ package cn.edu.tjut.ots.po;
 
 import org.apache.ibatis.type.Alias;
 
+import java.util.Date;
+
 /**
  * Subject实体类
  * Created by KINGBOOK on 2017/3/1.
@@ -12,18 +14,19 @@ public class Subject {
     //试题类型
     private String subjectType;
     //试题描述
-    private String subjectDescription;
-    //试题答案
-    private String subjectAnswer;
+    private String subjectName;
     //试题分数
     private int subjectScore;
-    //试题选项
-    private String subjectOptionA;
-    private String subjectOptionB;
-    private String subjectOptionC;
-    private String subjectOptionD;
     //试题解析
     private String subjectParse;
+    //创建者
+    private String createBy;
+    //创建时间
+    private Date createWhen;
+    //最后更新人
+    private String updateBy;
+    //更新时间
+    private Date updateWhen;
 
     public String getUuid() {
         return uuid;
@@ -41,20 +44,12 @@ public class Subject {
         this.subjectType = subjectType;
     }
 
-    public String getSubjectDescription() {
-        return subjectDescription;
+    public String getSubjectName() {
+        return subjectName;
     }
 
-    public void setSubjectDescription(String subjectDescription) {
-        this.subjectDescription = subjectDescription;
-    }
-
-    public String getSubjectAnswer() {
-        return subjectAnswer;
-    }
-
-    public void setSubjectAnswer(String subjectAnswer) {
-        this.subjectAnswer = subjectAnswer;
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 
     public int getSubjectScore() {
@@ -65,38 +60,6 @@ public class Subject {
         this.subjectScore = subjectScore;
     }
 
-    public String getSubjectOptionA() {
-        return subjectOptionA;
-    }
-
-    public void setSubjectOptionA(String subjectOptionA) {
-        this.subjectOptionA = subjectOptionA;
-    }
-
-    public String getSubjectOptionB() {
-        return subjectOptionB;
-    }
-
-    public void setSubjectOptionB(String subjectOptionB) {
-        this.subjectOptionB = subjectOptionB;
-    }
-
-    public String getSubjectOptionC() {
-        return subjectOptionC;
-    }
-
-    public void setSubjectOptionC(String subjectOptionC) {
-        this.subjectOptionC = subjectOptionC;
-    }
-
-    public String getSubjectOptionD() {
-        return subjectOptionD;
-    }
-
-    public void setSubjectOptionD(String subjectOptionD) {
-        this.subjectOptionD = subjectOptionD;
-    }
-
     public String getSubjectParse() {
         return subjectParse;
     }
@@ -105,19 +68,50 @@ public class Subject {
         this.subjectParse = subjectParse;
     }
 
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public Date getCreateWhen() {
+        return createWhen;
+    }
+
+    public void setCreateWhen(Date createWhen) {
+        this.createWhen = createWhen;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public Date getUpdateWhen() {
+        return updateWhen;
+    }
+
+    public void setUpdateWhen(Date updateWhen) {
+        this.updateWhen = updateWhen;
+    }
+
     @Override
     public String toString() {
         return "Subject{" +
                 "uuid='" + uuid + '\'' +
                 ", subjectType='" + subjectType + '\'' +
-                ", subjectDescription='" + subjectDescription + '\'' +
-                ", subjectAnswer='" + subjectAnswer + '\'' +
-                ", subjectScore='" + subjectScore + '\'' +
-                ", subjectOptionA='" + subjectOptionA + '\'' +
-                ", subjectOptionB='" + subjectOptionB + '\'' +
-                ", subjectOptionC='" + subjectOptionC + '\'' +
-                ", subjectOptionD='" + subjectOptionD + '\'' +
+                ", subjectName='" + subjectName + '\'' +
+                ", subjectScore=" + subjectScore +
                 ", subjectParse='" + subjectParse + '\'' +
+                ", createBy='" + createBy + '\'' +
+                ", createWhen=" + createWhen +
+                ", updateBy='" + updateBy + '\'' +
+                ", updateWhen=" + updateWhen +
                 '}';
     }
 }

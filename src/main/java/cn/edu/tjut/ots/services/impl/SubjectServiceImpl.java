@@ -14,7 +14,6 @@ import java.util.List;
  * Created by KINGBOOK on 2017/3/1.
  */
 @Service
-@Repository("SubjectService")
 public class SubjectServiceImpl implements SubjectService {
     @Resource
     private SubjectDao subjectDao;

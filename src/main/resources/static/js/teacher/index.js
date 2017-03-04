@@ -4,8 +4,8 @@ $(function(){
        $.get("subject/querySubject",function (data) {
             //设置内容头
            $(".content-header").html('' +
-               '<h1>Data Tables ' +
-               '<small>advanced tables</small> ' +
+               '<h1>试题列表 ' +
+               '<small>subject list</small> ' +
                '</h1> ' +
                '<ol class="breadcrumb"> ' +
                '<li><a href="#">' +
