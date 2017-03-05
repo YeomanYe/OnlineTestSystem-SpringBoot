@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeHandlers>
+        <typeHandler javaType="Boolean" jdbcType="CHAR" handler="cn.edu.tjut.ots.utils.BooleanTypeHandler"/>
+    </typeHandlers>
+</configuration>

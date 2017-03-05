@@ -10,27 +10,61 @@ $(function () {
         "info": true,
         "autoWidth": true
     });
-    /*绑定事件*/
-    /*$(".tb_subjectInfo").click(function () {
-        //获取subjectId
-        var uuid = $(this).parent().siblings().children().filter(":checkbox").val();
+    //绑定事件处理函数
+    //给关闭按钮添加事件
+    $(".clsBtn").click(function () {
+        //获取需要关闭的modal的ID
+        var modal = $(this).data("dismiss");
+        $("#" + modal).hide();
+
+    })
+    $("#addSubject").click(function () {
         $.ajax({
-            url: "subject/querySubjectInfo?uuid=" + uuid,
+            url: "subject/addSubjectPage",
             type: "get",
             context: $(this),
             success: function (data) {
-                var subjectNameText = $(this).parent().siblings().filter(".tb_subjectName").text();
-                var digBody = $("#dig_subjectName").parent();
-                digBody.html("");
-                digBody.append($("<p id='dig_subjectName'>" + subjectNameText + "</p>"));
-                for (var i = 0, len = data.length; i < len; i++) {
-                    $("#dig_subjectName").parent().append($("<p>" + ALPHA_CONSTANT.charAt(i) + ". " + data[i].name + "</p>"));
-                }
-                $("#subjectInfoDialog").css({"display": "block"})
-
+                //设置内容头
+                $(".content-header").html('' +
+                    '<h1>添加试题 ' +
+                    '<small>subject add</small> ' +
+                    '</h1> ' +
+                    '<ol class="breadcrumb"> ' +
+                    '<li><a href="#">' +
+                    '<i class="fa fa-dashboard"></i> 主目录</a></li> ' +
+                    '<li><a href="#">试题管理</a></li> ' +
+                    '<li class="active">试题添加</li> </ol>');
+                //设置内容体
+                $(".content").html(data);
             }
         });
-    })*/
+    })
+    $("#updateSubject").click(function () {
+        var checkedboxs = $(".subjectCheckbox:checked");
+        if(checkedboxs.length != 1){
+
+        }else{
+            $.ajax({
+                url: "subject/updateSubjectPage?subjectId=" + $(".subjectCheckbox:checked").val(),
+                type: "get",
+                context: $(this),
+                success: function (data) {
+                    //设置内容头
+                    $(".content-header").html('' +
+                        '<h1>添加试题 ' +
+                        '<small>subject add</small> ' +
+                        '</h1> ' +
+                        '<ol class="breadcrumb"> ' +
+                        '<li><a href="#">' +
+                        '<i class="fa fa-dashboard"></i> 主目录</a></li> ' +
+                        '<li><a href="#">试题管理</a></li> ' +
+                        '<li class="active">试题添加</li> </ol>');
+                    //设置内容体
+                    $(".content").html(data);
+                }
+            })
+        }
+    })
 });
 var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 /**
@@ -53,9 +87,9 @@ function subjectInfoClick() {
                 var answerStr = "答案: ";
                 for (var i = 0, len = datas.length; i < len; i++) {
                     $("#dig_subjectName").parent().append($("<p>" + ALPHA_CONSTANT.charAt(i) + ". " + datas[i].name + "</p>"));
-                    if(datas[i].answer) answerStr += ALPHA_CONSTANT.charAt(i);
+                    if (datas[i].answer) answerStr += ALPHA_CONSTANT.charAt(i);
                 }
-                $("#dig_subjectName").parent().append("<p>"+answerStr+"</p>")
+                $("#dig_subjectName").parent().append("<p>" + answerStr + "</p>")
                 $("#subjectInfoDialog").css({"display": "block"})
 
             }

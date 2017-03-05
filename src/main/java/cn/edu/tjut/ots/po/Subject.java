@@ -114,4 +114,15 @@ public class Subject {
                 ", updateWhen=" + updateWhen +
                 '}';
     }
+
+    public Subject(String uuid, String subjectType, String subjectName, int subjectScore, String subjectParse) {
+        this.uuid = uuid;
+        this.subjectType = subjectType;
+        this.subjectName = subjectName;
+        this.subjectScore = subjectScore;
+        this.subjectParse = subjectParse;
+    }
+
+    public Subject() {
+    }
 }

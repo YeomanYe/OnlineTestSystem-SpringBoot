@@ -6,3 +6,5 @@ spring:
     password: ots
 server:
   context-path: /ots
+mybatis:
+  config-location: classpath:mybatis.xml

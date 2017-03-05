@@ -3,35 +3,15 @@
         <!-- /.box -->
         <div class="box">
             <div style="cursor: pointer;" class="box-header">
-                <div class="glyphicon glyphicon-plus" title="添加"> 添加</div>
+                <div class="glyphicon glyphicon-plus" id="addSubject" title="添加"> 添加</div>
                 <div class="glyphicon glyphicon-remove" title="删除"> 删除</div>
-                <div class="glyphicon glyphicon-pencil" title="编辑"> 编辑</div>
+                <div class="glyphicon glyphicon-pencil" id="updateSubject" title="编辑"> 编辑</div>
                 <div class="glyphicon glyphicon-download-alt" title="下载"> 下载</div>
                 <div class="glyphicon glyphicon-stats" title="图表"> 图表</div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
                 <div id="subject1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                    <!--<div class="row">
-                        <div class="col-sm-6">
-                            <div class="dataTables_length" id="subject1_length">
-                                <label>显示
-                                    <select name="subject1_length" aria-controls="subject1" class="form-control input-sm">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select> 条记录</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div id="subject1_filter" class="dataTables_filter">
-                                <label>搜索:
-                                    <input type="search" class="form-control input-sm" placeholder="" aria-controls="subject1"/>
-                                </label>
-                            </div>
-                        </div>
-                    </div>-->
                     <div class="row">
                         <div class="col-sm-12">
                             <table id="subject1" class="table table-bordered table-striped dataTable" role="grid"
@@ -50,7 +30,7 @@
                                 <tbody>
                                 <tr role="row" th:classappend="${subjectStat.odd}?'odd':'even'"
                                     th:each="subject:${subjects}">
-                                    <td><input type="checkbox"  th:value="${subject.uuid}"/></td>
+                                    <td><input type="checkbox" class="subjectCheckbox" th:value="${subject.uuid}"/></td>
                                     <td class="tb_subjectName" th:text="${subject.subjectName}"></td>
                                     <td th:text="${subject.subjectType}"></td>
                                     <td th:text="${subject.subjectScore}"></td>
@@ -71,33 +51,29 @@
     </div>
     <!-- /.col -->
 </div>
-<div class="col-md-6" id="subjectInfoDialogWrap">
-    <div class="box box-info box-solid" id="subjectInfoDialog">
-        <div class="box-header with-border">
-            <h3 class="box-title">试题详情</h3>
-
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+<div class="modal modal-info" id="subjectInfoDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close clsBtn" data-dismiss="subjectInfoDialog" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">试题详情</h4>
             </div>
-            <!-- /.box-tools -->
+            <div class="modal-body">
+                <p id="dig_subjectName">One fine body…</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline clsBtn" data-dismiss="subjectInfoDialog">关闭</button>
+            </div>
         </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <p id="dig_subjectName"></p>
-        </div>
-        <!-- /.box-body -->
+        <!-- /.modal-content -->
     </div>
-    <!-- /.box -->
+    <!-- /.modal-dialog -->
 </div>
 <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.css"/>
 <style>
     .tb_subjectInfo {
         cursor: pointer;
-    }
-    #subjectInfoDialogWrap{
-        position: absolute;
-        left: 25%;
-        top:25%;
     }
     #subjectInfoDialog{
         display: none;

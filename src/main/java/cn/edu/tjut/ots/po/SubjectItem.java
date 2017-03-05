@@ -54,4 +54,14 @@ public class SubjectItem {
                 ", isAnswer=" + isAnswer +
                 '}';
     }
+
+    public SubjectItem(String uuid, String name, String subjectId, boolean isAnswer) {
+        this.uuid = uuid;
+        this.name = name;
+        this.subjectId = subjectId;
+        this.isAnswer = isAnswer;
+    }
+
+    public SubjectItem() {
+    }
 }

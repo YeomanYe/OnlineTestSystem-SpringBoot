@@ -1,0 +1,105 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header" style="cursor: pointer;">
+                <div class="glyphicon glyphicon-eye-open"> 预览</div>
+            </div>
+            <div class="box-body">
+                <form role="form" id="subjectItemForm" action="subject/addSubject">
+                    <div class="form-group">
+                        <label for="subjectName">试题名</label>
+                        <input name="subjectId" type="hidden"/>
+                        <textarea id="subjectName" class="form-control" rows="4" name="subjectName"
+                                  placeholder="在此输入试题名..."></textarea>
+                    </div>
+                    <label>试题类型 &amp; 试题分值</label>
+                    <div class="row">
+                        <div class="col-xs-6"><div class="form-group">
+                            <select name="subjectType" class="form-control select2 select2-hidden-accessible" multiple=""
+                                    data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                <option value="计算机">计算机</option>
+                            </select><span
+                                class="select2 select2-container select2-container--default select2-container--below"
+                                dir="ltr" style="width: 100%;"><span class="selection"><span
+                                class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true"
+                                aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li
+                                class="select2-search select2-search--inline"><input class="select2-search__field"
+                                                                                     type="search" tabindex="0"
+                                                                                     autocomplete="off" autocorrect="off"
+                                                                                     autocapitalize="off" spellcheck="false"
+                                                                                     role="textbox" aria-autocomplete="list"
+                                                                                     placeholder="Select a State"
+                                                                                     style="width: 510px;"/></li></ul></span></span><span
+                                class="dropdown-wrapper" aria-hidden="true"></span></span>
+                        </div></div>
+                        <div class="col-xs-6"><div class="input-group">
+                            <span class="input-group-addon" title="分值"><i class="fa fa-dollar"></i></span>
+                            <input type="text" name="subjectScore" class="form-control"/>
+                        </div></div>
+                    </div>
+                    <div class="form-group" id="subjectItem">
+                        <label>试题选项</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                            <label>
+                              <div class="icheckbox_flat-green"
+                                   style="position: relative;">
+                                  <input name="answers" type="checkbox" checked="checked" value="false"
+                                         class="flat-red"/>
+                                  <ins class=" iCheck-helper"></ins>
+                              </div>
+                            </label>
+                            </span>
+                            <input type="hidden" name="subjectItemId0" class="subjectItemIds"/>
+                            <input type="text" name="subjectItem0" class="form-control"/>
+                            <span class="input-group-addon addItem"><i class="glyphicon glyphicon-plus"></i></span>
+                            <span class="input-group-addon removeItem"><i class="glyphicon glyphicon-remove"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subjectName">试题解析</label>
+                        <textarea id="subjectParse" class="form-control" rows="2" name="subjectParse"
+                                  placeholder="在此输入解析"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="box-footer">
+                <button type="reset" class="btn btn-primary pull-right">重置</button>
+                <button type="submit" class="btn btn-primary pull-right">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/iCheck/all.css"/>
+<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/select2/select2.min.css"/>
+<style>
+    input[type='text'] {
+        height: 39px;
+    }
+
+    .input-group-addon {
+        cursor: pointer;
+    }
+
+    .iCheck-helper {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+        background: rgb(255, 255, 255);
+        border: 0px;
+        opacity: 0;
+    }
+
+    .flat-red {
+        position: absolute;
+        opacity: 0;
+    }
+</style>
+<script src="AdminLTE-2.3.11/plugins/iCheck/icheck.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/select2/select2.full.min.js"></script>
+<script src="js/teacher/subject_add.js"></script>
