@@ -4,7 +4,7 @@ import cn.edu.tjut.ots.po.Subject;
 import cn.edu.tjut.ots.po.SubjectItem;
 import cn.edu.tjut.ots.services.SubjectItemService;
 import cn.edu.tjut.ots.services.SubjectService;
-import cn.edu.tjut.ots.utils.CreateUserByAndDate;
+import cn.edu.tjut.ots.utils.CreateUserBy;
 import cn.edu.tjut.ots.utils.EmptyUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,10 +87,11 @@ public class SubjectController {
         }
         Subject subject = new Subject(subjectId,subjectType,subjectName,subjectScore,subjectParse);
         if(isUpdate){
+            //查询已确保存在
             Subject subject1 = subjectServiceImpl.querySubjectById(subjectId);
-            CreateUserByAndDate.setUserAndDate(subject,subject1,"admin");
+            CreateUserBy.setUser(subject,subject1,"admin");
         }else{
-            CreateUserByAndDate.setUserAndDate(subject,null,"admin");
+            CreateUserBy.setUser(subject,null,"admin");
         }
         //保存试题ID
         retMap.put("subjectId",subjectId);
@@ -123,5 +124,27 @@ public class SubjectController {
             subjectServiceImpl.addSubject(subject,subjectItems);
         }
         return retMap;
+    }
+
+    /**
+     * 返回用于更新的试题页面
+     * @return
+     */
+    @RequestMapping("updateSubjectPage")
+    public String updateSubjectPage(HttpServletRequest req,@RequestParam("subjectId") String subjectId){
+        Subject subject = subjectServiceImpl.querySubjectById(subjectId);
+        req.setAttribute("subject",subject);
+        return "teacher/subject_add";
+    }
+
+    /**
+     * 查询试题项用于更新页面
+     * @param subjectId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("updateSubjectItem")
+    public List updateSubjectItem(@RequestParam("subjectId") String subjectId){
+        return subjectItemServiceImpl.querySubjectItem(subjectId);
     }
 }

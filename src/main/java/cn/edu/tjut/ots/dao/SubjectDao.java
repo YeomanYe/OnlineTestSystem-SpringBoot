@@ -19,13 +19,12 @@ public interface SubjectDao {
     //插入试题
     @Insert("insert into subject values(" +
             "#{uuid},#{subjectType},#{subjectName},#{subjectScore}," +
-            "#{subjectParse},#{createBy},#{createWhen,jdbcType=DATE},#{updateBy},#{updateWhen,jdbcType=DATE})")
+            "#{subjectParse},#{createBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'),#{updateBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'))")
     public void insertSubject(Subject subject);
     //根据ID更新试题
     @Update("update subject set subjectType=#{subjectType},subjectName=#{subjectName}," +
-            "subjectScore=#{subjectScore},subjectParse=#{subjectParse},createBy=#{createBy}," +
-            "createWhen=#{createWhen,jdbcType=DATE}," +
-            "updateBy=#{updateBy},updateWhen=#{updateWhen,jdbcType=DATE} where uuid=#{uuid}")
+            "subjectScore=#{subjectScore},subjectParse=#{subjectParse}," +
+            "updateBy=#{updateBy},updateWhen=to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd') where uuid=#{uuid}")
     public void updateSubject(Subject subject);
     //根据ID查询试题
     @Select("select * from subject where uuid = #{param}")

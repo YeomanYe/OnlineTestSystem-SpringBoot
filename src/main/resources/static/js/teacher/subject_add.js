@@ -1,4 +1,31 @@
 $(function () {
+    //如果subject不为空,说明是更新。查询subjectItem进行填充
+    var subjectId = $("#subjectId").val();
+    if (subjectId) {
+        $.ajax({
+            url: "subject/updateSubjectItem?subjectId=" + subjectId,
+            type: "get",
+            context: $(this),
+            success:function (datas) {
+                debugger
+                var len = datas.length;
+                for(var i=0;i<len;i++){
+                    //复制一个表单
+                    if(i){
+                        $("#subjectItem").append($("#subjectItem .input-group:first").clone(true));
+                        resetName();
+                    }
+                    var $subItem = $("input[name='subjectItem"+i+"']");
+                    $subItem.val(datas[i].name);
+                    $("input[name='subjectItemId"+i+"']").val(datas[i].uuid);
+                    if(datas[i].answer){
+                        $subItem.parent().find(".icheckbox_flat-green").addClass("checked")
+                            .find(":checkbox").val("true");
+                    }
+                }
+            }
+        })
+    }
     //初始化选择器二
     $(".select2").select2();
     /**
@@ -47,7 +74,7 @@ $(function () {
             url: "subject/addSubject?" + $("#subjectItemForm").serialize(),
             type: "get",
             context: $(this),
-            success:function (datas) {
+            success: function (datas) {
                 //显示添加成功提示
                 debugger
                 $("input[name='subjectId']").val(datas.subjectId);
