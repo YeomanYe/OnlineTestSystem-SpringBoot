@@ -71,7 +71,7 @@ $(function () {
     $("button[type='submit']").click(function () {
         debugger
         $.ajax({
-            url: "subject/addSubject?" + $("#subjectItemForm").serialize(),
+            url: "subject/mergeSubject?" + $("#subjectItemForm").serialize(),
             type: "get",
             context: $(this),
             success: function (datas) {

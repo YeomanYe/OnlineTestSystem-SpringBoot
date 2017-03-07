@@ -30,121 +30,101 @@ public class SubjectController {
 
     /**
      * 查询所有试题
+     *
      * @param req
      * @return
      */
-    @RequestMapping(path="querySubject")
-    public String querySubject(HttpServletRequest req){
+    @RequestMapping(path = "querySubject")
+    public String querySubject(HttpServletRequest req) {
         List<Subject> subjectList = subjectServiceImpl.querySubject();
-        req.setAttribute("subjects",subjectList);
+        req.setAttribute("subjects", subjectList);
         return "teacher/subject_table";
     }
 
     /**
      * 查询试题所有详细的信息
+     *
      * @param uuid
      * @return
      */
     @ResponseBody
-    @RequestMapping(path="querySubjectInfo")
-    public List querySubjectInfo(@RequestParam(name = "uuid") String uuid){
+    @RequestMapping(path = "querySubjectInfo")
+    public List querySubjectInfo(@RequestParam(name = "uuid") String uuid) {
         List<SubjectItem> subjectItems = subjectItemServiceImpl.querySubjectItem(uuid);
         return subjectItems;
     }
 
     /**
      * 添加试题页
+     *
      * @return
      */
     @RequestMapping("addSubjectPage")
-    public String addSubjectPage(){
+    public String addSubjectPage() {
         return "teacher/subject_add";
     }
 
     /**
      * 添加试题
+     *
      * @param req
      * @param answers
      * @return
      */
     @ResponseBody
-    @RequestMapping("addSubject")
-    public Map addSubject(
+    @RequestMapping("mergeSubject")
+    public Map mergeSubject(
             HttpServletRequest req,
-            @RequestParam(value="answers")boolean[] answers,
-            @RequestParam(value="subjectId")String subjectId,
-            @RequestParam(value="subjectName")String subjectName,
-            @RequestParam(value="subjectType")String subjectType,
-            @RequestParam(value="subjectScore")int subjectScore,
-            @RequestParam(value="subjectParse")String subjectParse){
+            @RequestParam(value = "answers") boolean[] answers,
+            @RequestParam(value = "subjectId") String subjectId,
+            @RequestParam(value = "subjectName") String subjectName,
+            @RequestParam(value = "subjectType") String subjectType,
+            @RequestParam(value = "subjectScore") int subjectScore,
+            @RequestParam(value = "subjectParse") String subjectParse) {
         boolean isUpdate = true;
-        //存储保存的UUID用于返回
-        Map<String,Object> retMap = new HashMap<>();
-        //如果不存在，则新建个Subject
-        if(EmptyUtil.isFieldEmpty(subjectId)){
-            subjectId = UUID.randomUUID().toString().replace("-","");
-            isUpdate = false;
-        }
-        Subject subject = new Subject(subjectId,subjectType,subjectName,subjectScore,subjectParse);
-        if(isUpdate){
-            //查询已确保存在
-            Subject subject1 = subjectServiceImpl.querySubjectById(subjectId);
-            CreateUserBy.setUser(subject,subject1,"admin");
-        }else{
-            CreateUserBy.setUser(subject,null,"admin");
-        }
-        //保存试题ID
-        retMap.put("subjectId",subjectId);
-
-        int len = answers.length;
-        List<SubjectItem> subjectItems = new ArrayList<>();
-        //用于保存试题项ID
+        //组合选项实体为一个list
+        List<String> subjectItemNames = new ArrayList<>();
         List<String> subjectItemIds = new ArrayList<>();
-        retMap.put("subjectItemIds",subjectItemIds);
-        List<Boolean> isExists = new ArrayList<Boolean>();
-        for(int i=0;i<len;i++) {
+        for (int i = 0, len = answers.length; i < len; i++) {
             String subjectItemName = req.getParameter("subjectItem" + i);
             String subjectItemId = req.getParameter("subjectItemId" + i);
-            boolean isAnswer = answers[i];
-            //如果不存在ID则创建。
-            if (EmptyUtil.isFieldEmpty(subjectItemId)) {
-                subjectItemId = UUID.randomUUID().toString().replace("-","");
-                isExists.add(new Boolean(false));
-            }else {
-                isExists.add(new Boolean(true));
-            }
-            SubjectItem subjectItem = new SubjectItem(subjectItemId, subjectItemName, subjectId, isAnswer);
-            subjectItems.add(subjectItem);
-            //保存试题项ID
             subjectItemIds.add(subjectItemId);
+            subjectItemNames.add(subjectItemName);
         }
-        if(isUpdate){
-            subjectServiceImpl.updateSubject(subject,subjectItems,isExists);
-        }else{
-            subjectServiceImpl.addSubject(subject,subjectItems);
+        //返回map
+        Map retMap = null;
+        if (EmptyUtil.isFieldEmpty(subjectId)) {
+            retMap = subjectServiceImpl.addSubject(subjectId, subjectType, subjectName, subjectScore,
+                    subjectParse, subjectItemIds, subjectItemNames, answers);
+        } else {
+            retMap = subjectServiceImpl.updateSubject(subjectId, subjectType, subjectName, subjectScore,
+                    subjectParse, subjectItemIds, subjectItemNames, answers);
         }
+
         return retMap;
     }
 
     /**
      * 返回用于更新的试题页面
+     *
      * @return
      */
     @RequestMapping("updateSubjectPage")
-    public String updateSubjectPage(HttpServletRequest req,@RequestParam("subjectId") String subjectId){
+    public String updateSubjectPage(HttpServletRequest req, @RequestParam("subjectId") String subjectId) {
         Subject subject = subjectServiceImpl.querySubjectById(subjectId);
-        req.setAttribute("subject",subject);
+        req.setAttribute("subject", subject);
         return "teacher/subject_add";
     }
 
     /**
      * 查询试题项用于更新页面
+     *
      * @param subjectId
      * @return
      */
     @ResponseBody
     @RequestMapping("updateSubjectItem")
-    public List updateSubjectItem(@RequestParam("subjectId") String subjectId){
+    public List updateSubjectItem(@RequestParam("subjectId") String subjectId) {
         return subjectItemServiceImpl.querySubjectItem(subjectId);
     }
 }

@@ -1,12 +1,9 @@
 package cn.edu.tjut.ots.services;
 
 import cn.edu.tjut.ots.po.Subject;
-import cn.edu.tjut.ots.po.SubjectItem;
-import cn.edu.tjut.ots.utils.BooleanTypeHandler;
-import org.apache.ibatis.annotations.TypeDiscriminator;
-import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by KINGBOOK on 2017/3/1.
@@ -14,7 +11,7 @@ import java.util.List;
 public interface SubjectService {
     public List<Subject> querySubject();
 
-    public void addSubject(Subject subject, List<SubjectItem> subjectItems);
+    public Map addSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers);
 
     /**
      * 更新试题
@@ -22,7 +19,7 @@ public interface SubjectService {
      * @param subjectItems
      * @param isExist 判断试题选项添加还是更新的标志位,true更新，false添加
      */
-    public void updateSubject(Subject subject,List<SubjectItem> subjectItems,List<Boolean> isExist);
+    public Map<String, Object> updateSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers);
 
     /**
      * 根据ID查询试题
