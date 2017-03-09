@@ -65,6 +65,37 @@ $(function () {
             })
         }
     })
+    $("#deleteSubject").click(function () {
+        var checkedboxs = $("table :checked");
+        if(!checkedboxs.length){
+
+        }else{
+            //选出不含表头的checkbox元素,后台删除成功时，前台也删除
+            var $checkedRow = $(":checked:not(.thCheckbox)").closest("tr");
+            $.ajax({
+                url: "subject/deleteSubject",
+                type: "get",
+                data: $("#subjectListForm").serialize(),
+                context: $(this),
+                success:function (data) {
+                    debugger
+                    if(data===true){
+                        $checkedRow.remove();
+                    }
+                }
+            })
+        }
+    })
+    //绑定第一个复选框为反选按钮
+    $("table :checkbox:first").click(function (evt) {
+        $("table :checkbox:not(:first)").each(function () {
+            if(this.checked){
+                $(this).prop("checked",false);
+            }else{
+                $(this).prop("checked",true);
+            }
+        })
+    })
 });
 var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 /**

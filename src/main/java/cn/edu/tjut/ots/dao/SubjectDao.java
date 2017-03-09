@@ -1,10 +1,7 @@
 package cn.edu.tjut.ots.dao;
 
 import cn.edu.tjut.ots.po.Subject;
-import cn.edu.tjut.ots.utils.BooleanTypeHandler;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.type.JdbcType;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -29,4 +26,8 @@ public interface SubjectDao {
     //根据ID查询试题
     @Select("select * from subject where uuid = #{param}")
     public Subject querySubjectById(String uuid);
+    //根据ID删除试题
+    public void deleteSubjectByIds(String[] uuids);
+    //查询试题简要信息
+    public List<Object> queryBriefSubject();
 }

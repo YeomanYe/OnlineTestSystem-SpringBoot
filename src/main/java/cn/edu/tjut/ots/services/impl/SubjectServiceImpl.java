@@ -89,7 +89,7 @@ public class SubjectServiceImpl implements SubjectService {
 
         List<SubjectItem> subjectItems = createSubjectItems(subjectId, subjectItemIds, subjectItemNames, answers, retMap);
         //插入试题
-        subjectDao.insertSubject(subject);
+        subjectDao.updateSubject(subject);
         //删除试题项
         subjectItemDao.deleteSubjectItemBySubjectId(subjectId);
         //插入试题项
@@ -102,5 +102,15 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Subject querySubjectById(String uuid) {
         return subjectDao.querySubjectById(uuid);
+    }
+
+    @Override
+    public List<Object> queryBriefSubject() {
+        return subjectDao.queryBriefSubject();
+    }
+
+    @Override
+    public void deleteSubjectByIds(String[] uuids) {
+        subjectDao.deleteSubjectByIds(uuids);
     }
 }

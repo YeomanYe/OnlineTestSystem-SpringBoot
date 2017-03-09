@@ -27,4 +27,15 @@ public interface SubjectService {
      * @return
      */
     public Subject querySubjectById(String uuid);
+
+    /**
+     * 查询试题简要信息
+     * @return
+     */
+    public List<Object> queryBriefSubject();
+    /**
+     * 通过ID删除试题
+     * @param uuids
+     */
+    public void deleteSubjectByIds(String[] uuids);
 }

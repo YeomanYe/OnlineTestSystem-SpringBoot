@@ -4,7 +4,6 @@ import cn.edu.tjut.ots.po.Subject;
 import cn.edu.tjut.ots.po.SubjectItem;
 import cn.edu.tjut.ots.services.SubjectItemService;
 import cn.edu.tjut.ots.services.SubjectService;
-import cn.edu.tjut.ots.utils.CreateUserBy;
 import cn.edu.tjut.ots.utils.EmptyUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +35,7 @@ public class SubjectController {
      */
     @RequestMapping(path = "querySubject")
     public String querySubject(HttpServletRequest req) {
-        List<Subject> subjectList = subjectServiceImpl.querySubject();
+        List<Object> subjectList = subjectServiceImpl.queryBriefSubject();
         req.setAttribute("subjects", subjectList);
         return "teacher/subject_table";
     }
@@ -126,5 +125,13 @@ public class SubjectController {
     @RequestMapping("updateSubjectItem")
     public List updateSubjectItem(@RequestParam("subjectId") String subjectId) {
         return subjectItemServiceImpl.querySubjectItem(subjectId);
+    }
+    @ResponseBody
+    @RequestMapping("deleteSubject")
+    public boolean deleteSubjectById(@RequestParam("subjectIds") String[] subjectIds){
+        boolean bool = false;
+        subjectServiceImpl.deleteSubjectByIds(subjectIds);
+        bool = true;
+        return bool;
     }
 }

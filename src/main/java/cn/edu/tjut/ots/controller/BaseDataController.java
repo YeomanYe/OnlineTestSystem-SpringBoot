@@ -14,14 +14,14 @@ import java.util.Map;
  * Created by KINGBOOK on 2017/3/7.
  */
 @Controller
-@RequestMapping("/basedata")
+@RequestMapping("/baseData")
 public class BaseDataController {
     @Resource
     BaseDataService baseDataServiceImpl;
 
     @ResponseBody
     @RequestMapping("queryByType")
-    public List queryByType(@RequestParam("baseDataType") String baseDataType){
+    public List queryByType(@RequestParam("dataType") String baseDataType){
         return baseDataServiceImpl.queryBaseDataByType(baseDataType);
     }
 }

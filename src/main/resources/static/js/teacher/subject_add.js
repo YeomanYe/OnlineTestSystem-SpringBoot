@@ -1,6 +1,18 @@
 $(function () {
     //如果subject不为空,说明是更新。查询subjectItem进行填充
     var subjectId = $("#subjectId").val();
+    $.ajax({
+        url:"baseData/queryByType?dataType=subjectType",
+        type:"get",
+        success:function (datas) {
+            var len = datas.length;
+            for(var i=0;i<len;i++){
+                var $option = $("<option></option>").val(datas[i].uuid).text(datas[i].name);
+                $("select[name='subjectType']").append($option);
+            }
+        }
+    });
+    $("select[name='subjectType']")
     if (subjectId) {
         $.ajax({
             url: "subject/updateSubjectItem?subjectId=" + subjectId,
@@ -66,6 +78,8 @@ $(function () {
     $(".addItem").click(function () {
         //复制一个输入框到表单中
         $("#subjectItem").append($(this).parent().clone(true));
+        //去除ID和值
+        $("#subjectItem").find(".input-group:last").find("input").val("");
         resetName();
     });
     $("button[type='submit']").click(function () {

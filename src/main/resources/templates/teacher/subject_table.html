@@ -4,7 +4,7 @@
         <div class="box">
             <div style="cursor: pointer;" class="box-header">
                 <div class="glyphicon glyphicon-plus" id="addSubject" title="添加"> 添加</div>
-                <div class="glyphicon glyphicon-remove" title="删除"> 删除</div>
+                <div class="glyphicon glyphicon-remove" id="deleteSubject" title="删除"> 删除</div>
                 <div class="glyphicon glyphicon-pencil" id="updateSubject" title="编辑"> 编辑</div>
                 <div class="glyphicon glyphicon-download-alt" title="下载"> 下载</div>
                 <div class="glyphicon glyphicon-stats" title="图表"> 图表</div>
@@ -14,12 +14,13 @@
                 <div id="subject1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                     <div class="row">
                         <div class="col-sm-12">
+                            <form role="form" id="subjectListForm">
                             <table id="subject1" class="table table-bordered table-striped dataTable" role="grid"
                                    aria-describedby="subject1_info">
                                 <thead>
                                 <tr role="row">
                                     <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1"><input
-                                            type="checkbox"/></th>
+                                           class="thCheckbox" type="checkbox" /></th>
                                     <th class="sorting_asc" tabindex="0" aria-controls="subject1" rowspan="1">试题描述</th>
                                     <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1">试题类型</th>
                                     <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1">分数</th>
@@ -30,7 +31,7 @@
                                 <tbody>
                                 <tr role="row" th:classappend="${subjectStat.odd}?'odd':'even'"
                                     th:each="subject:${subjects}">
-                                    <td><input type="checkbox" class="subjectCheckbox" th:value="${subject.uuid}"/></td>
+                                    <td><input name="subjectIds" type="checkbox" class="subjectCheckbox" th:value="${subject.uuid}"/></td>
                                     <td class="tb_subjectName" th:text="${subject.subjectName}"></td>
                                     <td th:text="${subject.subjectType}"></td>
                                     <td th:text="${subject.subjectScore}"></td>
@@ -41,6 +42,7 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            </form>
                         </div>
                     </div>
                 </div>

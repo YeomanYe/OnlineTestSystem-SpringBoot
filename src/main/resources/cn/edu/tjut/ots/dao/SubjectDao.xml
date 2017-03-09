@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tjut.ots.dao.SubjectDao">
-    <resultMap type="cn.edu.tjut.ots.po.Subject" id="subjectMap">
+    <resultMap type="cn.edu.tjut.ots.po.Subject" id="subjectInfoMap">
         <id property="uuid" column="uuid" />
-        <result property="subjectType" column="subjectType" />
-        <result property="subjectDescription" column="subjectDescription" />
-        <result property="subjectAnswer" column="subjectAnswer" />
+        <result property="subjectName" column="subjectName" />
         <result property="subjectScore" column="subjectScore" />
-        <result property="subjectParse" column="subjectParse" />
-        <result property="subjectOptionA" column="subjectOptionA" />
-        <result property="subjectOptionB" column="subjectOptionB" />
-        <result property="subjectOptionC" column="subjectOptionC" />
-        <result property="subjectOptionD" column="subjectOptionD" />
+        <result property="updateWhen" column="updateWhen" />
+        <result property="subjectType" column="subjectType"></result>
     </resultMap>
-
+    <select id="queryBriefSubject" resultMap="subjectInfoMap">
+        select s.uuid,s.subjectName,s.subjectScore,s.updateWhen,b.name as subjectType FROM subject s
+        right join basedata b on s.subjecttype = b.uuid
+    </select>
+    <delete id="deleteSubjectByIds">
+        delete from subject where uuid in 
+        <foreach collection="array" item="subjectId" open="(" close=")" separator=",">
+            #{subjectId}
+        </foreach>
+    </delete>
 </mapper>
