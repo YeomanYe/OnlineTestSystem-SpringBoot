@@ -1,35 +1,59 @@
-<div class="row" xmlns:th="http://www.w3.org/1999/xhtml">
-    <div class="col-xs-12">
-        <div class="box">
-            <div class="box-header" style="cursor: pointer;">
-                <div class="glyphicon glyphicon-eye-open"> 预览</div>
-            </div>
-            <div class="box-body">
-                <form role="form" id="subjectItemForm" action="subject/addSubject">
-                    <div class="form-group">
-                        <label for="subjectName">试题名</label>
-                        <input id="subjectId" name="subjectId" th:value="${subject}?${subject.uuid}" type="hidden"/>
-                        <textarea th:text="${subject}?${subject.subjectName}" id="subjectName" class="form-control" rows="4" name="subjectName"
-                                  placeholder="在此输入试题名..."></textarea>
-                    </div>
-                    <label>试题类型 &amp; 试题分值</label>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <div class="form-group">
-                                <select name="subjectType" class="form-control select2 select2-hidden-accessible">
-                                </select>
-                            </div>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#subjectAddTab" data-toggle="tab">试题列表</a></li>
+</ul>
+<div class="tab-content">
+
+    <div class="tab-pane active" id="subjectAddTab">
+        <section class="content-header">
+            <h1>添加试题
+                <small>subject add</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> 主目录</a></li>
+                <li><a href="#">试题管理</a></li>
+                <li class="active">试题添加</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row" xmlns:th="http://www.w3.org/1999/xhtml">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header" style="cursor: pointer;">
+                            <div class="glyphicon glyphicon-eye-open"> 预览</div>
                         </div>
-                        <div class="col-xs-6">
-                            <div class="input-group">
-                                <span class="input-group-addon" title="分值"><i class="fa fa-dollar"></i></span>
-                                <input th:value="${subject}?${subject.subjectScore}" type="text" name="subjectScore" class="form-control"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group" id="subjectItem">
-                        <label>试题选项</label>
-                        <div class="input-group">
+                        <div class="box-body">
+                            <form role="form" id="subjectItemForm" action="subject/addSubject">
+                                <div class="form-group">
+                                    <label for="subjectName">试题名</label>
+                                    <input id="subjectId" name="subjectId" th:value="${subject}?${subject.uuid}"
+                                           type="hidden"/>
+                                    <textarea th:text="${subject}?${subject.subjectName}" id="subjectName"
+                                              class="form-control" rows="4" name="subjectName"
+                                              placeholder="在此输入试题名..."></textarea>
+                                </div>
+                                <label>试题类型 &amp; 试题分值</label>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <select name="subjectType"
+                                                    class="form-control select2 select2-hidden-accessible">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" title="分值"><i
+                                                    class="fa fa-dollar"></i></span>
+                                            <input th:value="${subject}?${subject.subjectScore}" type="text"
+                                                   name="subjectScore" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="subjectItem">
+                                    <label>试题选项</label>
+                                    <div class="input-group">
                             <span class="input-group-addon">
                             <label class="itemCheckbox">
                               <div class="icheckbox_flat-green"
@@ -40,24 +64,28 @@
                               </div>
                             </label>
                             </span>
-                            <input type="hidden" name="subjectItemId0" class="subjectItemIds"/>
-                            <input type="text" name="subjectItem0" class="form-control"/>
-                            <span class="input-group-addon addItem"><i class="fa fa-plus"></i></span>
-                            <span class="input-group-addon removeItem"><i class="fa fa-remove"></i></span>
+                                        <input type="hidden" name="subjectItemId0" class="subjectItemIds"/>
+                                        <input type="text" name="subjectItem0" class="form-control"/>
+                                        <span class="input-group-addon addItem"><i class="fa fa-plus"></i></span>
+                                        <span class="input-group-addon removeItem"><i class="fa fa-remove"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subjectName">试题解析</label>
+                                    <textarea th:text="${subject}?${subject.subjectParse}" id="subjectParse"
+                                              class="form-control" rows="2" name="subjectParse"
+                                              placeholder="在此输入解析"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="box-footer">
+                            <button type="reset" class="btn btn-primary pull-right">重置</button>
+                            <button type="submit" class="btn btn-primary pull-right">提交</button>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="subjectName">试题解析</label>
-                        <textarea th:text="${subject}?${subject.subjectParse}" id="subjectParse" class="form-control" rows="2" name="subjectParse"
-                                  placeholder="在此输入解析"></textarea>
-                    </div>
-                </form>
+                </div>
             </div>
-            <div class="box-footer">
-                <button type="reset" class="btn btn-primary pull-right">重置</button>
-                <button type="submit" class="btn btn-primary pull-right">提交</button>
-            </div>
-        </div>
+        </section>
     </div>
 </div>
 <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/iCheck/all.css"/>
@@ -65,7 +93,7 @@
 <link rel="stylesheet" href="AdminLTE-2.3.11/dist/css/AdminLTE.min.css"/>
 <link rel="stylesheet" href="AdminLTE-2.3.11/dist/css/skins/_all-skins.min.css"/>
 <style>
-    .itemCheckbox{
+    .itemCheckbox {
         height: 14px;
     }
 

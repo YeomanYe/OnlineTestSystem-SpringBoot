@@ -1,58 +1,91 @@
-<div class="row" xmlns:th="http://www.w3.org/1999/xhtml">
-    <div class="col-xs-12">
-        <!-- /.box -->
-        <div class="box">
-            <div style="cursor: pointer;" class="box-header">
-                <div class="glyphicon glyphicon-plus" id="addSubject" title="添加"> 添加</div>
-                <div class="glyphicon glyphicon-remove" id="deleteSubject" title="删除"> 删除</div>
-                <div class="glyphicon glyphicon-pencil" id="updateSubject" title="编辑"> 编辑</div>
-                <div class="glyphicon glyphicon-download-alt" title="下载"> 下载</div>
-                <div class="glyphicon glyphicon-stats" title="图表"> 图表</div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-                <div id="subject1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <form role="form" id="subjectListForm">
-                            <table id="subject1" class="table table-bordered table-striped dataTable" role="grid"
-                                   aria-describedby="subject1_info">
-                                <thead>
-                                <tr role="row">
-                                    <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1"><input
-                                           class="thCheckbox" type="checkbox" /></th>
-                                    <th class="sorting_asc" tabindex="0" aria-controls="subject1" rowspan="1">试题描述</th>
-                                    <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1">试题类型</th>
-                                    <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1">分数</th>
-                                    <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1">解析</th>
-                                    <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1">操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr role="row" th:classappend="${subjectStat.odd}?'odd':'even'"
-                                    th:each="subject:${subjects}">
-                                    <td><input name="subjectIds" type="checkbox" class="subjectCheckbox" th:value="${subject.uuid}"/></td>
-                                    <td class="tb_subjectName" th:text="${subject.subjectName}"></td>
-                                    <td th:text="${subject.subjectType}"></td>
-                                    <td th:text="${subject.subjectScore}"></td>
-                                    <td th:text="${#dates.format(subject.updateWhen, 'yyyy-MM-dd')}"></td>
-                                    <td align="center">
-                                        <div class="fa fa-fw fa-file tb_subjectInfo" onclick="subjectInfoClick()" title="详情"></div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            </form>
+<div class="tab-pane active" id="subjectListTab">
+    <section class="content-header">
+        <h1>试题列表
+            <small>subject list</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> 主目录</a></li>
+            <li><a href="#">试题管理</a></li>
+            <li class="active">试题查询</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row" xmlns:th="http://www.w3.org/1999/xhtml">
+            <div class="col-xs-12">
+                <!-- /.box -->
+                <div class="box">
+                    <div style="cursor: pointer;" class="box-header">
+                        <div class="glyphicon glyphicon-plus" id="addSubject" title="添加"> 添加</div>
+                        <div class="glyphicon glyphicon-remove" id="deleteSubject" title="删除"> 删除</div>
+                        <div class="glyphicon glyphicon-pencil" id="updateSubject" title="编辑"> 编辑</div>
+                        <div class="glyphicon glyphicon-download-alt" title="下载"> 下载</div>
+                        <div class="glyphicon glyphicon-stats" title="图表"> 图表</div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="subject1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <form role="form" id="subjectListForm">
+                                        <table id="subject1" class="table table-bordered table-striped dataTable"
+                                               role="grid"
+                                               aria-describedby="subject1_info">
+                                            <thead>
+                                            <tr role="row">
+                                                <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1">
+                                                    <input
+                                                            class="thCheckbox" type="checkbox"/></th>
+                                                <th class="sorting_asc" tabindex="0" aria-controls="subject1"
+                                                    rowspan="1">试题描述
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1">
+                                                    试题类型
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1">
+                                                    分数
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1">
+                                                    解析
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="subject1" rowspan="1">
+                                                    操作
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr role="row" th:classappend="${subjectStat.odd}?'odd':'even'"
+                                                th:each="subject:${subjects}">
+                                                <td><input name="subjectIds" type="checkbox" class="subjectCheckbox"
+                                                           th:value="${subject.uuid}"/></td>
+                                                <td class="tb_subjectName" th:text="${subject.subjectName}"></td>
+                                                <td th:text="${subject.subjectType}"></td>
+                                                <td th:text="${subject.subjectScore}"></td>
+                                                <td th:text="${#dates.format(subject.updateWhen, 'yyyy-MM-dd')}"></td>
+                                                <td align="center">
+                                                    <div class="fa fa-fw fa-file tb_subjectInfo"
+                                                         onclick="subjectInfoClick()" title="详情"></div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <!-- /.box-body -->
                 </div>
+                <!-- /.box -->
             </div>
-            <!-- /.box-body -->
+            <!-- /.col -->
         </div>
-        <!-- /.box -->
-    </div>
-    <!-- /.col -->
+    </section>
 </div>
+<!-- /.tab-pane -->
+
+
 <div class="modal modal-info" id="subjectInfoDialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -77,10 +110,12 @@
     .tb_subjectInfo {
         cursor: pointer;
     }
-    #subjectInfoDialog{
+
+    #subjectInfoDialog {
         display: none;
     }
-    #dig_subjectName{
+
+    #dig_subjectName {
         font-weight: bold;
     }
 </style>
