@@ -2,6 +2,7 @@ package cn.edu.tjut.ots.dao;
 
 import cn.edu.tjut.ots.po.Subject;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -30,4 +31,9 @@ public interface SubjectDao {
     public void deleteSubjectByIds(String[] uuids);
     //查询试题简要信息
     public List<Object> queryBriefSubject();
+    //查询试题详细信息
+    public Object queryDetailSubject(String uuid);
+    //查询试题对应的试题类型ID
+    @Select("select subjectType from subject where uuid = #{param}")
+    public String querySubjectType(String uuid);
 }

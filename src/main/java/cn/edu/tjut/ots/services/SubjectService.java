@@ -9,6 +9,10 @@ import java.util.Map;
  * Created by KINGBOOK on 2017/3/1.
  */
 public interface SubjectService {
+    /**
+     * 查询试题列表
+     * @return
+     */
     public List<Subject> querySubject();
 
     public Map addSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers);
@@ -38,4 +42,18 @@ public interface SubjectService {
      * @param uuids
      */
     public void deleteSubjectByIds(String[] uuids);
+
+    /**
+     * 查询试题为了更新
+     * @param uuid
+     * @return
+     */
+    public Map querySubject4Update(String uuid);
+
+    /**
+     * 通过ID查询试题类型
+     * @param uuid
+     * @return
+     */
+    public String querySubjectType(String uuid);
 }

@@ -353,7 +353,6 @@
                     <ul class="treeview-menu menu-open" style="display: block;">
                         <li><a id="query_subject" href="#"><i class="glyphicon glyphicon-th-list"></i> 查看试题</a></li>
                         <li><a id="add_subject" href="#"><i class="glyphicon glyphicon-pencil"></i> 添加试题</a></li>
-                        <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -361,16 +360,23 @@
                         <i class="fa fa-files-o"></i>
                         <span>试卷管理</span>
                         <span class="pull-right-container">
-              <span class="label label-primary pull-right">4</span>
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                        <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                        <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                        <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed
-                            Sidebar</a></li>
+                        <li><a id="query_paper" href="#"><i class="glyphicon glyphicon-th-list"></i> 查看试卷</a></li>
+                        <li><a id="add_paper" href="#"><i class="glyphicon glyphicon-pencil"></i> 添加试卷</a></li>
                     </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-table"></i> <span>基础数据</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-book"></i> <span>日志管理</span>
+                    </a>
                 </li>
                 <li class="treeview">
                     <a href="#">
@@ -389,18 +395,6 @@
                         <li><a href="pages/UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-table"></i> <span>基础数据管理</span>
-                        <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-                        <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
-                    </ul>
-                </li>
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -409,13 +403,11 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-            </ul>
-            <div class="tab-content">
-            </div>
+
         </div>
         <!-- /.content -->
     </div>
+
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
@@ -647,5 +639,7 @@
 <!-- AdminLTE App -->
 <script src="AdminLTE-2.3.11/dist/js/app.min.js"></script>
 <script src="js/teacher/index.js"></script>
+
+
 </body>
 </html>

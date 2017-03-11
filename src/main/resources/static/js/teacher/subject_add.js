@@ -1,43 +1,21 @@
 $(function () {
-    //如果subject不为空,说明是更新。查询subjectItem进行填充
     var subjectId = $("#subjectId").val();
+    //初始化试题类型
     $.ajax({
         url:"baseData/queryByType?dataType=subjectType",
         type:"get",
+        async:false,
         success:function (datas) {
             var len = datas.length;
             for(var i=0;i<len;i++){
                 var $option = $("<option></option>").val(datas[i].uuid).text(datas[i].name);
-                $("select[name='subjectType']").append($option);
+                $("#subjectType").append($option);
             }
         }
     });
-    $("select[name='subjectType']")
-    if (subjectId) {
-        $.ajax({
-            url: "subject/updateSubjectItem?subjectId=" + subjectId,
-            type: "get",
-            context: $(this),
-            success:function (datas) {
-                debugger
-                var len = datas.length;
-                for(var i=0;i<len;i++){
-                    //复制一个表单
-                    if(i){
-                        $("#subjectItem").append($("#subjectItem .input-group:first").clone(true));
-                        resetName();
-                    }
-                    var $subItem = $("input[name='subjectItem"+i+"']");
-                    $subItem.val(datas[i].name);
-                    $("input[name='subjectItemId"+i+"']").val(datas[i].uuid);
-                    if(datas[i].answer){
-                        $subItem.parent().find(".icheckbox_flat-green").addClass("checked")
-                            .find(":checkbox").val("true");
-                    }
-                }
-            }
-        })
-    }
+    //如果存在ID说明是更新试题，并且没有选择试题类型
+    //查询试题对应的类型
+    $("select[name='subjectType']");
     //初始化选择器二
     $(".select2").select2();
     /**
@@ -79,14 +57,15 @@ $(function () {
         //复制一个输入框到表单中
         $("#subjectItem").append($(this).parent().clone(true));
         //去除ID和值
-        $("#subjectItem").find(".input-group:last").find("input").val("");
+        $("#subjectItem").find(".input-group:last").find("input[type='text']").val("");
         resetName();
     });
     $("button[type='submit']").click(function () {
         debugger
         $.ajax({
-            url: "subject/mergeSubject?" + $("#subjectItemForm").serialize(),
-            type: "get",
+            url: "subject/mergeSubject",
+            type: "post",
+            data: $("#subjectItemForm").serialize(),
             context: $(this),
             success: function (datas) {
                 //显示添加成功提示
@@ -98,5 +77,11 @@ $(function () {
             }
         });
     })
+    $('button[type="reset"]').click(resetAddSubjectForm);
 });
 
+function resetAddSubjectForm() {
+    debugger;
+    $("textarea").val("");
+    $("input[type='text']").val("");
+}

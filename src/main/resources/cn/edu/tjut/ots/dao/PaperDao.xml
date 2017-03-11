@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.tjut.ots.dao.PaperDao">
+    <resultMap id="paperListMap" type="cn.edu.tjut.ots.po.Paper">
+        <id property="uuid" column="uuid"/>
+        <result property="paperName" column="paperName"/>
+        <result property="paperDesc" column="paperDesc"/>
+        <result property="paperType" column="paperType"/>
+        <result property="ansTime" column="ansTime"/>
+        <result property="subjectCnt" column="subjectCnt"/>
+        <result property="updateWhen" column="updateWhen"/>
+    </resultMap>
+    <select id="queryBrifPaper" resultMap="paperListMap">
+        select t.uuid,t.paperName,t.paperDesc,b.name AS paperType,t.paperscore,t.anstime,t.updatewhen
+        from PAPER t JOIN BASEDATA b ON t.uuid = b.uuid
+    </select>
+</mapper>

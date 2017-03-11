@@ -113,4 +113,19 @@ public class SubjectServiceImpl implements SubjectService {
     public void deleteSubjectByIds(String[] uuids) {
         subjectDao.deleteSubjectByIds(uuids);
     }
+
+    @Override
+    public Map querySubject4Update(String uuid) {
+        Object detailSubject = subjectDao.queryDetailSubject(uuid);
+        Map map = new HashMap();
+        map.put("subject",detailSubject);
+        List items = subjectItemDao.querySubjectItem(uuid);
+        map.put("items",items);
+        return map;
+    }
+
+    @Override
+    public String querySubjectType(String uuid) {
+        return subjectDao.querySubjectType(uuid);
+    }
 }

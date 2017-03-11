@@ -33,11 +33,11 @@ public class SubjectController {
      * @param req
      * @return
      */
-    @RequestMapping(path = "querySubject")
-    public String querySubject(HttpServletRequest req) {
+    @RequestMapping(path = "listSubjectPage")
+    public String getSubjectListPage(HttpServletRequest req) {
         List<Object> subjectList = subjectServiceImpl.queryBriefSubject();
         req.setAttribute("subjects", subjectList);
-        return "teacher/subject_table";
+        return "teacher/subject_list";
     }
 
     /**
@@ -59,7 +59,7 @@ public class SubjectController {
      * @return
      */
     @RequestMapping("addSubjectPage")
-    public String addSubjectPage() {
+    public String getSubjectAddPage() {
         return "teacher/subject_add";
     }
 
@@ -104,28 +104,22 @@ public class SubjectController {
     }
 
     /**
-     * 返回用于更新的试题页面
-     *
-     * @return
-     */
-    @RequestMapping("updateSubjectPage")
-    public String updateSubjectPage(HttpServletRequest req, @RequestParam("subjectId") String subjectId) {
-        Subject subject = subjectServiceImpl.querySubjectById(subjectId);
-        req.setAttribute("subject", subject);
-        return "teacher/subject_add";
-    }
-
-    /**
-     * 查询试题项用于更新页面
+     * 查询试题用于更新页面
      *
      * @param subjectId
      * @return
      */
     @ResponseBody
-    @RequestMapping("updateSubjectItem")
-    public List updateSubjectItem(@RequestParam("subjectId") String subjectId) {
-        return subjectItemServiceImpl.querySubjectItem(subjectId);
+    @RequestMapping("querySubject4Update")
+    public Map updateSubjectItem(@RequestParam("subjectId") String subjectId) {
+        return subjectServiceImpl.querySubject4Update(subjectId);
     }
+
+    /**
+     * 删除试题
+     * @param subjectIds
+     * @return
+     */
     @ResponseBody
     @RequestMapping("deleteSubject")
     public boolean deleteSubjectById(@RequestParam("subjectIds") String[] subjectIds){
