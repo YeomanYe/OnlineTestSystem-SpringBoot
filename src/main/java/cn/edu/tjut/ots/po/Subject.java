@@ -27,6 +27,26 @@ public class Subject {
     private String updateBy;
     //更新时间
     private Date updateWhen;
+    //更新时间字符串表示
+    private String updateWhenStr;
+    //数量,辅助变量,用于统计图
+    private int cont;
+
+    public int getCont() {
+        return cont;
+    }
+
+    public void setCont(int cont) {
+        this.cont = cont;
+    }
+
+    public String getUpdateWhenStr() {
+        return updateWhenStr;
+    }
+
+    public void setUpdateWhenStr(String updateWhenStr) {
+        this.updateWhenStr = updateWhenStr;
+    }
 
     public String getUuid() {
         return uuid;

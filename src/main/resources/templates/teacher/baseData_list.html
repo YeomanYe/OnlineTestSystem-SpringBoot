@@ -1,0 +1,97 @@
+
+<div class="tab-pane active" id="baseDataListTab">
+    <section class="content-header">
+        <h1>基础数据
+            <small>baseData list</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> 主目录</li>
+            <li>基础数据</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- /.box -->
+                <div class="box">
+                    <div style="cursor: pointer;" class="box-header">
+                        <div class="glyphicon glyphicon-plus" id="addBaseData" title="添加">添加</div>
+                        <div class="glyphicon glyphicon-remove" id="deleteBaseData" title="删除">删除</div>
+                        <div class="glyphicon glyphicon-pencil" id="updateBaseData" title="编辑">编辑</div>
+                        <div class="glyphicon glyphicon-refresh" id="refreshBaseData" title="刷新">刷新</div>
+                        <div class="glyphicon glyphicon-download-alt" id="downloadBaseData" title="下载">下载</div>
+                        <div class="glyphicon glyphicon-stats" id="chartBaseData" title="图表">图表</div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="baseData1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <form role="form" id="baseDataListForm">
+                                        <table id="baseData1" class="table table-bordered table-striped dataTable"
+                                               role="grid"
+                                               aria-describedby="baseData1_info">
+                                            <thead>
+                                            <tr role="row">
+                                                <th><input class="thCheckbox" type="checkbox"/></th>
+                                                <th>数据类型</th>
+                                                <th>数据名</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </section>
+</div>
+
+
+<!-- /.tab-pane -->
+<div class="modal" id="baseDataInfoDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close clsBtn" data-dismiss="baseDataInfoDialog" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">试题详情</h4>
+            </div>
+            <div class="modal-body">
+                <p id="dig_baseDataName"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info clsBtn" data-dismiss="baseDataInfoDialog">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.css"/>
+<style>
+    .tb_baseDataInfo {
+        cursor: pointer;
+    }
+
+    #baseDataInfoDialog {
+        display: none;
+    }
+
+    #dig_baseDataName {
+        font-weight: bold;
+    }
+</style>
+<script src="AdminLTE-2.3.11/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="js/teacher/baseData_list.js"></script>

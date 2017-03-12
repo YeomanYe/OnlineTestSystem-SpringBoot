@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -19,9 +20,29 @@ public class BaseDataController {
     @Resource
     BaseDataService baseDataServiceImpl;
 
+    /**
+     * 根据数据类型查询基础数据信息
+     * @param baseDataType
+     * @return
+     */
     @ResponseBody
     @RequestMapping("queryByType")
     public List queryByType(@RequestParam("dataType") String baseDataType){
         return baseDataServiceImpl.queryBaseDataByType(baseDataType);
+    }
+
+    /**
+     * 返回基础数据列表页
+     * @return
+     */
+    @RequestMapping("listBaseDataPage")
+    public String getBaseDataPage(HttpServletRequest req){
+        return "teacher/basedata_list";
+    }
+
+    @ResponseBody
+    @RequestMapping("refreshBaseData")
+    public List refreshBaseData(){
+        return baseDataServiceImpl.queryBaseData();
     }
 }

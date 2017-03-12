@@ -10,6 +10,7 @@ $(function () {
                         $("#subjectId").val("");
                     }));
     $("#query_paper").click(toggleTabs("paperListTab", "试卷列表", "paper/listPaperPage"));
+    $("#query_basedata").click(toggleTabs("baseDataListTab","基础数据","baseData/listBaseDataPage"));
 });
 /**
  * 切换标签页

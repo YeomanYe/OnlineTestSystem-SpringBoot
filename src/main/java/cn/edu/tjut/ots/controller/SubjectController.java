@@ -30,13 +30,10 @@ public class SubjectController {
     /**
      * 查询所有试题
      *
-     * @param req
      * @return
      */
     @RequestMapping(path = "listSubjectPage")
-    public String getSubjectListPage(HttpServletRequest req) {
-        List<Object> subjectList = subjectServiceImpl.queryBriefSubject();
-        req.setAttribute("subjects", subjectList);
+    public String getSubjectListPage() {
         return "teacher/subject_list";
     }
 
@@ -127,5 +124,26 @@ public class SubjectController {
         subjectServiceImpl.deleteSubjectByIds(subjectIds);
         bool = true;
         return bool;
+    }
+
+    /**
+     * 刷新试题
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("refreshSubject")
+    public List refreshSubject(){
+        List subjects = subjectServiceImpl.queryBriefSubject();
+        return subjects;
+    }
+
+    /**
+     * 查询日期和类型
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("queryDateAndType")
+    public List queryDateAndType(){
+        return subjectServiceImpl.queryDateAndType();
     }
 }

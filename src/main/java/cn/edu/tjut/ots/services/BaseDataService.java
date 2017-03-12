@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface BaseDataService {
     public List<BaseData> queryBaseDataByType(String dataType);
+    public List<BaseData> queryBaseData();
 }

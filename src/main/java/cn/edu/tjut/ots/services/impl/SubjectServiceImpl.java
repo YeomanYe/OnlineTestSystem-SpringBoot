@@ -128,4 +128,8 @@ public class SubjectServiceImpl implements SubjectService {
     public String querySubjectType(String uuid) {
         return subjectDao.querySubjectType(uuid);
     }
+
+    public List queryDateAndType(){
+        return subjectDao.queryDateAndType();
+    }
 }

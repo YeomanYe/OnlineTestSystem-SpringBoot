@@ -19,9 +19,15 @@ public interface SubjectService {
 
     /**
      * 更新试题
-     * @param subject
-     * @param subjectItems
-     * @param isExist 判断试题选项添加还是更新的标志位,true更新，false添加
+     * @param subjectId
+     * @param subjectType
+     * @param subjectName
+     * @param subjectScore
+     * @param subjectParse
+     * @param subjectItemIds
+     * @param subjectItemNames
+     * @param answers
+     * @return
      */
     public Map<String, Object> updateSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers);
 
@@ -56,4 +62,10 @@ public interface SubjectService {
      * @return
      */
     public String querySubjectType(String uuid);
+
+    /**
+     * 查询日期和类型
+     * @return
+     */
+    public List queryDateAndType();
 }

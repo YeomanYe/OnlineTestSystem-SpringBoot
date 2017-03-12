@@ -44,21 +44,6 @@
                                                 <th>操作</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr role="row" th:classappend="${subjectStat.odd}?'odd':'even'"
-                                                th:each="subject:${subjects}">
-                                                <td><input name="subjectIds" type="checkbox" class="subjectCheckbox"
-                                                           th:value="${subject.uuid}"/></td>
-                                                <td class="tb_subjectName" th:text="${subject.subjectName}"></td>
-                                                <td th:text="${subject.subjectType}"></td>
-                                                <td th:text="${subject.subjectScore}"></td>
-                                                <td th:text="${#dates.format(subject.updateWhen, 'yyyy-MM-dd')}"></td>
-                                                <td align="center">
-                                                    <div class="fa fa-fw fa-file tb_subjectInfo"
-                                                         onclick="subjectInfoClick()" title="详情"></div>
-                                                </td>
-                                            </tr>
-                                            </tbody>
                                         </table>
                                     </form>
                                 </div>
@@ -83,10 +68,46 @@
                 <h4 class="modal-title">试题详情</h4>
             </div>
             <div class="modal-body">
-                <p id="dig_subjectName"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info clsBtn" data-dismiss="subjectInfoDialog">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal" id="subjectChartDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close clsBtn" data-dismiss="subjectChartDialog" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">图表展示</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row blue-button-group">
+                    <button type="button" class="btn  btn-default margin">时间</button>
+                    <button type="button" class="btn  btn-default margin">作者</button>
+                    <button type="button" class="btn  btn-default btn-danger margin">类型</button>
+                    <button type="button" class="btn  btn-default margin">分值</button>
+                </div>
+                <div class="row green-button-group">
+                    <button type="button" class="btn btn-default btn-success margin">柱状图</button>
+                    <button type="button" class="btn btn-default margin">折线图</button>
+                    <button type="button" class="btn btn-default margin">雷达图</button>
+                    <button type="button" class="btn btn-default margin">饼图</button>
+                </div>
+                <div class="row">
+                    <button type="button" class="btn btn-warning margin">统计</button>
+                </div>
+                <div class="row">
+                    <canvas width="500" height="250" id="subjectChartCanvase"></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info clsBtn" data-dismiss="subjectChartDialog">关闭</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -111,4 +132,5 @@
 </style>
 <script src="AdminLTE-2.3.11/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/chartjs/Chart.min.js"></script>
 <script src="js/teacher/subject_list.js"></script>

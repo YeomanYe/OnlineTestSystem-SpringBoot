@@ -8,7 +8,37 @@ $(function () {
         "searching": true,
         "ordering": true,
         "info": true,
-        "autoWidth": true
+        "autoWidth": true,
+        "ajax": {
+            url: "subject/refreshSubject",
+            dataSrc: ''
+        },
+        "columns": [
+            {data: 'uuid'},
+            {
+                data: 'subjectName',
+                className: 'tb_subjectName'
+            },
+            {data: 'subjectType'},
+            {data: 'subjectScore'},
+            {data: 'updateWhenStr'},
+        ],
+        "columnDefs": [
+            {
+                "targets": [0],
+                "data": "uuid",
+                "render": function (data, type, full) {
+                    debugger
+                    return '<input name="subjectIds" type="checkbox" class="subjectCheckbox" value="' + data + '"/>'
+                }
+            },
+            {
+                "targets": [5],
+                "render": function () {
+                    return '<div class="fa fa-fw fa-file tb_subjectInfo" onclick="subjectInfoClick()" title="详情"></div>';
+                }
+            }
+        ]
     });
     //绑定事件处理函数
     //给关闭按钮添加事件
@@ -78,14 +108,12 @@ $(function () {
                 }
             });
         }
-    })
+    });
     $("#deleteSubject").click(function () {
         var checkedboxs = $("table :checked");
         if (!checkedboxs.length) {
 
         } else {
-            //选出不含表头的checkbox元素,后台删除成功时，前台也删除
-            var $checkedRow = $(":checked:not(.thCheckbox)").closest("tr");
             $.ajax({
                 url: "subject/deleteSubject",
                 type: "get",
@@ -94,11 +122,16 @@ $(function () {
                 success: function (data) {
                     debugger
                     if (data === true) {
-                        $checkedRow.remove();
+                        //刷新
+                        subjectRefresh();
                     }
                 }
             })
         }
+    });
+    $("#refreshSubject").click(subjectRefresh);
+    $("#chartSubject").click(function () {
+        openDialog("#subjectChartDialog",null,showBar);
     })
     //绑定第一个复选框为反选按钮
     $("table :checkbox:first").click(function (evt) {
@@ -109,7 +142,10 @@ $(function () {
                 $(this).prop("checked", true);
             }
         })
-    })
+    });
+    //设置图表Dialog,点击按钮切换样式事件
+    $(".blue-button-group button").click(setBtnStyle("btn-danger", "btn-default"));
+    $(".green-button-group button").click(setBtnStyle("btn-success", "btn-default"));
 });
 var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 /**
@@ -125,22 +161,57 @@ function subjectInfoClick() {
             type: "get",
             context: $(this),
             success: function (datas) {
+                debugger
                 var subjectNameText = $(this).parent().siblings().filter(".tb_subjectName").text();
-                var digBody = $("#dig_subjectName").parent();
-                digBody.html("");
-                digBody.append($("<p id='dig_subjectName'>" + subjectNameText + "</p>"));
                 var answerStr = "答案: ";
+                var subjectItem = "";
                 for (var i = 0, len = datas.length; i < len; i++) {
-                    $("#dig_subjectName").parent().append($("<p>" + ALPHA_CONSTANT.charAt(i) + ". " + datas[i].name + "</p>"));
+                    subjectItem += "<p>" + ALPHA_CONSTANT.charAt(i) + ". " + datas[i].name + "</p>"
                     if (datas[i].answer) answerStr += ALPHA_CONSTANT.charAt(i);
                 }
-                $("#dig_subjectName").parent().append("<p>" + answerStr + "</p>");
-                // $("#dig_subjectName").parent().append("<p>" + subjectParse + "</p>");
-                $("#subjectInfoDialog").css({"display": "block"})
-
+                var content = "<p id='dig_subjectName'>" + subjectNameText + "</p>"
+                    + subjectItem + "<p>" + answerStr + "</p>";
+                openDialog("#subjectInfoDialog", content);
             }
         });
     });
+}
+/**
+ * 打开会话框并显示内容
+ * @param digId
+ * @param content
+ * @param callback 回调函数
+ */
+function openDialog(digSelector, content, callback) {
+    if (content) {
+        var digBody = $(digSelector + " .modal-body");
+        digBody.html("");
+        digBody.append(content);
+    }
+    $(digSelector).css({"display": "block"});
+    if (typeof callback === 'function') {
+        callback();
+    }
+}
+/**
+ * 设置按钮组的按钮样式处理函数
+ * @param goal 目标样式
+ * @param origin 原样式
+ */
+function setBtnStyle(goal, origin) {
+    return function () {
+        debugger;
+        //清除按钮的样式
+        $(this).parent().children().filter("button").removeClass(goal).addClass(origin);
+        //添加目标样式
+        $(this).addClass(goal);
+    };
+}
+/**
+ * 刷新试题
+ */
+function subjectRefresh() {
+    $('#subject1').DataTable().ajax.reload();
 }
 /**
  * 将试题项输入框的name以及输入框的name重新编排
@@ -153,3 +224,132 @@ function resetName() {
         $(this).attr({name: "subjectItemId" + index});
     })
 }
+//展示柱状图
+function showBar(){
+    var ctx = $("#subjectChartCanvase")[0].getContext("2d");
+    $.ajax({
+        url: "subject/queryDateAndType",
+        type: "get",
+        context: $(this),
+        success:function (datas) {
+            var labelArr = [],
+                dataArr = [];
+            //将返回值封装为数组用于图表展示
+            var len = datas.length;
+            for(var i=0;i<len;i++){
+                labelArr.push(datas[i].subjectType);
+                dataArr.push(datas[i].cont);
+            }
+            // barData.labels = labelArr;
+            debugger
+            // barData.datasets[0].data = dataArr;
+            var char = new Chart(ctx, {
+                type: 'bar',
+                data: barData
+            });
+        }
+    })
+}
+var barData = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+            label: "试题统计",
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1,
+            data: [65, 59, 80, 81, 56, 55, 40],
+        }
+    ]
+};
+
+var lineData = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+            label: "My First dataset",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [65, 59, 80, 81, 56, 55, 40],
+            spanGaps: false,
+        }
+    ]
+};
+
+var redarData = {
+    datasets: [{
+        data: [
+            11,
+            16,
+            7,
+            3,
+            14
+        ],
+        backgroundColor: [
+            "#FF6384",
+            "#4BC0C0",
+            "#FFCE56",
+            "#E7E9ED",
+            "#36A2EB"
+        ],
+        label: 'My dataset' // for legend
+    }],
+    labels: [
+        "Red",
+        "Green",
+        "Yellow",
+        "Grey",
+        "Blue"
+    ]
+};
+
+var doughnutData = {
+    labels: [
+        "Red",
+        "Blue",
+        "Yellow"
+    ],
+    datasets: [
+        {
+            data: [300, 50, 100],
+            backgroundColor: [
+                "#FF6384",
+                "#36A2EB",
+                "#FFCE56"
+            ],
+            hoverBackgroundColor: [
+                "#FF6384",
+                "#36A2EB",
+                "#FFCE56"
+            ]
+        }]
+};

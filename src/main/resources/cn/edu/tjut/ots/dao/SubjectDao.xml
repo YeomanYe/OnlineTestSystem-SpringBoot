@@ -5,11 +5,11 @@
         <id property="uuid" column="uuid" />
         <result property="subjectName" column="subjectName" />
         <result property="subjectScore" column="subjectScore" />
-        <result property="updateWhen" column="updateWhen" />
+        <result property="updateWhenStr" column="updateWhenStr" />
         <result property="subjectType" column="subjectType"></result>
     </resultMap>
     <select id="queryBriefSubject" resultMap="subjectListMap">
-        select s.uuid,s.subjectName,s.subjectScore,s.updateWhen,b.name as subjectType FROM subject s
+        select s.uuid,s.subjectName,s.subjectScore,to_char(s.updateWhen,'yyyy-mm-dd') as updateWhenStr,b.name as subjectType FROM subject s
         right join basedata b on s.subjecttype = b.uuid
     </select>
     <delete id="deleteSubjectByIds">

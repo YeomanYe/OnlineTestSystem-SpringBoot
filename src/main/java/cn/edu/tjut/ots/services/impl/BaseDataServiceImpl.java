@@ -19,4 +19,9 @@ public class BaseDataServiceImpl implements BaseDataService {
     public List<BaseData> queryBaseDataByType(String dataType) {
         return baseDataDao.queryBaseDataByType(dataType);
     }
+
+    @Override
+    public List<BaseData> queryBaseData() {
+        return baseDataDao.queryBaseDataList();
+    }
 }

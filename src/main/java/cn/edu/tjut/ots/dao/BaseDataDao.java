@@ -14,4 +14,6 @@ public interface BaseDataDao {
     //根据数据类型名查询基础数据
     @Select("select * from basedata where dataType=#{param}")
     public List<BaseData> queryBaseDataByType(String dataType);
+    @Select("select * from basedata")
+    public List<BaseData> queryBaseDataList();
 }
