@@ -142,7 +142,7 @@ public class SubjectController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("queryDateAndType")
+    @RequestMapping("queryTypeForSta")
     public List queryDateAndType(){
         return subjectServiceImpl.queryDateAndType();
     }

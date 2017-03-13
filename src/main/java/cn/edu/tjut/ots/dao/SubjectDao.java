@@ -37,7 +37,7 @@ public interface SubjectDao {
     @Select("select subjectType from subject where uuid = #{param}")
     public String querySubjectType(String uuid);
     //查询日期与类型为了统计
-    @Select("SELECT COUNT(*) AS CONT,b.name AS subjectType " +
+    @Select("SELECT COUNT(*) AS CONT,b.name AS name " +
             "FROM subject s JOIN basedata b ON s.subjecttype = b.uuid " +
             "GROUP BY b.name")
     public List<Subject> queryDateAndType();

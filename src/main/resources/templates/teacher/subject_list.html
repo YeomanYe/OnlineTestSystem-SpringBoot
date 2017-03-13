@@ -87,26 +87,24 @@
                 <h4 class="modal-title">图表展示</h4>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <canvas width="600" height="230" id="subjectChartCanvase"></canvas>
+                </div>
                 <div class="row blue-button-group">
-                    <button type="button" class="btn  btn-default margin">时间</button>
-                    <button type="button" class="btn  btn-default margin">作者</button>
-                    <button type="button" class="btn  btn-default btn-danger margin">类型</button>
-                    <button type="button" class="btn  btn-default margin">分值</button>
+                    <button type="button" id="staSubjectTime" class="btn pull-right btn-default margin">时间</button>
+                    <button type="button" id="staSubjectCreate" class="btn pull-right btn-default margin">作者</button>
+                    <button type="button" id="staSubjectType" class="btn pull-right btn-default btn-danger margin">类型</button>
+                    <button type="button" id="staSubjectScore" class="btn pull-right btn-default margin">分值</button>
                 </div>
                 <div class="row green-button-group">
-                    <button type="button" class="btn btn-default btn-success margin">柱状图</button>
-                    <button type="button" class="btn btn-default margin">折线图</button>
-                    <button type="button" class="btn btn-default margin">雷达图</button>
-                    <button type="button" class="btn btn-default margin">饼图</button>
-                </div>
-                <div class="row">
-                    <button type="button" class="btn btn-warning margin">统计</button>
-                </div>
-                <div class="row">
-                    <canvas width="500" height="250" id="subjectChartCanvase"></canvas>
+                    <button type="button" id="staSubjectBar" class="btn pull-right btn-default btn-success margin">柱状图</button>
+                    <button type="button" id="staSubjectLine" class="btn pull-right btn-default margin">折线图</button>
+                    <button type="button" id="staSubjectRadar" class="btn pull-right btn-default margin">雷达图</button>
+                    <button type="button" id="staSubjectDoughnut" class="btn pull-right btn-default margin">饼图</button>
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" id="launchStaSubject" class="btn btn-warning margin">统计</button>
                 <button type="button" class="btn btn-info clsBtn" data-dismiss="subjectChartDialog">关闭</button>
             </div>
         </div>
@@ -132,5 +130,5 @@
 </style>
 <script src="AdminLTE-2.3.11/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.min.js"></script>
-<script src="AdminLTE-2.3.11/plugins/chartjs/Chart.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/chartjs/Chart.js"></script>
 <script src="js/teacher/subject_list.js"></script>

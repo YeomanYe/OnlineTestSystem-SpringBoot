@@ -131,7 +131,7 @@ $(function () {
     });
     $("#refreshSubject").click(subjectRefresh);
     $("#chartSubject").click(function () {
-        openDialog("#subjectChartDialog",null,showBar);
+        openDialog("#subjectChartDialog",null);
     })
     //绑定第一个复选框为反选按钮
     $("table :checkbox:first").click(function (evt) {
@@ -146,6 +146,20 @@ $(function () {
     //设置图表Dialog,点击按钮切换样式事件
     $(".blue-button-group button").click(setBtnStyle("btn-danger", "btn-default"));
     $(".green-button-group button").click(setBtnStyle("btn-success", "btn-default"));
+    $("#launchStaSubject").click(staHandler("#subjectChartCanvase",[{
+        selector:"#staSubjectTime",
+        url:"subject/queryTimeForSta"
+    },{
+        selector:"#staSubjectCreate",
+        url:"subject/queryCreateByForSta"
+    },{
+        selector:"#staSubjectType",
+        url:"subject/queryTypeForSta"
+    },{
+        selector:"#staSubjectScore",
+        url:"subject/queryScoreForSta"
+    }],["#staSubjectBar","#staSubjectLine","#staSubjectRadar","#staSubjectDoughnut"],
+    ["更新时间","最后更新者","类型","分数"]))
 });
 var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 /**
@@ -224,6 +238,143 @@ function resetName() {
         $(this).attr({name: "subjectItemId" + index});
     })
 }
+var staTemplateData = [
+    {
+        labels: [],
+        datasets: [
+            {
+                label: "试题统计",
+                backgroundColor: [
+
+                ],
+                borderColor: [
+
+                ],
+                borderWidth: 1,
+                data: []
+            }
+        ]
+    },
+    {
+        labels: [],
+        datasets: [
+            {
+                label: "",
+                fill: false,
+                lineTension: 0.1,
+                backgroundColor: "rgba(75,192,192,0.4)",
+                borderColor: "rgba(75,192,192,1)",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: "rgba(75,192,192,1)",
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                data: [],
+                spanGaps: false
+            }
+        ]
+    },
+];
+/**
+ * 统计处理函数
+ * @param urlAndSta {selector,url}
+ * @param staTypes 统计类型按钮的选择器数组,顺序为bar,line,radar,doughnut
+ * @param legends 标题数组或者字符串[]/string
+ * @param canSelector canvas选择器
+ * @returns {Function}
+ */
+function staHandler(canSelector,urlAndSta,staTypes,legends){
+    var chart = null;
+    return function(){
+        var ctx = $(canSelector)[0].getContext("2d");
+        //类型字符串数组
+        var staTypeArr = ['bar','line','radar','doughnut'];
+        //类型名
+        var type = "";
+        //循环遍历，有对应的类的按钮既是被选择的按钮
+        var len = urlAndSta.length;
+        var url = "";
+        var data = null;
+        //必须先获取数据data
+        for(var i=0;i<len;i++){
+            if($(staTypes[i]).hasClass("btn-success") && i!=1){
+                //i不等于1时生成与图表对应的颜色数
+                var boderColorArr = [],
+                    bgColorArr = [];
+                for(var j=0;j<len;j++){
+                    var color = 'rgba('+randInt(255)+', '+randInt(150)+', '+randInt(50);
+                    bgColorArr.push(color + ', 0.2)');
+                    boderColorArr.push(color + ', 1)');
+                }
+                data = staTemplateData[0];
+                data.datasets[0].backgroundColor = bgColorArr;
+                data.datasets[0].borderColor = boderColorArr;
+                type = staTypeArr[i];
+            }else if($(staTypes[i]).hasClass("btn-success")){
+                data = staTemplateData[1];
+            }
+        }
+        for(i=0;i<len;i++){
+            if($(urlAndSta[i].selector).hasClass("btn-danger")){
+                url = urlAndSta[i].url;
+                //加入标题
+                if( legends instanceof Array){
+                    data.datasets[0].label = legends[i];
+                }else{
+                    data.datasets[0].label = legends;
+                }
+            }
+        }
+        $.ajax({
+            url: url,
+            type: "get",
+            context: $(this),
+            success:function (datas) {
+                debugger
+                var labelArr = [],
+                    dataArr = [];
+                //将返回值封装为数组用于图表展示
+                var len = datas.length;
+                for(var i=0;i<len;i++){
+                    //x轴
+                    labelArr.push(datas[i].name);
+                    //y轴
+                    dataArr.push(datas[i].cont);
+                }
+                data.labels = labelArr;
+                data.datasets[0].data = dataArr;
+                //清除上一种显示状态
+                if(chart) chart.destroy();
+                if(type == "line"){
+                    chart = Chart.Line(ctx, {
+                        data: data,
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    type: 'linear',
+                                    position: 'bottom'
+                                }]
+                            }
+                        }
+                    });
+                }else{
+                    chart = new Chart(ctx, {
+                        type: type,
+                        data: data
+                    });
+                }
+            }
+        })
+    }
+}
 //展示柱状图
 function showBar(){
     var ctx = $("#subjectChartCanvase")[0].getContext("2d");
@@ -240,9 +391,8 @@ function showBar(){
                 labelArr.push(datas[i].subjectType);
                 dataArr.push(datas[i].cont);
             }
-            // barData.labels = labelArr;
-            debugger
-            // barData.datasets[0].data = dataArr;
+            barData.labels = labelArr;
+            barData.datasets[0].data = dataArr;
             var char = new Chart(ctx, {
                 type: 'bar',
                 data: barData
@@ -250,87 +400,20 @@ function showBar(){
         }
     })
 }
-var barData = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [
-        {
-            label: "试题统计",
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1,
-            data: [65, 59, 80, 81, 56, 55, 40],
-        }
-    ]
-};
-
-var lineData = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [
-        {
-            label: "My First dataset",
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40],
-            spanGaps: false,
-        }
-    ]
-};
-
-var redarData = {
-    datasets: [{
-        data: [
-            11,
-            16,
-            7,
-            3,
-            14
-        ],
-        backgroundColor: [
-            "#FF6384",
-            "#4BC0C0",
-            "#FFCE56",
-            "#E7E9ED",
-            "#36A2EB"
-        ],
-        label: 'My dataset' // for legend
-    }],
-    labels: [
-        "Red",
-        "Green",
-        "Yellow",
-        "Grey",
-        "Blue"
-    ]
-};
+/**
+ * 随机整数，高位为空时从零到低位
+ * @param low 低位
+ * @param high 高位
+ */
+function randInt(low,high) {
+    var ret = 0;
+    if(high){
+        ret = parseInt(Math.random() * (high - low) + low);
+    }else{
+        ret = parseInt(Math.random() * low);
+    }
+    return ret;
+}
 
 var doughnutData = {
     labels: [
@@ -340,6 +423,7 @@ var doughnutData = {
     ],
     datasets: [
         {
+            label:"My Statistic",
             data: [300, 50, 100],
             backgroundColor: [
                 "#FF6384",
