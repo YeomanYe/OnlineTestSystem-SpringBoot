@@ -1,6 +1,5 @@
 package cn.edu.tjut.ots.controller;
 
-import cn.edu.tjut.ots.po.Subject;
 import cn.edu.tjut.ots.po.SubjectItem;
 import cn.edu.tjut.ots.services.SubjectItemService;
 import cn.edu.tjut.ots.services.SubjectService;
@@ -138,12 +137,43 @@ public class SubjectController {
     }
 
     /**
-     * 查询日期和类型
+     * 查询日期为了统计
      * @return
      */
     @ResponseBody
     @RequestMapping("queryTypeForSta")
-    public List queryDateAndType(){
-        return subjectServiceImpl.queryDateAndType();
+    public List queryTypeForSta(){
+        return subjectServiceImpl.queryTypeForSta();
     }
+
+    /**
+     * 查询分数为了统计
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("queryScoreForSta")
+    public List queryScoreForSta(){
+        return subjectServiceImpl.queryScoreForSTa();
+    }
+
+    /**
+     * 查询更新者为了统计
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("queryUpdateByForSta")
+    public List queryUpdateByForSta(){
+        return subjectServiceImpl.queryUpdateByForSta();
+    }
+
+    /**
+     * 查询更新时间为了统计
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("queryUpdateWhenForSta")
+    public List queryUpdateWhenForSta(){
+        return subjectServiceImpl.queryUpdateWhenForSta();
+    }
+
 }

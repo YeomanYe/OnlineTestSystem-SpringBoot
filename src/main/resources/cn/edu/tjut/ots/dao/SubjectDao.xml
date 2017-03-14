@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tjut.ots.dao.SubjectDao">
-    <resultMap type="cn.edu.tjut.ots.po.Subject" id="subjectListMap">
+    <!--<resultMap type="cn.edu.tjut.ots.po.Subject" id="subjectListMap">
         <id property="uuid" column="uuid" />
         <result property="subjectName" column="subjectName" />
         <result property="subjectScore" column="subjectScore" />
@@ -11,14 +11,14 @@
     <select id="queryBriefSubject" resultMap="subjectListMap">
         select s.uuid,s.subjectName,s.subjectScore,to_char(s.updateWhen,'yyyy-mm-dd') as updateWhenStr,b.name as subjectType FROM subject s
         right join basedata b on s.subjecttype = b.uuid
-    </select>
+    </select>-->
     <delete id="deleteSubjectByIds">
         delete from subject where uuid in 
         <foreach collection="array" item="subjectId" open="(" close=")" separator=",">
             #{subjectId}
         </foreach>
     </delete>
-    <resultMap type="cn.edu.tjut.ots.po.Subject" id="subjectInfoMap">
+    <!--<resultMap type="cn.edu.tjut.ots.po.Subject" id="subjectInfoMap">
         <id property="uuid" column="uuid" />
         <result property="subjectName" column="subjectName" />
         <result property="subjectScore" column="subjectScore" />
@@ -28,5 +28,5 @@
     <select id="queryDetailSubject" resultMap="subjectInfoMap">
         select s.uuid,s.subjectName,s.subjectScore,s.subjectType,s.subjectParse FROM subject s
         where s.uuid = #{param}
-    </select>
+    </select>-->
 </mapper>

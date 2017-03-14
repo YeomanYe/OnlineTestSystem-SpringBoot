@@ -105,7 +105,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<Object> queryBriefSubject() {
+    public List<Subject> queryBriefSubject() {
         return subjectDao.queryBriefSubject();
     }
 
@@ -129,7 +129,22 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectDao.querySubjectType(uuid);
     }
 
-    public List queryDateAndType(){
-        return subjectDao.queryDateAndType();
+    public List queryTypeForSta(){
+        return subjectDao.queryTypeForSta();
+    }
+
+    @Override
+    public List queryUpdateWhenForSta() {
+        return subjectDao.queryUpdateWhenForSta();
+    }
+
+    @Override
+    public List queryUpdateByForSta() {
+        return subjectDao.queryUpdateByForSta();
+    }
+
+    @Override
+    public List queryScoreForSTa() {
+        return subjectDao.queryScoreForSta();
     }
 }

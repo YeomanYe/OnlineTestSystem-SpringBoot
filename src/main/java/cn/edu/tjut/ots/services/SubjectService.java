@@ -42,7 +42,7 @@ public interface SubjectService {
      * 查询试题简要信息
      * @return
      */
-    public List<Object> queryBriefSubject();
+    public List<Subject> queryBriefSubject();
     /**
      * 通过ID删除试题
      * @param uuids
@@ -64,8 +64,26 @@ public interface SubjectService {
     public String querySubjectType(String uuid);
 
     /**
-     * 查询日期和类型
+     * 查询类型为了统计
      * @return
      */
-    public List queryDateAndType();
+    public List queryTypeForSta();
+
+    /**
+     * 查询更新时间为了统计
+     * @return
+     */
+    public List queryUpdateWhenForSta();
+
+    /**
+     * 查询更新者为了统计
+     * @return
+     */
+    public List queryUpdateByForSta();
+
+    /**
+     * 查询分数为了统计
+     * @return
+     */
+    public List queryScoreForSTa();
 }

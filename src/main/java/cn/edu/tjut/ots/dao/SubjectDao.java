@@ -30,15 +30,31 @@ public interface SubjectDao {
     //根据ID删除试题
     public void deleteSubjectByIds(String[] uuids);
     //查询试题简要信息
-    public List<Object> queryBriefSubject();
+    @Select("select s.uuid as uuid,s.subjectName as subjectName,s.subjectScore as subjectScore," +
+            "to_char(s.updateWhen,'yyyy-mm-dd') as updateWhenStr,b.name as subjectType " +
+            "FROM subject s right join basedata b on s.subjecttype = b.uuid")
+    public List<Subject> queryBriefSubject();
     //查询试题详细信息
-    public Object queryDetailSubject(String uuid);
+    @Select("select s.uuid as uuid,s.subjectName as subjectName,s.subjectScore as subjectScore," +
+            "s.subjectType as subjectType,s.subjectParse as subjectParse" +
+            "FROM subject s where s.uuid = #{param}")
+    public Subject queryDetailSubject(String uuid);
     //查询试题对应的试题类型ID
     @Select("select subjectType from subject where uuid = #{param}")
     public String querySubjectType(String uuid);
-    //查询日期与类型为了统计
+    //查询类型为了统计
     @Select("SELECT COUNT(*) AS CONT,b.name AS name " +
             "FROM subject s JOIN basedata b ON s.subjecttype = b.uuid " +
             "GROUP BY b.name")
-    public List<Subject> queryDateAndType();
+    public List<Subject> queryTypeForSta();
+    //查询日期为了统计
+    @Select("SELECT COUNT(*) AS CONT,to_char(s.updateWhen,'yyyy-MM-dd') AS NAME FROM subject  s " +
+            "GROUP BY s.updateWhen ORDER BY s.updateWhen")
+    public List<Subject> queryUpdateWhenForSta();
+    //查询更新者为了统计
+    @Select("SELECT COUNT(*) AS CONT,s.updateBy AS NAME FROM subject  s GROUP BY s.updateBy")
+    public List<Subject> queryUpdateByForSta();
+    //查询分数为了统计
+    @Select("SELECT COUNT(*) AS CONT,s.subjectScore AS NAME FROM subject  s GROUP BY s.subjectScore")
+    public List<Subject> queryScoreForSta();
 }

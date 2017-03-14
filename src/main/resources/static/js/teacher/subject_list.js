@@ -147,11 +147,11 @@ $(function () {
     $(".blue-button-group button").click(setBtnStyle("btn-danger", "btn-default"));
     $(".green-button-group button").click(setBtnStyle("btn-success", "btn-default"));
     $("#launchStaSubject").click(staHandler("#subjectChartCanvase",[{
-        selector:"#staSubjectTime",
-        url:"subject/queryTimeForSta"
+        selector:"#staSubjectUpdateWhen",
+        url:"subject/queryUpdateWhenForSta"
     },{
-        selector:"#staSubjectCreate",
-        url:"subject/queryCreateByForSta"
+        selector:"#staSubjectUpdateBy",
+        url:"subject/queryUpdateByForSta"
     },{
         selector:"#staSubjectType",
         url:"subject/queryTypeForSta"
@@ -238,51 +238,7 @@ function resetName() {
         $(this).attr({name: "subjectItemId" + index});
     })
 }
-var staTemplateData = [
-    {
-        labels: [],
-        datasets: [
-            {
-                label: "试题统计",
-                backgroundColor: [
 
-                ],
-                borderColor: [
-
-                ],
-                borderWidth: 1,
-                data: []
-            }
-        ]
-    },
-    {
-        labels: [],
-        datasets: [
-            {
-                label: "",
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: "rgba(75,192,192,0.4)",
-                borderColor: "rgba(75,192,192,1)",
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "rgba(75,192,192,1)",
-                pointBackgroundColor: "#fff",
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                pointHoverBorderColor: "rgba(220,220,220,1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: [],
-                spanGaps: false
-            }
-        ]
-    },
-];
 /**
  * 统计处理函数
  * @param urlAndSta {selector,url}
@@ -293,6 +249,51 @@ var staTemplateData = [
  */
 function staHandler(canSelector,urlAndSta,staTypes,legends){
     var chart = null;
+    var staTemplateData = [
+        {
+            labels: [],
+            datasets: [
+                {
+                    label: "试题统计",
+                    backgroundColor: [
+
+                    ],
+                    borderColor: [
+
+                    ],
+                    borderWidth: 1,
+                    data: []
+                }
+            ]
+        },
+        {
+            labels: [],
+            datasets: [
+                {
+                    label: "",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    borderColor: "rgba(75,192,192,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: [],
+                    spanGaps: false
+                }
+            ]
+        },
+    ];
     return function(){
         var ctx = $(canSelector)[0].getContext("2d");
         //类型字符串数组
@@ -320,6 +321,7 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
                 type = staTypeArr[i];
             }else if($(staTypes[i]).hasClass("btn-success")){
                 data = staTemplateData[1];
+                type = staTypeArr[i];
             }
         }
         for(i=0;i<len;i++){
@@ -353,24 +355,10 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
                 data.datasets[0].data = dataArr;
                 //清除上一种显示状态
                 if(chart) chart.destroy();
-                if(type == "line"){
-                    chart = Chart.Line(ctx, {
-                        data: data,
-                        options: {
-                            scales: {
-                                xAxes: [{
-                                    type: 'linear',
-                                    position: 'bottom'
-                                }]
-                            }
-                        }
-                    });
-                }else{
-                    chart = new Chart(ctx, {
-                        type: type,
-                        data: data
-                    });
-                }
+                chart = new Chart(ctx, {
+                    type: type,
+                    data: data
+                });
             }
         })
     }
@@ -414,26 +402,3 @@ function randInt(low,high) {
     }
     return ret;
 }
-
-var doughnutData = {
-    labels: [
-        "Red",
-        "Blue",
-        "Yellow"
-    ],
-    datasets: [
-        {
-            label:"My Statistic",
-            data: [300, 50, 100],
-            backgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
-            ],
-            hoverBackgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
-            ]
-        }]
-};
