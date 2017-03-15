@@ -25,4 +25,6 @@ public interface SubjectItemDao {
     //根据试题ID删除试题选项
     @Delete("delete subject_item where subjectId = #{param}")
     public void deleteSubjectItemBySubjectId(String subjectId);
+    //批量插入试题
+    public void insertBatchItem(List<SubjectItem> items);
 }

@@ -1,5 +1,6 @@
 package cn.edu.tjut.ots.services.impl;
 
+import cn.edu.tjut.ots.dao.BaseDataDao;
 import cn.edu.tjut.ots.dao.SubjectDao;
 import cn.edu.tjut.ots.dao.SubjectItemDao;
 import cn.edu.tjut.ots.po.Subject;
@@ -7,20 +8,27 @@ import cn.edu.tjut.ots.po.SubjectItem;
 import cn.edu.tjut.ots.services.SubjectService;
 import cn.edu.tjut.ots.utils.CreateUserBy;
 import cn.edu.tjut.ots.utils.EmptyUtil;
+import cn.edu.tjut.ots.utils.ExcelUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
  * Created by KINGBOOK on 2017/3/1.
  */
 @Service
+@Transactional
 public class SubjectServiceImpl implements SubjectService {
     @Resource
     private SubjectDao subjectDao;
     @Resource
     private SubjectItemDao subjectItemDao;
+    @Resource
+    private BaseDataDao baseDataDao;
 
     public List<Subject> querySubject() {
         return subjectDao.querySubject();
@@ -28,7 +36,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     /**
      * 添加试题
-     *  @param subjectId
+     * @param subjectId
      * @param subjectType
      * @param subjectName
      * @param subjectScore
@@ -36,15 +44,16 @@ public class SubjectServiceImpl implements SubjectService {
      * @param subjectItemIds
      * @param subjectItemNames
      * @param answers
+     * @param username
      */
-    public Map addSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers) {
+    public Map addSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers, String username) {
 
         //存储保存的UUID用于返回
         Map<String, Object> retMap = new HashMap<>();
         //新建个Subject
         subjectId = UUID.randomUUID().toString().replace("-", "");
         Subject subject = new Subject(subjectId, subjectType, subjectName, subjectScore, subjectParse);
-        CreateUserBy.setUser(subject, null, "admin");
+        CreateUserBy.setUser(subject, null, username);
         //保存试题ID
         retMap.put("subjectId", subjectId);
 
@@ -78,12 +87,12 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Map<String,Object> updateSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers) {
+    public Map<String,Object> updateSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers, String username) {
         //存储保存的UUID用于返回
         Map<String, Object> retMap = new HashMap<>();
         //新建个Subject
         Subject subject = new Subject(subjectId, subjectType, subjectName, subjectScore, subjectParse);
-        CreateUserBy.setUser(subject, "update", "admin");
+        CreateUserBy.setUser(subject, "update", username);
         //保存试题ID
         retMap.put("subjectId", subjectId);
 
@@ -146,5 +155,24 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public List queryScoreForSTa() {
         return subjectDao.queryScoreForSta();
+    }
+
+    @Override
+    public void imporExcel(InputStream is, String username) {
+        List<Map<String,Object>> maps = null;
+        try {
+            maps = ExcelUtil.excelImport(Subject.class,is);
+            for (Map<String, Object> map : maps) {
+                Subject subject = (Subject)map.get("subject");
+                List<SubjectItem> items = (List)map.get("subjectItemList");
+                String typeId = baseDataDao.querySubjectTypeIdByName(subject.getSubjectType());
+                subject.setSubjectType(typeId);
+                CreateUserBy.setUser(subject,null,username);
+                subjectDao.insertSubject(subject);
+                subjectItemDao.insertBatchItem(items);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

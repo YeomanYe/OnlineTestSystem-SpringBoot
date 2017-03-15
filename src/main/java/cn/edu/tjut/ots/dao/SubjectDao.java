@@ -17,7 +17,7 @@ public interface SubjectDao {
     //插入试题
     @Insert("insert into subject values(" +
             "#{uuid},#{subjectType},#{subjectName},#{subjectScore}," +
-            "#{subjectParse},#{createBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'),#{updateBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'))")
+            "#{subjectParse},#{createBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'),#{updateBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'),#{imgPath})")
     public void insertSubject(Subject subject);
     //根据ID更新试题
     @Update("update subject set subjectType=#{subjectType},subjectName=#{subjectName}," +
@@ -36,7 +36,7 @@ public interface SubjectDao {
     public List<Subject> queryBriefSubject();
     //查询试题详细信息
     @Select("select s.uuid as uuid,s.subjectName as subjectName,s.subjectScore as subjectScore," +
-            "s.subjectType as subjectType,s.subjectParse as subjectParse" +
+            "s.subjectType as subjectType,s.subjectParse as subjectParse " +
             "FROM subject s where s.uuid = #{param}")
     public Subject queryDetailSubject(String uuid);
     //查询试题对应的试题类型ID

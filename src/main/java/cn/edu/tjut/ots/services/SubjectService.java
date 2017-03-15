@@ -2,6 +2,7 @@ package cn.edu.tjut.ots.services;
 
 import cn.edu.tjut.ots.po.Subject;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public interface SubjectService {
      */
     public List<Subject> querySubject();
 
-    public Map addSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers);
+    public Map addSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers, String username);
 
     /**
      * 更新试题
@@ -27,9 +28,10 @@ public interface SubjectService {
      * @param subjectItemIds
      * @param subjectItemNames
      * @param answers
+     * @param username
      * @return
      */
-    public Map<String, Object> updateSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers);
+    public Map<String, Object> updateSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers, String username);
 
     /**
      * 根据ID查询试题
@@ -86,4 +88,9 @@ public interface SubjectService {
      * @return
      */
     public List queryScoreForSTa();
+
+    /**
+     * 导入Excel
+     */
+    public void imporExcel(InputStream is, String username);
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.tjut.ots.dao.SubjectItemDao">
+    <insert id="insertBatchItem" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT ALL INTO subject_item   VALUES
+        <foreach collection="list" item="item" separator=" INTO subject_item VALUES ">
+             (#{item.uuid},#{item.name},#{item.subjectId},#{item.isAnswer,javaType=Boolean,jdbcType=CHAR})
+         </foreach>
+        SELECT 1 FROM dual
+    </insert>
+</mapper>

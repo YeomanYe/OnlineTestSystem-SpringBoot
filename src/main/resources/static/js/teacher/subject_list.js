@@ -133,6 +133,9 @@ $(function () {
     $("#chartSubject").click(function () {
         openDialog("#subjectChartDialog",null);
     })
+    $("#uploadSubject").click(function () {
+        openDialog("#subjectUploadDialog",null)
+    })
     //绑定第一个复选框为反选按钮
     $("table :checkbox:first").click(function (evt) {
         $("table :checkbox:not(:first)").each(function () {
@@ -143,7 +146,7 @@ $(function () {
             }
         })
     });
-    //设置图表Dialog,点击按钮切换样式事件
+    //图表Dialog,点击按钮切换样式事件
     $(".blue-button-group button").click(setBtnStyle("btn-danger", "btn-default"));
     $(".green-button-group button").click(setBtnStyle("btn-success", "btn-default"));
     $("#launchStaSubject").click(staHandler("#subjectChartCanvase",[{
@@ -160,6 +163,8 @@ $(function () {
         url:"subject/queryScoreForSta"
     }],["#staSubjectBar","#staSubjectLine","#staSubjectRadar","#staSubjectDoughnut"],
     ["更新时间","最后更新者","类型","分数"]))
+    //上传文件触发ajax文件上传事件
+    $("#uploadSubjectBtn").click(uploadFile("#subjectUploadForm","subject/uploadExcel",subjectRefresh));
 });
 var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 /**
@@ -221,6 +226,31 @@ function setBtnStyle(goal, origin) {
         $(this).addClass(goal);
     };
 }
+/**
+ * 文件上传函数生成器
+ * @param form
+ * @param url
+ * @param call 成功时的回调函数
+ * @returns {Function}
+ */
+function uploadFile(form,url,call) {
+    return function(){
+        $(form).ajaxSubmit({
+            type: "POST",
+            url:url,
+            success: function(data){
+                if(data === true){
+                    alert("success");
+                    if(typeof call == "function") call();
+                }
+                else{
+                    alert("error");
+                }
+            }
+        });
+    }
+}
+
 /**
  * 刷新试题
  */

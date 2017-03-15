@@ -34,10 +34,10 @@ public class ExcelUtil {
 	 * @param list
 	 * @throws IOException
 	 */
-	public static void ExcelExport(Class clazz,OutputStream os,List list) throws IOException{
+	public static void excelExport(Class clazz,OutputStream os,List list) throws IOException{
 	    Workbook wb = new XSSFWorkbook();
 	    if(clazz.equals(Subject.class)){
-	    	ExportSubject(wb, getHeadStyle(wb),getCellStyle(wb),list);
+	    	exportSubject(wb, getHeadStyle(wb),getCellStyle(wb),list);
 	    }
 	    wb.write(os);
 	}
@@ -48,11 +48,11 @@ public class ExcelUtil {
 	 * @return
 	 * @throws IOException
 	 */
-	public static List ExcelImport(Class clazz,InputStream is) throws IOException{
+	public static List excelImport(Class clazz,InputStream is) throws IOException{
 		Workbook wb = new XSSFWorkbook(is);
 		List retList = null;
 		if(clazz.equals(Subject.class)){
-			retList =  ImportSubject(wb);
+			retList =  readSubject(wb);
 		}
 		return retList;
 	}
@@ -82,7 +82,7 @@ public class ExcelUtil {
 	 * @param wb
 	 * @return
 	 */
-	private static List ImportSubject(Workbook wb){
+	private static List readSubject(Workbook wb){
 		List retList = new LinkedList<>();
 		Sheet sheet = wb.getSheetAt(0);
 		sheet.forEach(
@@ -101,15 +101,7 @@ public class ExcelUtil {
 						subject.setSubjectScore((int)cell.getNumericCellValue());
 						cell = row.getCell(3);
 						subject.setSubjectParse(cell.getStringCellValue());
-						cell = row.getCell(4);
-						subject.setCreateBy(cell.getStringCellValue());
-						cell = row.getCell(5);
-						subject.setCreateWhen(df.parse(cell.getStringCellValue()));
-						cell = row.getCell(6);
-						subject.setUpdateBy(cell.getStringCellValue());
-						cell = row.getCell(7);
-						subject.setUpdateWhen(df.parse(cell.getStringCellValue()));
-						int j = 8;
+						int j = 4;
 						List<String> cellValues = new ArrayList();
 						for(;j<20;j++){
 							cell = row.getCell(j);
@@ -140,6 +132,8 @@ public class ExcelUtil {
 							subjectItem.setUuid(UUID.randomUUID().toString().replace("-",""));
 							items.add(subjectItem);
 						}
+						//设置图片路径为空,导入成果后才能更新图片
+						subject.setImgPath("");
 						map.put("subject", subject);
 						map.put("subjectItemList", items);
 						retList.add(map);
@@ -158,7 +152,7 @@ public class ExcelUtil {
 	 * @param datas 数据
 	 * @return
 	 */
-	private static Workbook ExportSubject(Workbook wb,CellStyle headStyle,CellStyle cellStyle,List<Map<String,Object>> datas){
+	private static void exportSubject(Workbook wb,CellStyle headStyle,CellStyle cellStyle,List<Map<String,Object>> datas){
 	    CreationHelper createHelper = wb.getCreationHelper();
 	    Sheet sheet = wb.createSheet("试题表");
 	    //创建表头
@@ -256,8 +250,6 @@ public class ExcelUtil {
 	    	cell.setCellValue(ans.toString());
 	    	cell.setCellStyle(cellStyle);
 	    }
-
-	    return wb;
 	}
 	
 	}

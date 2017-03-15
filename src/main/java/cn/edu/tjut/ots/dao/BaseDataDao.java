@@ -16,4 +16,6 @@ public interface BaseDataDao {
     public List<BaseData> queryBaseDataByType(String dataType);
     @Select("select * from basedata")
     public List<BaseData> queryBaseDataList();
+    @Select("SELECT uuid FROM basedata WHERE datatype = 'subjectType' AND NAME=#{param}")
+    public String querySubjectTypeIdByName(String name);
 }

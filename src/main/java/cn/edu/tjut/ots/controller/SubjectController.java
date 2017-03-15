@@ -8,9 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -27,7 +31,7 @@ public class SubjectController {
     private SubjectItemService subjectItemServiceImpl;
 
     /**
-     * 查询所有试题
+     * 查询试题页
      *
      * @return
      */
@@ -75,7 +79,8 @@ public class SubjectController {
             @RequestParam(value = "subjectName") String subjectName,
             @RequestParam(value = "subjectType") String subjectType,
             @RequestParam(value = "subjectScore") int subjectScore,
-            @RequestParam(value = "subjectParse") String subjectParse) {
+            @RequestParam(value = "subjectParse") String subjectParse,
+            HttpSession session) {
         boolean isUpdate = true;
         //组合选项实体为一个list
         List<String> subjectItemNames = new ArrayList<>();
@@ -90,10 +95,10 @@ public class SubjectController {
         Map retMap = null;
         if (EmptyUtil.isFieldEmpty(subjectId)) {
             retMap = subjectServiceImpl.addSubject(subjectId, subjectType, subjectName, subjectScore,
-                    subjectParse, subjectItemIds, subjectItemNames, answers);
+                    subjectParse, subjectItemIds, subjectItemNames, answers, (String)session.getAttribute("username"));
         } else {
             retMap = subjectServiceImpl.updateSubject(subjectId, subjectType, subjectName, subjectScore,
-                    subjectParse, subjectItemIds, subjectItemNames, answers);
+                    subjectParse, subjectItemIds, subjectItemNames, answers,(String) session.getAttribute("username"));
         }
 
         return retMap;
@@ -174,6 +179,22 @@ public class SubjectController {
     @RequestMapping("queryUpdateWhenForSta")
     public List queryUpdateWhenForSta(){
         return subjectServiceImpl.queryUpdateWhenForSta();
+    }
+
+    @ResponseBody
+    @RequestMapping("uploadExcel")
+    public boolean excelImport(@RequestParam("subjectImportExcel")MultipartFile file,
+                               HttpSession session){
+        boolean flag = false;
+        InputStream is = null;
+        try {
+            is = file.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        subjectServiceImpl.imporExcel(is, (String)session.getAttribute("username"));
+        flag = true;
+        return flag;
     }
 
 }
