@@ -12,9 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 /**
@@ -195,6 +197,22 @@ public class SubjectController {
         subjectServiceImpl.imporExcel(is, (String)session.getAttribute("username"));
         flag = true;
         return flag;
+    }
+
+    @RequestMapping("downloadExcel")
+    public void excelExport(HttpServletResponse response){
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=subject.xlsx");
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        OutputStream os = null;
+        try {
+            os = response.getOutputStream();
+            subjectServiceImpl.exportExcel(os);
+            os.flush();
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

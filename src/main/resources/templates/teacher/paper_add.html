@@ -1,0 +1,93 @@
+<div class="tab-pane active" id="paperAddTab">
+    <section class="content-header">
+        <h1>试卷添加
+            <small>paper add</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> 主目录</li>
+            <li>试卷管理</li>
+            <li class="active">试卷添加</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <div style="cursor: pointer;" class="box-header">
+                            <div class="glyphicon glyphicon-eye-open" id="previewPaper" title="预览">预览</div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="paperName">试卷名</label>
+                            <input type="text" class="form-control" id="paperName" placeholder="Enter paper name"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-7">
+                                <div class="form-group">
+                                    <label for="paperType">试卷类型</label>
+                                    <select id="paperType" name="paperType" class="form-control select2"
+                                            style="width: 100%;">
+                                        <option selected="selected">Alabama</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <div class="form-group">
+                                    <label for="ansTime">答卷时间</label>
+                                    <input type="text" id="ansTime" class="form-control"
+                                           placeholder="minute"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="paperDesc">试卷描述</label>
+                            <textarea id="paperDesc" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer clearfix">
+                        <button type="reset" class="btn btn-primary pull-right margin">重置</button>
+                        <button type="submit" class="btn btn-primary pull-right margin">提交</button>
+                    </div>
+                    <!-- /.box-footer -->
+                </div>
+            </div>
+            <div class="col-xs-8">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">试题列表</h3>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="subjectTable">
+                            <thead>
+                            <tr role="row">
+                                <th><input class="thCheckbox" type="checkbox"/></th>
+                                <th>试题描述</th>
+                                <th>类型</th>
+                                <th>分值</th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.css"/>
+<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/select2/select2.min.css"/>
+
+<script src="AdminLTE-2.3.11/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/select2/select2.full.min.js"></script>
+<script src="js/teacher/paper_add.js"></script>

@@ -3,6 +3,7 @@ package cn.edu.tjut.ots.services;
 import cn.edu.tjut.ots.po.Subject;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -93,4 +94,10 @@ public interface SubjectService {
      * 导入Excel
      */
     public void imporExcel(InputStream is, String username);
+
+    /**
+     * 导出Excel
+     * @param os
+     */
+    public void exportExcel(OutputStream os);
 }

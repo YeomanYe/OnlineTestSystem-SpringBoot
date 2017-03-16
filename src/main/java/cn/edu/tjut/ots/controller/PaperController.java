@@ -23,4 +23,9 @@ public class PaperController {
         req.setAttribute("papers",papers);
         return "teacher/paper_list";
     }
+
+    @RequestMapping("addPaperPage")
+    public String getPaperAddPage(){
+        return "teacher/paper_add";
+    }
 }

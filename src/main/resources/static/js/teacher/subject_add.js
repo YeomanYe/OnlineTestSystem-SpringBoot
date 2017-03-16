@@ -14,8 +14,6 @@ $(function () {
         }
     });
     //如果存在ID说明是更新试题，并且没有选择试题类型
-    //查询试题对应的类型
-    $("select[name='subjectType']");
     //初始化选择器二
     $(".select2").select2();
     /**

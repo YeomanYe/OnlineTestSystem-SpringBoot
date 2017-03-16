@@ -11,6 +11,7 @@ $(function () {
                     }));
     $("#query_paper").click(toggleTabs("paperListTab", "试卷列表", "paper/listPaperPage"));
     $("#query_basedata").click(toggleTabs("baseDataListTab","基础数据","baseData/listBaseDataPage"));
+    $("#add_paper").click(toggleTabs("paperAddTab","添加试卷","paper/addPaperPage"));
 });
 /**
  * 切换标签页

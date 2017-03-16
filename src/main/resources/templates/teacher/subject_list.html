@@ -12,7 +12,7 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="row" xmlns:th="http://www.w3.org/1999/xhtml">
+        <div class="row" >
             <div class="col-xs-12">
                 <!-- /.box -->
                 <div class="box">
@@ -23,11 +23,10 @@
                         <div class="glyphicon glyphicon-refresh" id="refreshSubject" title="刷新">刷新</div>
                         <div class="glyphicon glyphicon-stats" id="chartSubject" title="图表">图表</div>
                         <div class="glyphicon glyphicon-cloud-upload" id="uploadSubject" title="上传">上传</div>
-                        <div class="glyphicon glyphicon-cloud-download" id="downloadSubject" title="下载">下载</div>
+                        <div class="glyphicon glyphicon-cloud-download" id="downloadSubject" title="下载"><a href="subject/downloadExcel">下载</a></div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <div id="subject1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <form role="form" id="subjectListForm">
@@ -39,8 +38,8 @@
                                                 <th><input class="thCheckbox" type="checkbox"/></th>
                                                 <th>试题描述</th>
                                                 <th>试题类型</th>
-                                                <th>分数</th>
-                                                <th>解析</th>
+                                                <th>试题分值</th>
+                                                <th>更新时间</th>
                                                 <th>操作</th>
                                             </tr>
                                             </thead>
@@ -48,7 +47,6 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
                     </div>
                     <!-- /.box-body -->
                 </div>
@@ -146,6 +144,9 @@
 
 <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.css"/>
 <style>
+    #downloadSubject a{
+        color:black;
+    }
     .tb_subjectInfo {
         cursor: pointer;
     }

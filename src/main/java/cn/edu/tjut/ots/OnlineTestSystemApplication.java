@@ -1,12 +1,34 @@
 package cn.edu.tjut.ots;
 
+import cn.edu.tjut.ots.filter.MyFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
+
+import javax.servlet.Filter;
 
 @SpringBootApplication
 public class OnlineTestSystemApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OnlineTestSystemApplication.class, args);
+	}
+
+	@Bean
+	public FilterRegistrationBean someFilterRegistration() {
+		FilterRegistrationBean registration = new FilterRegistrationBean();
+		registration.setFilter(myFilter());
+		registration.addUrlPatterns("/*");
+		registration.addInitParameter("excludeStr", ".jpg;.png;.js;.css;.ico");
+		registration.setName("myFilter");
+		return registration;
+	}
+
+	@Bean
+	@Order(1)
+	public Filter myFilter(){
+		return new MyFilter();
 	}
 }

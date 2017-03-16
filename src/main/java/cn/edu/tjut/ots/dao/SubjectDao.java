@@ -39,6 +39,11 @@ public interface SubjectDao {
             "s.subjectType as subjectType,s.subjectParse as subjectParse " +
             "FROM subject s where s.uuid = #{param}")
     public Subject queryDetailSubject(String uuid);
+    //查询试题详细信息列表
+    @Select("SELECT s.uuid,s.subjectName,b.name AS subjectType,s.subjectScore," +
+            "s.subjectParse,s.createby,s.createwhen,s.updateby,s.updatewhen" +
+            " FROM subject s JOIN basedata b ON s.subjecttype = b.uuid ")
+    public List<Subject> queryDetailSubjectList();
     //查询试题对应的试题类型ID
     @Select("select subjectType from subject where uuid = #{param}")
     public String querySubjectType(String uuid);

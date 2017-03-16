@@ -4,6 +4,7 @@
 $(function () {
     $('#subject1').DataTable({
         "paging": true,
+        "pageingType":"input",
         "lengthChange": true,
         "searching": true,
         "ordering": true,
@@ -132,10 +133,10 @@ $(function () {
     $("#refreshSubject").click(subjectRefresh);
     $("#chartSubject").click(function () {
         openDialog("#subjectChartDialog",null);
-    })
+    });
     $("#uploadSubject").click(function () {
         openDialog("#subjectUploadDialog",null)
-    })
+    });
     //绑定第一个复选框为反选按钮
     $("table :checkbox:first").click(function (evt) {
         $("table :checkbox:not(:first)").each(function () {

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 /**
@@ -171,6 +172,24 @@ public class SubjectServiceImpl implements SubjectService {
                 subjectDao.insertSubject(subject);
                 subjectItemDao.insertBatchItem(items);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void exportExcel(OutputStream os) {
+        List<Subject> subjects = subjectDao.queryDetailSubjectList();
+        List<Map<String,Object>> maps = new LinkedList<>();
+        for (Subject subject : subjects) {
+            List<SubjectItem> items = subjectItemDao.querySubjectItem(subject.getUuid());
+            Map<String,Object> map = new HashMap<>();
+            map.put("subject",subject);
+            map.put("subjectItemList",items);
+            maps.add(map);
+        }
+        try {
+            ExcelUtil.excelExport(Subject.class,os,maps);
         } catch (IOException e) {
             e.printStackTrace();
         }
