@@ -3,7 +3,7 @@ $(function () {
         "paging": true,
         "lengthChange": true,
         "searching": true,
-        "ordering": true,
+        "ordering": false,
         "info": true,
         "autoWidth": true,
         "ajax": {
@@ -39,7 +39,7 @@ $(function () {
     //初始化选择器二
     $(".select2").select2();
     //绑定第一个复选框为反选按钮
-    $("table :checkbox:first").click(function (evt) {
+    $("#paperFirstCheck").click(function (evt) {
         $("table :checkbox:not(:first)").each(function () {
             if (this.checked) {
                 $(this).prop("checked", false);

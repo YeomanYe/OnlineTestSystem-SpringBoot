@@ -138,7 +138,7 @@ $(function () {
         openDialog("#subjectUploadDialog",null)
     });
     //绑定第一个复选框为反选按钮
-    $("table :checkbox:first").click(function (evt) {
+    $("#subjectFirstCheck").click(function (evt) {
         $("table :checkbox:not(:first)").each(function () {
             if (this.checked) {
                 $(this).prop("checked", false);
