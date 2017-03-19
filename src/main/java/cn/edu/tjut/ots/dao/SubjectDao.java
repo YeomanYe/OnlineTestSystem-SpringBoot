@@ -17,7 +17,7 @@ public interface SubjectDao {
     //插入试题
     @Insert("insert into subject values(" +
             "#{uuid},#{subjectType},#{subjectName},#{subjectScore}," +
-            "#{subjectParse},#{createBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'),#{updateBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'),#{imgPath})")
+            "#{subjectParse},#{createBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'),#{updateBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'),'')")
     public void insertSubject(Subject subject);
     //根据ID更新试题
     @Update("update subject set subjectType=#{subjectType},subjectName=#{subjectName}," +
@@ -32,7 +32,7 @@ public interface SubjectDao {
     //查询试题简要信息
     @Select("select s.uuid as uuid,s.subjectName as subjectName,s.subjectScore as subjectScore," +
             "to_char(s.updateWhen,'yyyy-mm-dd') as updateWhenStr,b.name as subjectType " +
-            "FROM subject s right join basedata b on s.subjecttype = b.uuid")
+            "FROM subject s left join basedata b on s.subjecttype = b.uuid")
     public List<Subject> queryBriefSubject();
     //查询试题详细信息
     @Select("select s.uuid as uuid,s.subjectName as subjectName,s.subjectScore as subjectScore," +

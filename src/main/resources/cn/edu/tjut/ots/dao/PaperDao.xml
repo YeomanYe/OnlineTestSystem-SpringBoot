@@ -14,4 +14,11 @@
         select t.uuid,t.paperName,t.paperDesc,b.name AS paperType,t.paperscore,t.anstime,t.updatewhen
         from PAPER t JOIN BASEDATA b ON t.uuid = b.uuid
     </select>
+    <insert id="addPaperSubject" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT ALL INTO paper_subject   VALUES
+        <foreach collection="list" item="item" separator=" INTO paper_subject VALUES ">
+            (#{item.paperId},#{item.subjectId})
+        </foreach>
+        SELECT 1 FROM dual
+    </insert>
 </mapper>

@@ -29,7 +29,7 @@ $(function () {
                 "targets": [0],
                 "data": "uuid",
                 "render": function (data, type, full) {
-                    debugger
+
                     return '<input name="subjectIds" type="checkbox" class="subjectCheckbox" value="' + data + '"/>'
                 }
             },
@@ -72,7 +72,7 @@ $(function () {
                 url: "subject/querySubject4Update?subjectId=" + subjectId,
                 context: $(this),
                 success: function (data) {
-                    debugger;
+                    ;
                     //清空所有选项
                     $("#subjectItem .input-group:not(:first)").remove();
                     var items = data.items,
@@ -121,7 +121,7 @@ $(function () {
                 data: $("#subjectListForm").serialize(),
                 context: $(this),
                 success: function (data) {
-                    debugger
+
                     if (data === true) {
                         //刷新
                         subjectRefresh();
@@ -139,7 +139,7 @@ $(function () {
     });
     //绑定第一个复选框为反选按钮
     $("#subjectFirstCheck").click(function (evt) {
-        $("table :checkbox:not(:first)").each(function () {
+        $("#subject1 :checkbox:not(:first)").each(function () {
             if (this.checked) {
                 $(this).prop("checked", false);
             } else {
@@ -181,7 +181,7 @@ function subjectInfoClick() {
             type: "get",
             context: $(this),
             success: function (datas) {
-                debugger
+
                 var subjectNameText = $(this).parent().siblings().filter(".tb_subjectName").text();
                 var answerStr = "答案: ";
                 var subjectItem = "";
@@ -220,7 +220,7 @@ function openDialog(digSelector, content, callback) {
  */
 function setBtnStyle(goal, origin) {
     return function () {
-        debugger;
+        ;
         //清除按钮的样式
         $(this).parent().children().filter("button").removeClass(goal).addClass(origin);
         //添加目标样式
@@ -371,7 +371,7 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
             type: "get",
             context: $(this),
             success:function (datas) {
-                debugger
+
                 var labelArr = [],
                     dataArr = [];
                 //将返回值封装为数组用于图表展示

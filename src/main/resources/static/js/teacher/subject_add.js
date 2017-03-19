@@ -58,7 +58,7 @@ $(function () {
         $("#subjectItem").find(".input-group:last").find("input[type='text']").val("");
         resetName();
     });
-    $("button[type='submit']").click(function () {
+    $("#subjectSubmit").click(function () {
         debugger
         $.ajax({
             url: "subject/mergeSubject",

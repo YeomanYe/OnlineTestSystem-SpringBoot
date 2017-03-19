@@ -21,38 +21,56 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <div class="form-group">
-                            <label for="paperName">试卷名</label>
-                            <input type="text" class="form-control" id="paperName" placeholder="Enter paper name"/>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-7">
-                                <div class="form-group">
-                                    <label for="paperType">试卷类型</label>
-                                    <select id="paperType" name="paperType" class="form-control select2"
-                                            style="width: 100%;">
-                                        <option selected="selected">Alabama</option>
-                                    </select>
+                        <form role="form" id="paperAddForm">
+                            <div class="form-group">
+                                <label for="paperName">试卷名</label>
+                                <input type="hidden" id="paperId" name="paperId"/>
+                                <input type="text" name="paperName" class="form-control" id="paperName" placeholder="Enter paper name"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-7">
+                                    <div class="form-group">
+                                        <label for="paperType">试卷类型</label>
+                                        <select id="paperType" name="paperType" class="form-control select2">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-5">
+                                    <div class="form-group">
+                                        <label for="ansTime">答卷时间</label>
+                                        <input type="text" id="ansTime" name="ansTime" class="form-control"
+                                               placeholder="minute"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-xs-5">
-                                <div class="form-group">
-                                    <label for="ansTime">答卷时间</label>
-                                    <input type="text" id="ansTime" class="form-control"
-                                           placeholder="minute"/>
+                            <div class="row">
+                                <div class="col-xs-7">
+                                    <div class="form-group">
+                                        <label for="paperScore">总分值</label>
+                                        <input value="0" name="paperScore" type="text" id="paperScore" class="form-control"
+                                               disabled="disabled"/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-5">
+                                    <div class="form-group">
+                                        <label for="subjectCnt">题量</label>
+                                        <input value="0" name="subjectCnt" type="text" id="subjectCnt" class="form-control"
+                                               disabled="disabled"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="paperDesc">试卷描述</label>
-                            <textarea id="paperDesc" class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                        </div>
+                            <div class="form-group">
+                                <label for="paperDesc">试卷描述</label>
+                                <textarea id="paperDesc" name="paperDesc" class="form-control" rows="3"
+                                          placeholder="Enter ..."></textarea>
+                            </div>
+                        </form>
                         <!-- /.table-responsive -->
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer clearfix">
                         <button type="reset" class="btn btn-primary pull-right margin">重置</button>
-                        <button type="submit" class="btn btn-primary pull-right margin">提交</button>
+                        <button type="submit" id="paperSubmit" class="btn btn-primary pull-right margin">提交</button>
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -65,16 +83,18 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="subjectTable">
-                            <thead>
-                            <tr role="row">
-                                <th><input id="paperFirstCheck" class="thCheckbox" type="checkbox"/></th>
-                                <th>试题描述</th>
-                                <th>类型</th>
-                                <th>分值</th>
-                            </tr>
-                            </thead>
-                        </table>
+                        <form role="form" id="subjctListForm">
+                            <table id="subjectTable">
+                                <thead>
+                                <tr role="row">
+                                    <th><input id="paperFirstCheck" class="thCheckbox" type="checkbox"/></th>
+                                    <th>试题描述</th>
+                                    <th>类型</th>
+                                    <th>分值</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </form>
                         <!-- /.table-responsive -->
                     </div>
                     <!-- /.box-body -->
@@ -86,6 +106,8 @@
 
 <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.css"/>
 <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/select2/select2.min.css"/>
+<link rel="stylesheet" href="AdminLTE-2.3.11/dist/css/AdminLTE.min.css"/>
+<link rel="stylesheet" href="AdminLTE-2.3.11/dist/css/skins/_all-skins.min.css"/>
 
 <script src="AdminLTE-2.3.11/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.min.js"></script>
