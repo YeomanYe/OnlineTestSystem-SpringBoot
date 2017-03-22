@@ -28,6 +28,16 @@ public class Paper {
     private String updateBy;
     //更新时间
     private Date updateWhen;
+    //更新时间字符串，不保存到数据库
+    private String updateWhenStr;
+
+    public String getUpdateWhenStr() {
+        return updateWhenStr;
+    }
+
+    public void setUpdateWhenStr(String updateWhenStr) {
+        this.updateWhenStr = updateWhenStr;
+    }
 
     public String getUuid() {
         return uuid;

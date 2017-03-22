@@ -1,8 +1,7 @@
 package cn.edu.tjut.ots.dao;
 
 import cn.edu.tjut.ots.po.Paper;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -11,12 +10,32 @@ import java.util.List;
  */
 @Mapper
 public interface PaperDao {
+    //查询试卷信息
+    @Select("select t.uuid,t.paperName,b.name AS paperType,t.subjectCnt,t.ansTime,to_char(t.updatewhen,'yyyy-mm-dd') AS updateWhenStr" +
+            " from PAPER t JOIN BASEDATA b ON t.paperType = b.uuid")
     public List<Paper> queryBrifPaper();
+    //添加试卷
     @Insert("insert into paper (uuid,paperName,paperDesc,paperType," +
             "paperScore,ansTime,subjectCnt,createBy,createWhen,updateBy,updateWhen) " +
             "values(#{uuid},#{paperName},#{paperDesc},#{paperType},#{paperScore},#{ansTime}," +
             "#{subjectCnt},#{createBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd')," +
             "#{updateBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'))")
     public void addPaper(Paper paper);
+    //更新试卷
+    @Update("update paper set paperName=#{paperName},paperDesc=#{paperDesc},paperType=#{paperType}," +
+            "paperScore=#{paperScore},ansTime=#{ansTime},subjectCnt=#{subjectCnt},updateBy=#{updateBy}," +
+            "updateWhen=to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd') where uuid=#{uuid}")
+    public void updatePaper(Paper paper);
+    //清空试卷下的所有题目
+    @Delete("delete from paper_subject where paperId = #{param}")
+    public void deleteSubject(String paperId);
+    //根据id批量删除试卷
+    public void deletePaperByIds(String[] paperIds);
+    //向试卷添加试题
     public void addPaperSubject(List maps);
+    //查询试卷对应的试题id列表
+    @Select("SELECT subjectId FROM paper_subject WHERE paperid = #{param}")
+    public List<String> querySubjectIdsByPaperId(String paperId);
+    @Select("SELECT * FROM paper WHERE uuid = #{param}")
+    public Paper queryPaperById(String paperId);
 }

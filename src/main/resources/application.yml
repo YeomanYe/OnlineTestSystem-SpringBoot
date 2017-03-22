@@ -8,3 +8,12 @@ server:
   context-path: /ots
 mybatis:
   config-location: classpath:mybatis.xml
+logging:
+  file: log4j.properties
+  level:
+    org.springframework.web: DEBUG
+    org.apache.ibatis: DEBUG
+    java.sql.Connection: DEBUG
+    java.sql.Statement: DEBUG
+    java.sql.PreparedStatement: DEBUG
+    java.sql.ResultSet: DEBUG

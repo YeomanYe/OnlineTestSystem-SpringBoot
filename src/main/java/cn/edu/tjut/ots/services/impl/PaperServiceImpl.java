@@ -36,6 +36,7 @@ public class PaperServiceImpl implements PaperService {
         paper.setSubjectCnt(subjectCnt);
         CreateUserBy.setUser(paper,null,username);
         String paperId = UUID.randomUUID().toString().replace("-","");
+        paper.setUuid(paperId);
         paperDao.addPaper(paper);
         List<Map> maps = new LinkedList();
         for (String subjectId : subjectIds) {
@@ -46,5 +47,44 @@ public class PaperServiceImpl implements PaperService {
         }
         paperDao.addPaperSubject(maps);
         return paperId;
+    }
+
+    @Override
+    public String updatePaper(String paperId, String paperName, String paperType, String paperDesc, int ansTime, int paperScore, int subjectCnt, String[] subjectIds, String username) {
+        Paper paper = new Paper();
+        paper.setPaperName(paperName);
+        paper.setPaperType(paperType);
+        paper.setPaperDesc(paperDesc);
+        paper.setAnsTime(ansTime);
+        paper.setPaperScore(paperScore);
+        paper.setSubjectCnt(subjectCnt);
+        paper.setUuid(paperId);
+        CreateUserBy.setUser(paper,"update",username);
+        paperDao.updatePaper(paper);
+        paperDao.deleteSubject(paperId);
+        List<Map> maps = new LinkedList();
+        for (String subjectId : subjectIds) {
+            Map<String,String> map = new HashMap();
+            map.put("subjectId",subjectId);
+            map.put("paperId",paperId);
+            maps.add(map);
+        }
+        paperDao.addPaperSubject(maps);
+        return paperId;
+    }
+
+    @Override
+    public void deletePaperByIds(String[] paperIds) {
+        paperDao.deletePaperByIds(paperIds);
+    }
+
+    @Override
+    public Map queryPaper4Update(String paperId) {
+        Map<String,Object> maps = new HashMap();
+        List<String> subjectIds = paperDao.querySubjectIdsByPaperId(paperId);
+        Paper paper = paperDao.queryPaperById(paperId);
+        maps.put("subjectIds",subjectIds);
+        maps.put("paper",paper);
+        return maps;
     }
 }

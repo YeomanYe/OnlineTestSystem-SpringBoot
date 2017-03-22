@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by KINGBOOK on 2017/3/11.
@@ -21,9 +22,7 @@ public class PaperController {
     PaperService paperServiceImpl;
 
     @RequestMapping("listPaperPage")
-    public String getPaperListPage(HttpServletRequest req){
-        List papers = paperServiceImpl.queryPaper();
-        req.setAttribute("papers",papers);
+    public String getPaperListPage(){
         return "teacher/paper_list";
     }
 
@@ -48,7 +47,32 @@ public class PaperController {
         if(paperId == null || paperId.equals("")){
             retStr = paperServiceImpl.addPaper(paperName,paperType,paperDesc,
                     ansTime,paperScore,subjectCnt,subjectIds,(String)session.getAttribute("username"));
+        }else{
+            retStr = paperServiceImpl.updatePaper(paperId,paperName,paperType,paperDesc,
+                    ansTime,paperScore,subjectCnt,subjectIds,(String)session.getAttribute("username"));
         }
         return retStr;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("refreshPaper")
+    public List refreshPaper(){
+        return paperServiceImpl.queryPaper();
+    }
+
+    @ResponseBody
+    @RequestMapping("deletePaper")
+    public boolean deletePaper(@RequestParam("paperIds") String[] paperIds){
+        boolean bool = false;
+        paperServiceImpl.deletePaperByIds(paperIds);
+        bool = true;
+        return bool;
+    }
+
+    @ResponseBody
+    @RequestMapping("queryPaper4Update")
+    public Map queryPaper4Update(@RequestParam("paperId")String paperId){
+        return paperServiceImpl.queryPaper4Update(paperId);
     }
 }

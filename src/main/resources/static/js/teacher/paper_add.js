@@ -1,3 +1,5 @@
+var subjectIds = [];
+
 $(function () {
     $('#subjectTable').DataTable({
         "paging": true,
@@ -12,11 +14,11 @@ $(function () {
         },
         "columns": [
             {data: 'uuid'},
+            {data: 'subjectType'},
             {
                 data: 'subjectName',
                 className: 'tb_subjectName'
             },
-            {data: 'subjectType'},
             {data: 'subjectScore'},
         ],
         "columnDefs": [
@@ -44,7 +46,7 @@ $(function () {
         }
     });
     //初始化选择器二
-    $(".select2").select2();
+    $("#paperType").select2();
     //绑定第一个复选框为反选按钮
     $("#paperFirstCheck").click(function (evt) {
         $("#subjectTable :checkbox:not(:first)").each(function () {
@@ -72,6 +74,7 @@ $(function () {
             }
         })
     })
+    $("#paperReset").click(resetAddPaperForm);
 });
 /**
  * 试题勾选状态改变时，采取相应处理
@@ -95,4 +98,16 @@ function checkboxChangeHandler(that) {
             subjectIds.splice(index,1);
     }
 }
-var subjectIds = [];
+/**
+ * 清空添加试卷表单
+ */
+function resetAddPaperForm() {
+    $("#paperName").val("");
+    $("#ansTime").val("");
+    $("#paperScore").val("0");
+    $("#subjectCnt").val("0");
+    $("#paperDesc").val("");
+    $("#subjectTable").DataTable().rows().invalidate().draw();
+    $(":checked").prop({checked:false});
+    subjectIds = [];
+}

@@ -15,7 +15,7 @@ $(function () {
     });
     //如果存在ID说明是更新试题，并且没有选择试题类型
     //初始化选择器二
-    $(".select2").select2();
+    $("#subjectType").select2();
     /**
      * 将试题项输入框的name以及输入框的name重新编排
      */

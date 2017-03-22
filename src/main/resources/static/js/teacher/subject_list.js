@@ -82,11 +82,7 @@ $(function () {
                     $("#subjectName").val(subject.subjectName);
                     $("#subjectScore").val(subject.subjectScore);
                     $("#subjectParse").val(subject.subjectParse);
-                    $("#subjectType option").each(function (index) {
-                        if (subject.subjectType == $(this).val()) {
-                            $(this).prop('selected', true);
-                        }
-                    })
+                    $("#subjectType").val(subject.subjectType).trigger("change");
                     //装入试题项信息到表单
                     var len = items.length;
                     for (var i = 0; i < len; i++) {

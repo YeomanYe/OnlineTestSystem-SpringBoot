@@ -43,23 +43,6 @@
                                                 <th>操作</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr role="row" th:classappend="${paperStat.odd}?'odd':'even'"
-                                                th:each="paper:${papers}">
-                                                <td><input name="paperIds" type="checkbox" class="paperCheckbox"
-                                                           th:value="${paper.uuid}"/></td>
-                                                <td class="tb_paperName" th:text="${paper.paperName}"></td>
-                                                <td th:text="${paper.paperType}"></td>
-                                                <td th:text="${paper.paperScore}"></td>
-                                                <td th:text="${paper.ansTime}"></td>
-                                                <td th:text="${paper.subjectCnt}"></td>
-                                                <td th:text="${#dates.format(paper.updateWhen, 'yyyy-MM-dd')}"></td>
-                                                <td align="center">
-                                                    <div class="fa fa-fw fa-file tb_paperInfo"
-                                                         onclick="paperInfoClick()" title="详情"></div>
-                                                </td>
-                                            </tr>
-                                            </tbody>
                                         </table>
                                     </form>
                                 </div>

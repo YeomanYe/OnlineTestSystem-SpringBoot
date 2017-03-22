@@ -2,16 +2,22 @@ $(function () {
     toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage")();
     /*设置事件处理函数*/
     $("#query_subject").click(toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage"));
-    $("#add_subject").click(toggleTabs("subjectAddTab", "添加试题", "subject/addSubjectPage",null,
-                    function(){
-                        //清除添加表单
-                        resetAddSubjectForm();
-                        //清除subjectID值
-                        $("#subjectId").val("");
-                    }));
+    $("#add_subject").click(toggleTabs("subjectAddTab", "添加试题", "subject/addSubjectPage", null,
+        function () {
+            //清除添加表单
+            resetAddSubjectForm();
+            //清除subjectID值
+            $("#subjectId").val("");
+        }));
     $("#query_paper").click(toggleTabs("paperListTab", "试卷列表", "paper/listPaperPage"));
-    $("#query_basedata").click(toggleTabs("baseDataListTab","基础数据","baseData/listBaseDataPage"));
-    $("#add_paper").click(toggleTabs("paperAddTab","添加试卷","paper/addPaperPage"));
+    $("#query_basedata").click(toggleTabs("baseDataListTab", "基础数据", "baseData/listBaseDataPage"));
+    $("#add_paper").click(toggleTabs("paperAddTab", "添加试卷", "paper/addPaperPage", null,
+        function () {
+            //清除添加表单
+            resetAddPaperForm();
+            //清除paperID值
+            $("#paperId").val("");
+        }));
 });
 /**
  * 切换标签页
@@ -21,7 +27,7 @@ $(function () {
  * @param tabName 标签名
  * @pram toggleCallback 切换标签后的回调函数
  */
-function toggleTabs(tabId, tabName, url, ajaxPos,toggleCallback) {
+function toggleTabs(tabId, tabName, url, ajaxPos, toggleCallback) {
     return function () {
         if (ajaxPos) {
             //如果存在数据,则添加数据,没有则添加空字符串
@@ -34,7 +40,7 @@ function toggleTabs(tabId, tabName, url, ajaxPos,toggleCallback) {
             $("#" + tabId).addClass("active");
             $("a[href='#" + tabId + "']").parent().addClass("active");
             //调用回调函数
-            if(typeof toggleCallback === "function") toggleCallback();
+            if (typeof toggleCallback === "function") toggleCallback();
         } else {
             $.ajax({
                 url: url,
@@ -51,10 +57,23 @@ function toggleTabs(tabId, tabName, url, ajaxPos,toggleCallback) {
                         $(".tab-content").append(data);
                     }
                     //调用回调函数
-                    if(typeof toggleCallback === "function") toggleCallback();
+                    if (typeof toggleCallback === "function") toggleCallback();
 
                 }
             })
         }
     };
+}
+/**
+ * 重置添加试卷表单
+ */
+function resetAddPaperForm() {
+    $("#paperName").val("");
+    $("#ansTime").val("");
+    $("#paperScore").val("0");
+    $("#subjectCnt").val("0");
+    $("#paperDesc").val("");
+    $("#subjectTable").DataTable().rows().invalidate().draw();
+    $(":checked").prop({checked:false});
+    subjectIds = [];
 }
