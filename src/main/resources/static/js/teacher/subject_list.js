@@ -159,7 +159,7 @@ $(function () {
         selector:"#staSubjectScore",
         url:"subject/queryScoreForSta"
     }],["#staSubjectBar","#staSubjectLine","#staSubjectRadar","#staSubjectDoughnut"],
-    ["更新时间","最后更新者","类型","分数"]))
+    ["更新时间","最后更新者","类型","分数"]));
     //上传文件触发ajax文件上传事件
     $("#uploadSubjectBtn").click(uploadFile("#subjectUploadForm","subject/uploadExcel",subjectRefresh));
 });
@@ -193,30 +193,12 @@ function subjectInfoClick() {
     });
 }
 /**
- * 打开会话框并显示内容
- * @param digId
- * @param content
- * @param callback 回调函数
- */
-function openDialog(digSelector, content, callback) {
-    if (content) {
-        var digBody = $(digSelector + " .modal-body");
-        digBody.html("");
-        digBody.append(content);
-    }
-    $(digSelector).css({"display": "block"});
-    if (typeof callback === 'function') {
-        callback();
-    }
-}
-/**
  * 设置按钮组的按钮样式处理函数
  * @param goal 目标样式
  * @param origin 原样式
  */
 function setBtnStyle(goal, origin) {
     return function () {
-        ;
         //清除按钮的样式
         $(this).parent().children().filter("button").removeClass(goal).addClass(origin);
         //添加目标样式
@@ -266,166 +248,3 @@ function resetName() {
     })
 }
 
-/**
- * 统计处理函数
- * @param urlAndSta {selector,url}
- * @param staTypes 统计类型按钮的选择器数组,顺序为bar,line,radar,doughnut
- * @param legends 标题数组或者字符串[]/string
- * @param canSelector canvas选择器
- * @returns {Function}
- */
-function staHandler(canSelector,urlAndSta,staTypes,legends){
-    var chart = null;
-    var staTemplateData = [
-        {
-            labels: [],
-            datasets: [
-                {
-                    label: "试题统计",
-                    backgroundColor: [
-
-                    ],
-                    borderColor: [
-
-                    ],
-                    borderWidth: 1,
-                    data: []
-                }
-            ]
-        },
-        {
-            labels: [],
-            datasets: [
-                {
-                    label: "",
-                    fill: false,
-                    lineTension: 0.1,
-                    backgroundColor: "rgba(75,192,192,0.4)",
-                    borderColor: "rgba(75,192,192,1)",
-                    borderCapStyle: 'butt',
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    borderJoinStyle: 'miter',
-                    pointBorderColor: "rgba(75,192,192,1)",
-                    pointBackgroundColor: "#fff",
-                    pointBorderWidth: 1,
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                    pointHoverBorderColor: "rgba(220,220,220,1)",
-                    pointHoverBorderWidth: 2,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
-                    data: [],
-                    spanGaps: false
-                }
-            ]
-        },
-    ];
-    return function(){
-        var ctx = $(canSelector)[0].getContext("2d");
-        //类型字符串数组
-        var staTypeArr = ['bar','line','radar','doughnut'];
-        //类型名
-        var type = "";
-        //循环遍历，有对应的类的按钮既是被选择的按钮
-        var len = urlAndSta.length;
-        var url = "";
-        var data = null;
-        //必须先获取数据data
-        for(var i=0;i<len;i++){
-            if($(staTypes[i]).hasClass("btn-success") && i!=1){
-                //i不等于1时生成与图表对应的颜色数
-                var boderColorArr = [],
-                    bgColorArr = [];
-                for(var j=0;j<len;j++){
-                    var color = 'rgba('+randInt(255)+', '+randInt(150)+', '+randInt(50);
-                    bgColorArr.push(color + ', 0.2)');
-                    boderColorArr.push(color + ', 1)');
-                }
-                data = staTemplateData[0];
-                data.datasets[0].backgroundColor = bgColorArr;
-                data.datasets[0].borderColor = boderColorArr;
-                type = staTypeArr[i];
-            }else if($(staTypes[i]).hasClass("btn-success")){
-                data = staTemplateData[1];
-                type = staTypeArr[i];
-            }
-        }
-        for(i=0;i<len;i++){
-            if($(urlAndSta[i].selector).hasClass("btn-danger")){
-                url = urlAndSta[i].url;
-                //加入标题
-                if( legends instanceof Array){
-                    data.datasets[0].label = legends[i];
-                }else{
-                    data.datasets[0].label = legends;
-                }
-            }
-        }
-        $.ajax({
-            url: url,
-            type: "get",
-            context: $(this),
-            success:function (datas) {
-
-                var labelArr = [],
-                    dataArr = [];
-                //将返回值封装为数组用于图表展示
-                var len = datas.length;
-                for(var i=0;i<len;i++){
-                    //x轴
-                    labelArr.push(datas[i].name);
-                    //y轴
-                    dataArr.push(datas[i].cont);
-                }
-                data.labels = labelArr;
-                data.datasets[0].data = dataArr;
-                //清除上一种显示状态
-                if(chart) chart.destroy();
-                chart = new Chart(ctx, {
-                    type: type,
-                    data: data
-                });
-            }
-        })
-    }
-}
-//展示柱状图
-function showBar(){
-    var ctx = $("#subjectChartCanvase")[0].getContext("2d");
-    $.ajax({
-        url: "subject/queryDateAndType",
-        type: "get",
-        context: $(this),
-        success:function (datas) {
-            var labelArr = [],
-                dataArr = [];
-            //将返回值封装为数组用于图表展示
-            var len = datas.length;
-            for(var i=0;i<len;i++){
-                labelArr.push(datas[i].subjectType);
-                dataArr.push(datas[i].cont);
-            }
-            barData.labels = labelArr;
-            barData.datasets[0].data = dataArr;
-            var char = new Chart(ctx, {
-                type: 'bar',
-                data: barData
-            });
-        }
-    })
-}
-/**
- * 随机整数，高位为空时从零到低位
- * @param low 低位
- * @param high 高位
- */
-function randInt(low,high) {
-    var ret = 0;
-    if(high){
-        ret = parseInt(Math.random() * (high - low) + low);
-    }else{
-        ret = parseInt(Math.random() * low);
-    }
-    return ret;
-}

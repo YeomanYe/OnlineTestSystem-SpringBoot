@@ -88,7 +88,7 @@ public interface SubjectService {
      * 查询分数为了统计
      * @return
      */
-    public List queryScoreForSTa();
+    public List queryScoreForSta();
 
     /**
      * 导入Excel

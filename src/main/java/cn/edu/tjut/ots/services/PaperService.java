@@ -56,4 +56,11 @@ public interface PaperService {
      * @return
      */
     public Map queryPaper4Update(String paperId);
+
+    /**
+     * 查询为了统计
+     * @param type
+     * @return
+     */
+    public List queryForSta(String type);
 }

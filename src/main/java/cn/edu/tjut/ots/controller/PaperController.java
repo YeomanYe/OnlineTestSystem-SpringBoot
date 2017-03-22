@@ -75,4 +75,11 @@ public class PaperController {
     public Map queryPaper4Update(@RequestParam("paperId")String paperId){
         return paperServiceImpl.queryPaper4Update(paperId);
     }
+
+    @ResponseBody
+    @RequestMapping("queryForSta")
+    public List queryForSta(@RequestParam("type") String type){
+        return paperServiceImpl.queryForSta(type);
+    }
+
 }

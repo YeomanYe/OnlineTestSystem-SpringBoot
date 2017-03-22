@@ -41,15 +41,12 @@ $(function () {
             }
         ]
     });
-
-    /*
-     $(".clsBtn").click(function () {
-     //获取需要关闭的modal的ID
-     var modal = $(this).data("dismiss");
-     $("#" + modal).hide();
-
-     })
-     */
+    //给关闭按钮添加关闭事件
+    $(".clsBtn").click(function () {
+        //获取需要关闭的modal的ID
+        var modal = $(this).data("dismiss");
+        $("#" + modal).hide();
+    });
     //绑定事件处理函数
     //给关闭按钮添加事件
     $("#addPaper").click(toggleTabs("paperAddTab", "添加试题", "paper/addPaperPage", null,
@@ -83,8 +80,8 @@ $(function () {
                     table.rows().iterator('row', function (context, index) {
                         var $check = $($(this.row(index).node())[0]).find(":checkbox");
                         var len = subjectIds.length;
-                        for(var i=0;i<len;i++){
-                            if(subjectIds[i] == $check.val())
+                        for (var i = 0; i < len; i++) {
+                            if (subjectIds[i] == $check.val())
                                 $check.prop({checked: true});
                         }
                     })
@@ -121,6 +118,26 @@ $(function () {
         }
     });
     $("#refreshPaper").click(paperRefresh);
+    $("#chartPaper").click(function () {
+        openDialog("#paperChartDialog", null);
+    })
+    //图表Dialog,点击按钮切换样式事件
+    $(".blue-button-group button").click(setBtnStyle("btn-danger", "btn-default"));
+    $(".green-button-group button").click(setBtnStyle("btn-success", "btn-default"));
+    $("#launchStaPaper").click(staHandler("#paperChartCanvase", [{
+            selector: "#staPaperUpdateWhen",
+            url: "paper/queryForSta?type=updateWhen"
+        }, {
+            selector: "#staPaperSubjectCnt",
+            url: "paper/queryForSta?type=subjectCnt"
+        }, {
+            selector: "#staPaperType",
+            url: "paper/queryForSta?type=type"
+        }, {
+            selector: "#staPaperAnsTime",
+            url: "paper/queryForSta?type=ansTime"
+        }], ["#staPaperBar", "#staPaperLine", "#staPaperRadar", "#staPaperDoughnut"],
+        ["更新时间", "试卷题量", "试卷类型", "答卷时间"]));
     //绑定第一个复选框为反选按钮
     $("#paper1 :checkbox:first").click(function (evt) {
         $("#paper1 :checkbox:not(:first)").each(function () {
@@ -181,3 +198,4 @@ function resetAddPaperForm() {
 function paperRefresh() {
     $('#paper1').DataTable().ajax.reload();
 }
+

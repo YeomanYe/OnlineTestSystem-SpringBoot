@@ -59,6 +59,44 @@
 </div>
 <!--/.tab-pane -->
 
+<div class="modal" id="paperChartDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close clsBtn" data-dismiss="paperChartDialog" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">图表展示</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <canvas width="600" height="230" id="paperChartCanvase"></canvas>
+                </div>
+                <div class="row blue-button-group">
+                    <button type="button" id="staPaperUpdateWhen" class="btn pull-right btn-default margin">时间
+                    </button>
+                    <button type="button" id="staPaperSubjectCnt" class="btn pull-right btn-default margin">题量</button>
+                    <button type="button" id="staPaperType" class="btn pull-right btn-default btn-danger margin">类型
+                    </button>
+                    <button type="button" id="staPaperAnsTime" class="btn pull-right btn-default margin">分值</button>
+                </div>
+                <div class="row green-button-group">
+                    <button type="button" id="staPaperBar" class="btn pull-right btn-default btn-success margin">柱状图
+                    </button>
+                    <button type="button" id="staPaperLine" class="btn pull-right btn-default margin">折线图</button>
+                    <button type="button" id="staPaperRadar" class="btn pull-right btn-default margin">雷达图</button>
+                    <button type="button" id="staPaperDoughnut" class="btn pull-right btn-default margin">饼图</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="launchStaPaper" class="btn btn-warning margin">统计</button>
+                <button type="button" class="btn btn-info clsBtn" data-dismiss="paperChartDialog">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 
 <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.css"/>
 <style>

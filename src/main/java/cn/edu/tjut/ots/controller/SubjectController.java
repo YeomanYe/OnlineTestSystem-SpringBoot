@@ -160,7 +160,7 @@ public class SubjectController {
     @ResponseBody
     @RequestMapping("queryScoreForSta")
     public List queryScoreForSta(){
-        return subjectServiceImpl.queryScoreForSTa();
+        return subjectServiceImpl.queryScoreForSta();
     }
 
     /**

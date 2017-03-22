@@ -87,4 +87,16 @@ public class PaperServiceImpl implements PaperService {
         maps.put("paper",paper);
         return maps;
     }
+
+    @Override
+    public List queryForSta(String type) {
+        List list = null;
+        switch (type){
+            case "type":list = paperDao.queryTypeForSta();break;
+            case "updateWhen":list = paperDao.queryUpdateWhenForSta();break;
+            case "ansTime":list = paperDao.queryAnsTimeForSta();break;
+            case "subjectCnt":list = paperDao.querySubjectCntForSta();break;
+        }
+        return list;
+    }
 }

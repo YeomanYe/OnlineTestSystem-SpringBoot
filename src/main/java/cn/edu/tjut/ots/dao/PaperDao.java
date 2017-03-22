@@ -36,6 +36,20 @@ public interface PaperDao {
     //查询试卷对应的试题id列表
     @Select("SELECT subjectId FROM paper_subject WHERE paperid = #{param}")
     public List<String> querySubjectIdsByPaperId(String paperId);
+    //通过ID查询试卷信息
     @Select("SELECT * FROM paper WHERE uuid = #{param}")
     public Paper queryPaperById(String paperId);
+    //查询类型为了统计
+    @Select("SELECT b.name AS NAME,COUNT(*) AS CONT FROM paper p " +
+            "JOIN basedata b ON p.papertype = b.uuid GROUP BY b.name")
+    public List<Paper> queryTypeForSta();
+    //查询更新日期为了统计
+    @Select("SELECT to_char(p.updateWhen,'yyyy-mm-dd') AS NAME,COUNT(*) AS CONT FROM paper p GROUP BY p.updateWhen")
+    public List<Paper> queryUpdateWhenForSta();
+    //查询试题量为了统计
+    @Select("SELECT p.subjectCnt AS NAME,COUNT(*) AS CONT FROM paper p GROUP BY p.subjectCnt")
+    public List<Paper> querySubjectCntForSta();
+    //查询答题时间为了统计
+    @Select("SELECT p.ansTime AS NAME,COUNT(*) AS CONT FROM paper p GROUP BY p.ansTime")
+    public List<Paper> queryAnsTimeForSta();
 }

@@ -154,7 +154,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List queryScoreForSTa() {
+    public List queryScoreForSta() {
         return subjectDao.queryScoreForSta();
     }
 
