@@ -21,7 +21,7 @@
                         <div class="glyphicon glyphicon-remove" id="deletePaper" title="删除">删除</div>
                         <div class="glyphicon glyphicon-pencil" id="updatePaper" title="编辑">编辑</div>
                         <div class="glyphicon glyphicon-refresh" id="refreshPaper" title="刷新">刷新</div>
-                        <div class="glyphicon glyphicon-download-alt" id="downloadPaper" title="下载">下载</div>
+                        <div class="glyphicon glyphicon-download-alt" id="downloadPaper" title="下载"><a href="paper/downloadExcel"> 下载</a></div>
                         <div class="glyphicon glyphicon-stats" id="chartPaper" title="图表">图表</div>
                     </div>
                     <!-- /.box-header -->
@@ -72,12 +72,12 @@
                     <canvas width="600" height="230" id="paperChartCanvase"></canvas>
                 </div>
                 <div class="row blue-button-group">
-                    <button type="button" id="staPaperUpdateWhen" class="btn pull-right btn-default margin">时间
+                    <button type="button" id="staPaperUpdateWhen" class="btn pull-right btn-default margin">更新时间
                     </button>
-                    <button type="button" id="staPaperSubjectCnt" class="btn pull-right btn-default margin">题量</button>
-                    <button type="button" id="staPaperType" class="btn pull-right btn-default btn-danger margin">类型
+                    <button type="button" id="staPaperSubjectCnt" class="btn pull-right btn-default margin">试卷题量</button>
+                    <button type="button" id="staPaperType" class="btn pull-right btn-default btn-danger margin">试卷类型
                     </button>
-                    <button type="button" id="staPaperAnsTime" class="btn pull-right btn-default margin">分值</button>
+                    <button type="button" id="staPaperAnsTime" class="btn pull-right btn-default margin">答题时间</button>
                 </div>
                 <div class="row green-button-group">
                     <button type="button" id="staPaperBar" class="btn pull-right btn-default btn-success margin">柱状图
@@ -107,7 +107,9 @@
     #paperInfoDialog {
         display: none;
     }
-
+    #downloadPaper a{
+        color:black;
+    }
     #dig_paperName {
         font-weight: bold;
     }

@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -80,6 +83,19 @@ public class PaperController {
     @RequestMapping("queryForSta")
     public List queryForSta(@RequestParam("type") String type){
         return paperServiceImpl.queryForSta(type);
+    }
+
+    @RequestMapping("downloadExcel")
+    public void downloadExcel(HttpServletResponse rep){
+        rep.setHeader("Content-Disposition", "attachment; filename=paper.xlsx");
+        rep.setContentType("application/octet-stream;charset=UTF-8");
+        OutputStream os = null;
+        try {
+            os = rep.getOutputStream();
+            paperServiceImpl.exportPaper(os);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

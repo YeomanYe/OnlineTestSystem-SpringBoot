@@ -4,10 +4,13 @@ import cn.edu.tjut.ots.dao.PaperDao;
 import cn.edu.tjut.ots.po.Paper;
 import cn.edu.tjut.ots.services.PaperService;
 import cn.edu.tjut.ots.utils.CreateUserBy;
+import cn.edu.tjut.ots.utils.ExcelUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.*;
 
 /**
@@ -98,5 +101,15 @@ public class PaperServiceImpl implements PaperService {
             case "subjectCnt":list = paperDao.querySubjectCntForSta();break;
         }
         return list;
+    }
+
+    @Override
+    public void exportPaper(OutputStream os) {
+        List<Paper> papers = paperDao.queryDetailPaper();
+        try {
+            ExcelUtil.excelExport(Paper.class,os,papers);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

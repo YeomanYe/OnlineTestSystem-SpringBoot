@@ -10,10 +10,15 @@ import java.util.List;
  */
 @Mapper
 public interface PaperDao {
-    //查询试卷信息
+    //查询试卷简要信息
     @Select("select t.uuid,t.paperName,b.name AS paperType,t.subjectCnt,t.ansTime,to_char(t.updatewhen,'yyyy-mm-dd') AS updateWhenStr" +
             " from PAPER t JOIN BASEDATA b ON t.paperType = b.uuid")
     public List<Paper> queryBrifPaper();
+    //查询试卷详细信息
+    @Select("SELECT p.uuid,p.paperName,p.paperDesc,b.name AS paperType,p.subjectCnt,p.paperScore," +
+            "p.ansTime,p.createBy,p.createWhen,p.updateBy,p.updateWhen " +
+            " FROM paper p JOIN basedata b ON p.paperType = b.uuid")
+    public List<Paper> queryDetailPaper();
     //添加试卷
     @Insert("insert into paper (uuid,paperName,paperDesc,paperType," +
             "paperScore,ansTime,subjectCnt,createBy,createWhen,updateBy,updateWhen) " +

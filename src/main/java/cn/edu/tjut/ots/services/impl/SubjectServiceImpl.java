@@ -139,25 +139,6 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectDao.querySubjectType(uuid);
     }
 
-    public List queryTypeForSta(){
-        return subjectDao.queryTypeForSta();
-    }
-
-    @Override
-    public List queryUpdateWhenForSta() {
-        return subjectDao.queryUpdateWhenForSta();
-    }
-
-    @Override
-    public List queryUpdateByForSta() {
-        return subjectDao.queryUpdateByForSta();
-    }
-
-    @Override
-    public List queryScoreForSta() {
-        return subjectDao.queryScoreForSta();
-    }
-
     @Override
     public void imporExcel(InputStream is, String username) {
         List<Map<String,Object>> maps = null;
@@ -193,5 +174,17 @@ public class SubjectServiceImpl implements SubjectService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List queryForSta(String type) {
+        List retList = null;
+        switch (type){
+            case "updateBy":retList = subjectDao.queryUpdateByForSta();break;
+            case "updateWhen":retList = subjectDao.queryUpdateWhenForSta();break;
+            case "type":retList = subjectDao.queryTypeForSta();break;
+            case "score":retList = subjectDao.queryScoreForSta();break;
+        }
+        return retList;
     }
 }

@@ -3,6 +3,7 @@ package cn.edu.tjut.ots.services;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -63,4 +64,10 @@ public interface PaperService {
      * @return
      */
     public List queryForSta(String type);
+
+    /**
+     * 导出试题
+     * @param os
+     */
+    public void exportPaper(OutputStream os);
 }

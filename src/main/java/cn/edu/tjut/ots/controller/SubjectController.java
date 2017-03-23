@@ -143,44 +143,10 @@ public class SubjectController {
         return subjects;
     }
 
-    /**
-     * 查询日期为了统计
-     * @return
-     */
     @ResponseBody
-    @RequestMapping("queryTypeForSta")
-    public List queryTypeForSta(){
-        return subjectServiceImpl.queryTypeForSta();
-    }
-
-    /**
-     * 查询分数为了统计
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("queryScoreForSta")
-    public List queryScoreForSta(){
-        return subjectServiceImpl.queryScoreForSta();
-    }
-
-    /**
-     * 查询更新者为了统计
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("queryUpdateByForSta")
-    public List queryUpdateByForSta(){
-        return subjectServiceImpl.queryUpdateByForSta();
-    }
-
-    /**
-     * 查询更新时间为了统计
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("queryUpdateWhenForSta")
-    public List queryUpdateWhenForSta(){
-        return subjectServiceImpl.queryUpdateWhenForSta();
+    @RequestMapping("queryForSta")
+    public List queryForSta(@RequestParam("type")String type){
+        return subjectServiceImpl.queryForSta(type);
     }
 
     @ResponseBody
@@ -201,15 +167,12 @@ public class SubjectController {
 
     @RequestMapping("downloadExcel")
     public void excelExport(HttpServletResponse response){
-        response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=subject.xlsx");
         response.setContentType("application/octet-stream;charset=UTF-8");
         OutputStream os = null;
         try {
             os = response.getOutputStream();
             subjectServiceImpl.exportExcel(os);
-            os.flush();
-            os.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

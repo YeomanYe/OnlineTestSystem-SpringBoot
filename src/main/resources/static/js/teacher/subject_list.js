@@ -148,16 +148,16 @@ $(function () {
     $(".green-button-group button").click(setBtnStyle("btn-success", "btn-default"));
     $("#launchStaSubject").click(staHandler("#subjectChartCanvase",[{
         selector:"#staSubjectUpdateWhen",
-        url:"subject/queryUpdateWhenForSta"
+        url:"subject/queryForSta?type=updateWhen"
     },{
         selector:"#staSubjectUpdateBy",
-        url:"subject/queryUpdateByForSta"
+        url:"subject/queryForSta?type=updateBy"
     },{
         selector:"#staSubjectType",
-        url:"subject/queryTypeForSta"
+        url:"subject/queryForSta?type=type"
     },{
         selector:"#staSubjectScore",
-        url:"subject/queryScoreForSta"
+        url:"subject/queryForSta?type=score"
     }],["#staSubjectBar","#staSubjectLine","#staSubjectRadar","#staSubjectDoughnut"],
     ["更新时间","最后更新者","类型","分数"]));
     //上传文件触发ajax文件上传事件
