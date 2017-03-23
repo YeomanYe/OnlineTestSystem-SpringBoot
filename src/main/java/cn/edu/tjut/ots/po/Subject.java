@@ -27,8 +27,8 @@ public class Subject {
     private String updateBy;
     //更新时间
     private Date updateWhen;
-    //图片路径地址
-    private String imgPath;
+    //图片ID
+    private String imgId;
     //更新时间字符串表示
     private String updateWhenStr;
     //数量,辅助变量,用于统计图
@@ -36,12 +36,12 @@ public class Subject {
     //名称，辅助变量，用于统计图
     private String name;
 
-    public String getImgPath() {
-        return imgPath;
+    public String getImgId() {
+        return imgId;
     }
 
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
+    public void setImgId(String imgId) {
+        this.imgId = imgId;
     }
 
     public String getName() {

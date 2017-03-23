@@ -9,6 +9,7 @@ import cn.edu.tjut.ots.services.SubjectService;
 import cn.edu.tjut.ots.utils.CreateUserBy;
 import cn.edu.tjut.ots.utils.EmptyUtil;
 import cn.edu.tjut.ots.utils.ExcelUtil;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import java.util.*;
  */
 @Service
 @Transactional
+@Scope("singleton")
 public class SubjectServiceImpl implements SubjectService {
     @Resource
     private SubjectDao subjectDao;

@@ -1,6 +1,7 @@
 package cn.edu.tjut.ots.controller;
 
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
  * 登陆控制器
  */
 @Controller
+@Scope("prototype")
 public class LoginController {
     @RequestMapping(path = "/login.html")
     public String loginPage() {

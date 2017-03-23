@@ -9,7 +9,7 @@ server:
 mybatis:
   config-location: classpath:mybatis.xml
 logging:
-  file: log4j.properties
+#  file: log4j.properties
   level:
     org.springframework.web: DEBUG
     org.apache.ibatis: DEBUG

@@ -233,3 +233,28 @@ function randInt(low,high) {
     }
     return ret;
 }
+
+/**
+ * 文件上传函数生成器
+ * @param form
+ * @param url
+ * @param call 成功时的回调函数
+ * @returns {Function}
+ */
+function uploadFile(form,url,call) {
+    return function(){
+        $(form).ajaxSubmit({
+            type: "POST",
+            url:url,
+            success: function(data){
+                if(data === true){
+                    alert("success");
+                    if(typeof call == "function") call();
+                }
+                else{
+                    alert("error");
+                }
+            }
+        });
+    }
+}

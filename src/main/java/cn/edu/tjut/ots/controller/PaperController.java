@@ -1,6 +1,7 @@
 package cn.edu.tjut.ots.controller;
 
 import cn.edu.tjut.ots.services.PaperService;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/paper")
+@Scope("prototype")
 public class PaperController {
     @Resource
     PaperService paperServiceImpl;

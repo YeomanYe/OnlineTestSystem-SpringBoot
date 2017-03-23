@@ -1,6 +1,7 @@
 package cn.edu.tjut.ots.controller;
 
 import cn.edu.tjut.ots.services.BaseDataService;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import java.util.Map;
  * Created by KINGBOOK on 2017/3/7.
  */
 @Controller
+@Scope("prototype")
 @RequestMapping("/baseData")
 public class BaseDataController {
     @Resource

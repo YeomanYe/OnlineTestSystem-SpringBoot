@@ -5,6 +5,7 @@ import cn.edu.tjut.ots.po.Paper;
 import cn.edu.tjut.ots.services.PaperService;
 import cn.edu.tjut.ots.utils.CreateUserBy;
 import cn.edu.tjut.ots.utils.ExcelUtil;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.*;
  */
 @Service
 @Transactional
+@Scope("singleton")
 public class PaperServiceImpl implements PaperService {
 
     @Resource

@@ -4,6 +4,7 @@ import cn.edu.tjut.ots.po.SubjectItem;
 import cn.edu.tjut.ots.services.SubjectItemService;
 import cn.edu.tjut.ots.services.SubjectService;
 import cn.edu.tjut.ots.utils.EmptyUtil;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import java.util.*;
  * Created by KINGBOOK on 2017/3/1.
  */
 @Controller
+@Scope("prototype")
 @RequestMapping("/subject")
 public class SubjectController {
 

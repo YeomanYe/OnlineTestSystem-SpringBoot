@@ -19,6 +19,9 @@ public interface SubjectDao {
             "#{uuid},#{subjectType},#{subjectName},#{subjectScore}," +
             "#{subjectParse},#{createBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'),#{updateBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'),'')")
     public void insertSubject(Subject subject);
+    //更新图片id
+    @Update("update subject set imgId=#{imgId} where uuid=#{uuid}")
+    public void updateImageId(Subject subject);
     //根据ID更新试题
     @Update("update subject set subjectType=#{subjectType},subjectName=#{subjectName}," +
             "subjectScore=#{subjectScore},subjectParse=#{subjectParse}," +
@@ -62,4 +65,7 @@ public interface SubjectDao {
     //查询分数为了统计
     @Select("SELECT COUNT(*) AS CONT,s.subjectScore AS NAME FROM subject  s GROUP BY s.subjectScore")
     public List<Subject> queryScoreForSta();
+    //清除subject的图片ID
+    @Update("update subject set imgId = '' where imgId = #{param}")
+    public void removeImgId(String imgId);
 }

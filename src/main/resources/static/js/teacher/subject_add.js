@@ -2,12 +2,12 @@ $(function () {
     var subjectId = $("#subjectId").val();
     //初始化试题类型
     $.ajax({
-        url:"baseData/queryByType?dataType=subjectType",
-        type:"get",
-        async:false,
-        success:function (datas) {
+        url: "baseData/queryByType?dataType=subjectType",
+        type: "get",
+        async: false,
+        success: function (datas) {
             var len = datas.length;
-            for(var i=0;i<len;i++){
+            for (var i = 0; i < len; i++) {
                 var $option = $("<option></option>").val(datas[i].uuid).text(datas[i].name);
                 $("#subjectType").append($option);
             }
@@ -28,8 +28,14 @@ $(function () {
         })
     }
 
+    //给关闭按钮添加关闭事件
+    $(".clsBtn").click(function () {
+        //获取需要关闭的modal的ID
+        var modal = $(this).data("dismiss");
+        $("#" + modal).hide();
+    });
     /**
-     * 事件处理函数
+     * 绑定事件处理函数
      */
     $("input[name='answers']").click(function (event) {
         event.stopPropagation();
@@ -76,10 +82,87 @@ $(function () {
         });
     })
     $('button[type="reset"]').click(resetAddSubjectForm);
-});
+    //打开上传图片会话框
+    $("#uploadSubjectImg").click(function () {
+        openDialog("#subjectImgDialog", null, function () {
+            //将试题ID复制到subjectImgForm表单下
+            var subjectId = $("#subjectId").val();
+            $("#subjectImgForm input[name='subjectId']").val(subjectId);
+            //清空原来的表格
+            $("#subjectImgTable").DataTable().destroy();
 
+            $("#subjectImgTable").DataTable({
+                "paging": false,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": true,
+                "ajax": {
+                    url: "image/queryImageBySubjectId?subjectId=" + subjectId,
+                    dataSrc: ''
+                },
+                "columns": [
+                    {data: 'fileType'},
+                    {data: 'formerName'},
+                    {data: 'fileSize'},
+                    {data: 'updateWhenStr'},
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [4],
+                        "data": "uuid",
+                        "render": function (data) {
+                            return '<a class="glyphicon glyphicon-download margin" href="image/downloadImage?imageId=' + data + '" title="下载"></a>'
+                                + '<div style="cursor: pointer;" class="glyphicon glyphicon-remove-circle margin" onclick="removeImage(\'' + data + '\')" title="删除"></div>';
+                        }
+                    }
+                ]
+            });
+
+        });
+    });
+    //上传图片
+    $("#uploadImgBtn").click(function () {
+        var subjectId = $("#subjectImgForm input[name='subjectId']").val();
+        //不存在ID则不能上传
+        if (subjectId == "") {
+            return;
+        }
+        console.log(subjectId);
+        uploadFile("#subjectImgForm", "image/saveImage",refreshSubjectImgTable)();
+    })
+});
+/**
+ * 重置添加表单
+ */
 function resetAddSubjectForm() {
     debugger;
     $("textarea").val("");
     $("input[type='text']").val("");
+}
+/**
+ * 刷新试题图片表格
+ */
+function refreshSubjectImgTable() {
+    $("#subjectImgTable").DataTable().ajax.reload();
+}
+/**
+ * 移除图片
+ * @param uuid
+ */
+function removeImage(uuid) {
+    $.ajax({
+        url: "image/removeImage?imageId="+uuid,
+        type: "get",
+        context: $(this),
+        success: function (data) {
+            if(data==true){
+                console.log("success");
+                refreshSubjectImgTable();
+            }else{
+                console.log("error");
+            }
+        }
+    });
 }

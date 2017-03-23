@@ -3,6 +3,7 @@ package cn.edu.tjut.ots.services.impl;
 import cn.edu.tjut.ots.dao.SubjectItemDao;
 import cn.edu.tjut.ots.po.SubjectItem;
 import cn.edu.tjut.ots.services.SubjectItemService;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @Service
 @Transactional
+@Scope("singleton")
 public class SubjectItemServiceImpl implements SubjectItemService {
     @Resource
     private SubjectItemDao subjectItemDao;

@@ -146,7 +146,7 @@ public class ExcelUtil {
                             items.add(subjectItem);
                         }
                         //设置图片路径为空,导入成果后才能更新图片
-                        subject.setImgPath("");
+                        subject.setImgId("");
                         map.put("subject", subject);
                         map.put("subjectItemList", items);
                         retList.add(map);
