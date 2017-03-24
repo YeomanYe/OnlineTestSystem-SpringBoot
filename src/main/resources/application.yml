@@ -4,6 +4,9 @@ spring:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     username: ots
     password: ots
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 server:
   context-path: /ots
 mybatis:

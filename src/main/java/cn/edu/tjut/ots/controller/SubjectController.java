@@ -52,9 +52,8 @@ public class SubjectController {
      */
     @ResponseBody
     @RequestMapping(path = "querySubjectInfo")
-    public List querySubjectInfo(@RequestParam(name = "uuid") String uuid) {
-        List<SubjectItem> subjectItems = subjectItemServiceImpl.querySubjectItem(uuid);
-        return subjectItems;
+    public Map querySubjectInfo(@RequestParam(name = "uuid") String uuid) {
+        return subjectServiceImpl.querySubject4Show(uuid);
     }
 
     /**

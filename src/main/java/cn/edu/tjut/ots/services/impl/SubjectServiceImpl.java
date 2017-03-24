@@ -1,8 +1,10 @@
 package cn.edu.tjut.ots.services.impl;
 
 import cn.edu.tjut.ots.dao.BaseDataDao;
+import cn.edu.tjut.ots.dao.ImageDao;
 import cn.edu.tjut.ots.dao.SubjectDao;
 import cn.edu.tjut.ots.dao.SubjectItemDao;
+import cn.edu.tjut.ots.po.Image;
 import cn.edu.tjut.ots.po.Subject;
 import cn.edu.tjut.ots.po.SubjectItem;
 import cn.edu.tjut.ots.services.SubjectService;
@@ -32,6 +34,8 @@ public class SubjectServiceImpl implements SubjectService {
     private SubjectItemDao subjectItemDao;
     @Resource
     private BaseDataDao baseDataDao;
+    @Resource
+    private ImageDao imageDao;
 
     public List<Subject> querySubject() {
         return subjectDao.querySubject();
@@ -39,6 +43,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     /**
      * 添加试题
+     *
      * @param subjectId
      * @param subjectType
      * @param subjectName
@@ -90,7 +95,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Map<String,Object> updateSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers, String username) {
+    public Map<String, Object> updateSubject(String subjectId, String subjectType, String subjectName, int subjectScore, String subjectParse, List<String> subjectItemIds, List<String> subjectItemNames, boolean[] answers, String username) {
         //存储保存的UUID用于返回
         Map<String, Object> retMap = new HashMap<>();
         //新建个Subject
@@ -130,9 +135,9 @@ public class SubjectServiceImpl implements SubjectService {
     public Map querySubject4Update(String uuid) {
         Object detailSubject = subjectDao.queryDetailSubject(uuid);
         Map map = new HashMap();
-        map.put("subject",detailSubject);
+        map.put("subject", detailSubject);
         List items = subjectItemDao.querySubjectItem(uuid);
-        map.put("items",items);
+        map.put("items", items);
         return map;
     }
 
@@ -143,15 +148,15 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public void imporExcel(InputStream is, String username) {
-        List<Map<String,Object>> maps = null;
+        List<Map<String, Object>> maps = null;
         try {
-            maps = ExcelUtil.excelImport(Subject.class,is);
+            maps = ExcelUtil.excelImport(Subject.class, is);
             for (Map<String, Object> map : maps) {
-                Subject subject = (Subject)map.get("subject");
-                List<SubjectItem> items = (List)map.get("subjectItemList");
+                Subject subject = (Subject) map.get("subject");
+                List<SubjectItem> items = (List) map.get("subjectItemList");
                 String typeId = baseDataDao.querySubjectTypeIdByName(subject.getSubjectType());
                 subject.setSubjectType(typeId);
-                CreateUserBy.setUser(subject,null,username);
+                CreateUserBy.setUser(subject, null, username);
                 subjectDao.insertSubject(subject);
                 subjectItemDao.insertBatchItem(items);
             }
@@ -163,16 +168,16 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public void exportExcel(OutputStream os) {
         List<Subject> subjects = subjectDao.queryDetailSubjectList();
-        List<Map<String,Object>> maps = new LinkedList<>();
+        List<Map<String, Object>> maps = new LinkedList<>();
         for (Subject subject : subjects) {
             List<SubjectItem> items = subjectItemDao.querySubjectItem(subject.getUuid());
-            Map<String,Object> map = new HashMap<>();
-            map.put("subject",subject);
-            map.put("subjectItemList",items);
+            Map<String, Object> map = new HashMap<>();
+            map.put("subject", subject);
+            map.put("subjectItemList", items);
             maps.add(map);
         }
         try {
-            ExcelUtil.excelExport(Subject.class,os,maps);
+            ExcelUtil.excelExport(Subject.class, os, maps);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,12 +186,36 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public List queryForSta(String type) {
         List retList = null;
-        switch (type){
-            case "updateBy":retList = subjectDao.queryUpdateByForSta();break;
-            case "updateWhen":retList = subjectDao.queryUpdateWhenForSta();break;
-            case "type":retList = subjectDao.queryTypeForSta();break;
-            case "score":retList = subjectDao.queryScoreForSta();break;
+        switch (type) {
+            case "updateBy":
+                retList = subjectDao.queryUpdateByForSta();
+                break;
+            case "updateWhen":
+                retList = subjectDao.queryUpdateWhenForSta();
+                break;
+            case "type":
+                retList = subjectDao.queryTypeForSta();
+                break;
+            case "score":
+                retList = subjectDao.queryScoreForSta();
+                break;
         }
         return retList;
+    }
+
+    @Override
+    public Map querySubject4Show(String subjectId) {
+        if(EmptyUtil.isFieldEmpty(subjectId)) return null;
+        Map<String,Object> map = new HashMap();
+        Subject subject = subjectDao.querySubjectById(subjectId);
+        Image image = null;
+        if (!EmptyUtil.isFieldEmpty(subject.getImgId()))
+            image = imageDao.queryImageById(subject.getImgId()).get(0);
+        //存入图片相对路径
+        if(!EmptyUtil.isObjEmpty(image)) map.put("src",image.getRelPath());
+        map.put("subjectName",subject.getSubjectName());
+        map.put("subjectParse",subject.getSubjectParse());
+        map.put("subjectItems",subjectItemDao.querySubjectItem(subjectId));
+        return map;
     }
 }

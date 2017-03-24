@@ -83,4 +83,11 @@ public interface SubjectService {
      * @return
      */
     public List queryForSta(String type);
+
+    /**
+     * 查询试题用于展示
+     * @param subjectId
+     * @return
+     */
+    public Map querySubject4Show(String subjectId);
 }

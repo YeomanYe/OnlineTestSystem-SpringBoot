@@ -1,3 +1,4 @@
+var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 $(function () {
     toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage")();
     /*设置事件处理函数*/

@@ -41,4 +41,11 @@ $(function () {
             }
         ]
     });
+    $("#refreshBaseData").click(refreshBaseData);
 });
+/**
+ * 刷新基础数据表
+ */
+function refreshBaseData() {
+    $('#baseData1').DataTable().ajax.reload();
+}

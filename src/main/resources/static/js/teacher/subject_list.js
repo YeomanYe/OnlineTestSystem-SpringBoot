@@ -4,7 +4,7 @@
 $(function () {
     $('#subject1').DataTable({
         "paging": true,
-        "pageingType":"input",
+        "pageingType": "input",
         "lengthChange": true,
         "searching": true,
         "ordering": true,
@@ -35,8 +35,9 @@ $(function () {
             },
             {
                 "targets": [5],
-                "render": function () {
-                    return '<div class="fa fa-fw fa-file tb_subjectInfo" onclick="subjectInfoClick()" title="详情"></div>';
+                "data": "uuid",
+                "render": function (data) {
+                    return '<div class="fa fa-fw fa-file tb_subjectInfo" onclick="subjectInfoShow(\''+data+'\',\'#subjectInfoDialog\')" title="详情"></div>';
                 }
             }
         ]
@@ -128,10 +129,10 @@ $(function () {
     });
     $("#refreshSubject").click(subjectRefresh);
     $("#chartSubject").click(function () {
-        openDialog("#subjectChartDialog",null);
+        openDialog("#subjectChartDialog", null);
     });
     $("#uploadSubject").click(function () {
-        openDialog("#subjectUploadDialog",null)
+        openDialog("#subjectUploadDialog", null)
     });
     //绑定第一个复选框为反选按钮
     $("#subjectFirstCheck").click(function (evt) {
@@ -146,50 +147,62 @@ $(function () {
     //图表Dialog,点击按钮切换样式事件
     $(".blue-button-group button").click(setBtnStyle("btn-danger", "btn-default"));
     $(".green-button-group button").click(setBtnStyle("btn-success", "btn-default"));
-    $("#launchStaSubject").click(staHandler("#subjectChartCanvase",[{
-        selector:"#staSubjectUpdateWhen",
-        url:"subject/queryForSta?type=updateWhen"
-    },{
-        selector:"#staSubjectUpdateBy",
-        url:"subject/queryForSta?type=updateBy"
-    },{
-        selector:"#staSubjectType",
-        url:"subject/queryForSta?type=type"
-    },{
-        selector:"#staSubjectScore",
-        url:"subject/queryForSta?type=score"
-    }],["#staSubjectBar","#staSubjectLine","#staSubjectRadar","#staSubjectDoughnut"],
-    ["更新时间","最后更新者","类型","分数"]));
+    $("#launchStaSubject").click(staHandler("#subjectChartCanvase", [{
+            selector: "#staSubjectUpdateWhen",
+            url: "subject/queryForSta?type=updateWhen"
+        }, {
+            selector: "#staSubjectUpdateBy",
+            url: "subject/queryForSta?type=updateBy"
+        }, {
+            selector: "#staSubjectType",
+            url: "subject/queryForSta?type=type"
+        }, {
+            selector: "#staSubjectScore",
+            url: "subject/queryForSta?type=score"
+        }], ["#staSubjectBar", "#staSubjectLine", "#staSubjectRadar", "#staSubjectDoughnut"],
+        ["更新时间", "最后更新者", "类型", "分数"]));
     //上传文件触发ajax文件上传事件
-    $("#uploadSubjectBtn").click(uploadFile("#subjectUploadForm","subject/uploadExcel",subjectRefresh));
+    $("#uploadSubjectBtn").click(uploadFile("#subjectUploadForm", "subject/uploadExcel", subjectRefresh));
 });
-var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 /**
  * 点击显示试题信息
  必须在页面中绑定，因为使用的前端分页不会扫描出所有元素，造成除第一页的元素都没有事件
  */
-function subjectInfoClick() {
-    $(".tb_subjectInfo").click(function () {
-        //获取subjectId
-        var uuid = $(this).parent().siblings().children().filter(":checkbox").val();
-        $.ajax({
-            url: "subject/querySubjectInfo?uuid=" + uuid,
-            type: "get",
-            context: $(this),
-            success: function (datas) {
-
-                var subjectNameText = $(this).parent().siblings().filter(".tb_subjectName").text();
-                var answerStr = "答案: ";
-                var subjectItem = "";
-                for (var i = 0, len = datas.length; i < len; i++) {
-                    subjectItem += "<p>" + ALPHA_CONSTANT.charAt(i) + ". " + datas[i].name + "</p>"
-                    if (datas[i].answer) answerStr += ALPHA_CONSTANT.charAt(i);
-                }
-                var content = "<p id='dig_subjectName'>" + subjectNameText + "</p>"
-                    + subjectItem + "<p>" + answerStr + "</p>";
-                openDialog("#subjectInfoDialog", content);
+function subjectInfoShow(uuid,dialogSelector) {
+    //获取subjectId
+    $.ajax({
+        url: "subject/querySubjectInfo?uuid=" + uuid,
+        type: "get",
+        context: $(this),
+        success: function (dataSet) {
+            if (dataSet == null) {
+                return;
             }
-        });
+            var datas = dataSet.subjectItems,
+                subjectNameText = dataSet.subjectName,
+                answerStr = "答案: ",
+                subjectItem = "",
+                subjectParse = "解析: " ,
+                src = dataSet.src;
+            for (var i = 0, len = datas.length; i < len; i++) {
+                subjectItem += "<p>" + ALPHA_CONSTANT.charAt(i) + ". " + datas[i].name + "</p>"
+                if (datas[i].answer) answerStr += ALPHA_CONSTANT.charAt(i);
+            }
+            var content = "<p id='dig_subjectName'>" + subjectNameText + "</p>";
+            //存在图片才加入图片元素
+            if (src) {
+                console.log(src);
+                content += '<img class="img-responsive pad" src="' + src + '">'
+            }
+            //如果没有解析则显示无
+            if(!dataSet.subjectParse){
+                subjectParse += "无";
+            }else{
+                subjectParse += dataSet.subjectParse;
+            }
+            content += subjectItem + "<p>" + answerStr + "</p><p>" + subjectParse + "</p>";
+            openDialog(dialogSelector, content);
+        }
     });
 }
 /**

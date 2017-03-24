@@ -130,7 +130,51 @@ $(function () {
             return;
         }
         console.log(subjectId);
-        uploadFile("#subjectImgForm", "image/saveImage",refreshSubjectImgTable)();
+        uploadFile("#subjectImgForm", "image/saveImage", refreshSubjectImgTable)();
+    });
+    $("#subjectImgFile").on('change', function () {
+        selectImage(this);
+    });
+    //预览试题
+    $("#previewSubject").click(function () {
+        var content = "",
+            subjectId = $("#subjectId").val(),
+            subjectName = "<p style='font-weight: bold;'>" + $("#subjectName").val() + "</p>",
+            subjectParse = "解析: " + $("#subjectParse").val(),
+            subjectItems = "",
+            $answers = $("input[name='answers']"),
+            answer = "答案: ",
+            num = 0;
+        $answers.each(function (index) {
+            if ($(this).val() == "true") {
+                answer += ALPHA_CONSTANT.charAt(index);
+            }
+            num++;
+        });
+        for (var i = 0; i < num; i++) {
+            subjectItems += "<p>" + ALPHA_CONSTANT.charAt(i) + ". " + $("input[name='subjectItem" + i + "']").val() + "</p>";
+        }
+        content += subjectName;
+        if (hasImage) {
+            content += '<img class="img-responsive pad" src="' + hasImage + '">';
+        }else if(subjectId){
+            //如果存在试题ID，查询其相应的图片
+            $.ajax({
+                url:"image/queryImageBySubjectId?subjectId=" + subjectId,
+                type:"get",
+                async:false,
+                success:function (datas) {
+                    if(datas.length){
+                        content += '<img class="img-responsive pad" src="' + datas[0].relPath + '">';
+                    }
+                }
+            });
+        }
+        content += subjectItems;
+        content += "<p style='font-weight: bold;'>" + answer + "</p>";
+        content += "<p>" + subjectParse + "</p>";
+        openDialog("#subjectPreviewDialog", content);
+
     })
 });
 /**
@@ -153,16 +197,33 @@ function refreshSubjectImgTable() {
  */
 function removeImage(uuid) {
     $.ajax({
-        url: "image/removeImage?imageId="+uuid,
+        url: "image/removeImage?imageId=" + uuid,
         type: "get",
         context: $(this),
         success: function (data) {
-            if(data==true){
+            if (data == true) {
                 console.log("success");
                 refreshSubjectImgTable();
-            }else{
+            } else {
                 console.log("error");
             }
         }
     });
+}
+
+/**
+ * 本地添加图片后预览
+ * @param file
+ */
+var hasImage = null; //判断是否有图片,有图片则存入图片数据
+function selectImage(file) {
+    if (!file.files || !file.files[0]) {
+        return;
+    }
+    var reader = new FileReader();
+    reader.onload = function (evt) {
+        // $("#previewImage").get(0).src = evt.target.result;
+        hasImage = evt.target.result;
+    };
+    reader.readAsDataURL(file.files[0]);
 }
