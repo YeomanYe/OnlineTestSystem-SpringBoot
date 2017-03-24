@@ -57,10 +57,7 @@ public class ImageServiceImpl implements ImageService {
         String presentName = Long.toString(System.currentTimeMillis()) + "." + suffix;
         String absPath = path + File.separator + presentName;
         String relPath = "images" + File.separator + "subjectImages" + File.separator + presentName;
-        //如果不存在文件夹，则创建
-        File pathFile = new File(path);
-        if (!pathFile.exists())
-            pathFile.mkdirs();
+
         //保存图片信息到数据库
         Image image = new Image();
         image.setUuid(imgId);
@@ -79,8 +76,21 @@ public class ImageServiceImpl implements ImageService {
         subjectDao.updateImageId(subject);
         //保存文件
         try {
+            //保存到资源文件夹中
+            //如果不存在文件夹，则创建
+            File pathFile = new File(path);
+            if (!pathFile.exists())
+                pathFile.mkdirs();
             byte[] fileBytes = file.getBytes();
             os = new FileOutputStream(absPath);
+            os.write(fileBytes);
+            os.flush();
+            os.close();
+            //保存到部署文件夹中
+            pathFile = new File(realPath + "images" + File.separator + "subjectImages" + File.separator);
+            if(!pathFile.exists())
+                pathFile.mkdirs();
+            os = new FileOutputStream(realPath + relPath);
             os.write(fileBytes);
             os.flush();
             os.close();
