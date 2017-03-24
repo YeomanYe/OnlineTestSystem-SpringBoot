@@ -1,8 +1,12 @@
 package cn.edu.tjut.ots.filter;
 
 
+import cn.edu.tjut.ots.po.Log;
+import cn.edu.tjut.ots.services.LogService;
 import cn.edu.tjut.ots.services.SubjectService;
 import cn.edu.tjut.ots.utils.EmptyUtil;
+import cn.edu.tjut.ots.utils.LogMap;
+import org.apache.log4j.Logger;
 
 import javax.annotation.Resource;
 import javax.servlet.*;
@@ -11,6 +15,7 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Created by KINGBOOK on 2017/3/16.
@@ -22,12 +27,18 @@ public class MyFilter implements Filter{
     @Resource
     private SubjectService subjectServiceImpl;
 
+    @Resource
+    private LogService logServiceImpl;
+
     private String[] excludeFilterArr = null;
+
+    private Logger filterLogger = Logger.getLogger(this.getClass());
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        filterLogger.debug("过滤器初始化。。。");
         excludeFilterArr = filterConfig.getInitParameter("excludeStr").split(";");
-        System.out.println("初始化");
+        filterLogger.debug("过滤器初始化完成。。。");
     }
 
     @Override
@@ -46,9 +57,37 @@ public class MyFilter implements Filter{
         if(EmptyUtil.isFieldEmpty(username)){
             session.setAttribute("username","admin");
         }
-        System.out.println("URI:" + req.getRequestURI());
-        System.out.println("URL:" + req.getRequestURL());
+        filterLogger.info("请求的URI:"+req.getRequestURI());
+        filterLogger.info("请求的URL:"+req.getRequestURL());
+        String operation = LogMap.getValue(req.getRequestURI());
+        if(!EmptyUtil.isObjEmpty(operation)){
+            Log log = new Log();
+            log.setIp(getRemoteHost(req));
+            log.setUuid(UUID.randomUUID().toString().replace("-",""));
+            log.setUserName((String)req.getSession().getAttribute("username"));
+            log.setOperation(operation);
+            logServiceImpl.addLog(log);
+        }
         filterChain.doFilter(servletRequest,servletResponse);
+    }
+
+    /**
+     * 获取IP
+     * @param request
+     * @return
+     */
+    public String getRemoteHost(HttpServletRequest request){
+        String ip = request.getHeader("x-forwarded-for");
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getRemoteAddr();
+        }
+        return ip.equals("0:0:0:0:0:0:0:1")?"127.0.0.1":ip;
     }
 
     @Override

@@ -20,3 +20,5 @@ logging:
     java.sql.Statement: DEBUG
     java.sql.PreparedStatement: DEBUG
     java.sql.ResultSet: DEBUG
+    cn.edu.tjut.ots.listener: DEBUG
+    cn.edu.tjut.ots.filter: DEBUG

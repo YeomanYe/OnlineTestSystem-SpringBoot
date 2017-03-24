@@ -7,4 +7,10 @@
             #{subjectId}
         </foreach>
     </delete>
+    <select id="queryCntSubjectInPaper" resultType="int">
+        SELECT COUNT(*) FROM paper_subject WHERE subjectId IN
+        <foreach collection="array" item="subjectId" open="(" close=")" separator=",">
+            #{subjectId}
+        </foreach>
+    </select>
 </mapper>

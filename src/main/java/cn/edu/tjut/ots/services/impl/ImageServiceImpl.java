@@ -40,7 +40,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void saveImage(String subjectId, MultipartFile file, String username) {
+    public void saveImage(String subjectId, MultipartFile file, String username, String realPath) {
         if (EmptyUtil.isObjEmpty(file)) return;
         //查询上个图片是否存在，若果存在则删除
         Subject lastSub = subjectDao.querySubjectById(subjectId);
@@ -51,7 +51,7 @@ public class ImageServiceImpl implements ImageService {
         //生成新图片的UUID
         String imgId = UUID.randomUUID().toString().replace("-", "");
         String path = new File("src/main/resources/static/images/subjectImages").getAbsolutePath();
-        //保存图片到文件中
+        //保存图片到文件中;需要保存到资源文件夹中和部署文件夹中
         OutputStream os = null;
         String suffix = file.getOriginalFilename().split("\\.")[1];
         String presentName = Long.toString(System.currentTimeMillis()) + "." + suffix;
@@ -97,7 +97,6 @@ public class ImageServiceImpl implements ImageService {
             String filePath = image.getAbsPath();
             File file = new File(filePath);
             if(file.exists()) file.delete();
-            subjectDao.removeImgId(imageId);
             imageDao.deleteImage(imageId);
         }
     }

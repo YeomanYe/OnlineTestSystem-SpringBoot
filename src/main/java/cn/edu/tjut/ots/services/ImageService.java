@@ -21,8 +21,9 @@ public interface ImageService {
      * @param subjectId
      * @param file
      * @param username
+     * @param realPath
      */
-    public void saveImage(String subjectId, MultipartFile file, String username);
+    public void saveImage(String subjectId, MultipartFile file, String username, String realPath);
 
     /**
      * 删除图片

@@ -65,7 +65,6 @@ public interface SubjectDao {
     //查询分数为了统计
     @Select("SELECT COUNT(*) AS CONT,s.subjectScore AS NAME FROM subject  s GROUP BY s.subjectScore")
     public List<Subject> queryScoreForSta();
-    //清除subject的图片ID
-    @Update("update subject set imgId = '' where imgId = #{param}")
-    public void removeImgId(String imgId);
+    //查询试题在表中的数量
+    public int queryCntSubjectInPaper(String[] subjectIds);
 }

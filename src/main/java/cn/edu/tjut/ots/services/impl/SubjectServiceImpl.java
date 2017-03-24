@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -128,7 +129,24 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public void deleteSubjectByIds(String[] uuids) {
-        subjectDao.deleteSubjectByIds(uuids);
+        //判断paper中是否含有该试题,若含有则返回并提示
+        if(subjectDao.queryCntSubjectInPaper(uuids)!=0) return;
+        if(!EmptyUtil.isObjEmpty(uuids)){
+            for(int len=uuids.length,i=0;i<len;i++){
+                Subject subject = subjectDao.querySubjectById(uuids[i]);
+                String imageId = subject.getImgId();
+                if(EmptyUtil.isFieldEmpty(imageId)) continue;
+                List<Image> images = imageDao.queryImageById(imageId);
+                Image image = images.get(0);
+                if(!EmptyUtil.isObjEmpty(image)){
+                    String filePath = image.getAbsPath();
+                    File file = new File(filePath);
+                    if(file.exists()) file.delete();
+                    imageDao.deleteImage(imageId);
+                }
+            }
+            subjectDao.deleteSubjectByIds(uuids);
+        }
     }
 
     @Override

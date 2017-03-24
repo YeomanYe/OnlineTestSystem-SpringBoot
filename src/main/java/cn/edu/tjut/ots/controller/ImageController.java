@@ -1,7 +1,6 @@
 package cn.edu.tjut.ots.controller;
 
 import cn.edu.tjut.ots.services.ImageService;
-import com.sun.deploy.net.HttpResponse;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +39,9 @@ public class ImageController {
             HttpSession session){
         boolean bool = false;
         MultipartHttpServletRequest multReq = (MultipartHttpServletRequest) req;
-        imageServiceImpl.saveImage(multReq.getParameter("subjectId"),multReq.getFile("subjectImgFile"), (String)session.getAttribute("username") );
+        imageServiceImpl.saveImage(multReq.getParameter("subjectId"),
+                multReq.getFile("subjectImgFile"), (String)session.getAttribute("username"),
+                session.getServletContext().getRealPath(""));
         bool = true;
         return bool;
     }
