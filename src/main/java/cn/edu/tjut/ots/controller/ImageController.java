@@ -48,9 +48,11 @@ public class ImageController {
 
     @ResponseBody
     @RequestMapping("removeImage")
-    public boolean removeImage(@RequestParam("imageId")String imageId){
+    public boolean removeImage(
+            @RequestParam("imageId")String imageId,
+            HttpSession session){
         boolean bool = false;
-        imageServiceImpl.deleteImage(imageId);
+        imageServiceImpl.deleteImage(imageId, session.getServletContext().getRealPath(""));
         bool = true;
         return bool;
     }

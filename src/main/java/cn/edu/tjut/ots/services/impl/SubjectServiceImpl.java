@@ -128,20 +128,27 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void deleteSubjectByIds(String[] uuids) {
+    public void deleteSubjectByIds(String[] uuids, String realPath) {
         //判断paper中是否含有该试题,若含有则返回并提示
         if(subjectDao.queryCntSubjectInPaper(uuids)!=0) return;
         if(!EmptyUtil.isObjEmpty(uuids)){
             for(int len=uuids.length,i=0;i<len;i++){
                 Subject subject = subjectDao.querySubjectById(uuids[i]);
+                //删除图片
                 String imageId = subject.getImgId();
                 if(EmptyUtil.isFieldEmpty(imageId)) continue;
                 List<Image> images = imageDao.queryImageById(imageId);
                 Image image = images.get(0);
                 if(!EmptyUtil.isObjEmpty(image)){
+                    //删除资源文件夹中的图片
                     String filePath = image.getAbsPath();
                     File file = new File(filePath);
                     if(file.exists()) file.delete();
+                    //删除部署文件夹中的图片
+                    filePath = realPath + image.getRelPath();
+                    file = new File(filePath);
+                    if(file.exists()) file.delete();
+                    //删除图片记录
                     imageDao.deleteImage(imageId);
                 }
             }

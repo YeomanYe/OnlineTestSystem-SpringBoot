@@ -46,7 +46,7 @@ public class ImageServiceImpl implements ImageService {
         Subject lastSub = subjectDao.querySubjectById(subjectId);
         String lastImgId = lastSub.getImgId();
         if(!EmptyUtil.isFieldEmpty(lastImgId)){
-            deleteImage(lastImgId);
+            deleteImage(lastImgId, realPath);
         }
         //生成新图片的UUID
         String imgId = UUID.randomUUID().toString().replace("-", "");
@@ -100,14 +100,21 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void deleteImage(String imageId) {
-        List<Image> images = imageDao.queryImageById(imageId);
-        Image image = images.get(0);
-        if(!EmptyUtil.isObjEmpty(image)){
-            String filePath = image.getAbsPath();
-            File file = new File(filePath);
-            if(file.exists()) file.delete();
-            imageDao.deleteImage(imageId);
+    public void deleteImage(String imageId, String realPath) {
+        if(!EmptyUtil.isFieldEmpty(imageId)){
+            List<Image> images = imageDao.queryImageById(imageId);
+            Image image = images.get(0);
+            if(!EmptyUtil.isObjEmpty(image)){
+                //删除资源文件夹中的图片
+                String filePath = image.getAbsPath();
+                File file = new File(filePath);
+                if(file.exists()) file.delete();
+                //删除部署文件夹中的图片
+                filePath = realPath + image.getRelPath();
+                file = new File(filePath);
+                if(file.exists()) file.delete();
+                imageDao.deleteImage(imageId);
+            }
         }
     }
 

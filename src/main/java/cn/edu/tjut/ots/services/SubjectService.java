@@ -49,8 +49,9 @@ public interface SubjectService {
     /**
      * 通过ID删除试题
      * @param uuids
+     * @param realPath
      */
-    public void deleteSubjectByIds(String[] uuids);
+    public void deleteSubjectByIds(String[] uuids, String realPath);
 
     /**
      * 查询试题为了更新

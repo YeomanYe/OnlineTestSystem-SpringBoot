@@ -28,8 +28,9 @@ public interface ImageService {
     /**
      * 删除图片
      * @param imageId
+     * @param realPath
      */
-    public void deleteImage(String imageId);
+    public void deleteImage(String imageId, String realPath);
 
     /**
      * 下载图片

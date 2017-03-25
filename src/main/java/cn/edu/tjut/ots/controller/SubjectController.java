@@ -1,6 +1,5 @@
 package cn.edu.tjut.ots.controller;
 
-import cn.edu.tjut.ots.po.SubjectItem;
 import cn.edu.tjut.ots.services.SubjectItemService;
 import cn.edu.tjut.ots.services.SubjectService;
 import cn.edu.tjut.ots.utils.EmptyUtil;
@@ -126,9 +125,11 @@ public class SubjectController {
      */
     @ResponseBody
     @RequestMapping("deleteSubject")
-    public boolean deleteSubjectById(@RequestParam("subjectIds") String[] subjectIds){
+    public boolean deleteSubjectById(
+            @RequestParam("subjectIds") String[] subjectIds,
+            HttpSession session){
         boolean bool = false;
-        subjectServiceImpl.deleteSubjectByIds(subjectIds);
+        subjectServiceImpl.deleteSubjectByIds(subjectIds, session.getServletContext().getRealPath(""));
         bool = true;
         return bool;
     }
