@@ -48,7 +48,6 @@ $(function () {
         $("#" + modal).hide();
     });
     //绑定事件处理函数
-    //给关闭按钮添加事件
     $("#addPaper").click(toggleTabs("paperAddTab", "添加试题", "paper/addPaperPage", null,
         function () {
             //清除添加表单
@@ -149,36 +148,7 @@ $(function () {
         })
     })
 });
-var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-/**
- * 点击显示试题信息
- 必须在页面中绑定，因为使用的前端分页不会扫描出所有元素，造成除第一页的元素都没有事件
- */
-function paperInfoClick() {
-    $(".tb_paperInfo").click(function () {
-        //获取paperId
-        var uuid = $(this).parent().siblings().children().filter(":checkbox").val();
-        $.ajax({
-            url: "paper/queryPaperInfo?uuid=" + uuid,
-            type: "get",
-            context: $(this),
-            success: function (datas) {
-                var paperNameText = $(this).parent().siblings().filter(".tb_paperName").text();
-                var digBody = $("#dig_paperName").parent();
-                digBody.html("");
-                digBody.append($("<p id='dig_paperName'>" + paperNameText + "</p>"));
-                var answerStr = "答案: ";
-                for (var i = 0, len = datas.length; i < len; i++) {
-                    $("#dig_paperName").parent().append($("<p>" + ALPHA_CONSTANT.charAt(i) + ". " + datas[i].name + "</p>"));
-                    if (datas[i].answer) answerStr += ALPHA_CONSTANT.charAt(i);
-                }
-                $("#dig_paperName").parent().append("<p>" + answerStr + "</p>")
-                $("#paperInfoDialog").css({"display": "block"})
 
-            }
-        });
-    });
-}
 /**
  * 清空添加试卷表单
  */

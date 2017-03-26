@@ -19,6 +19,7 @@ $(function () {
             //清除paperID值
             $("#paperId").val("");
         }));
+    $("#query_userLog").click(toggleTabs("userLogListTab","日志管理","userLog/listUserLogPage"))
 });
 /**
  * 切换标签页
@@ -141,7 +142,7 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
         //类型名
         var type = "";
         //循环遍历，有对应的类的按钮既是被选择的按钮
-        var len = urlAndSta.length;
+        var len = staTypes.length;
         var url = "";
         var data = null;
         //必须先获取数据data
@@ -150,7 +151,7 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
                 //i不等于1时生成与图表对应的颜色数
                 var boderColorArr = [],
                     bgColorArr = [];
-                for(var j=0;j<len;j++){
+                for(var j=0,len2=staTemplateData[0].datasets[0].data.length;j<len2;j++){
                     var color = 'rgba('+randInt(255)+', '+randInt(150)+', '+randInt(50);
                     bgColorArr.push(color + ', 0.2)');
                     boderColorArr.push(color + ', 1)');
@@ -164,6 +165,7 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
                 type = staTypeArr[i];
             }
         }
+        len = urlAndSta.length;
         for(i=0;i<len;i++){
             if($(urlAndSta[i].selector).hasClass("btn-danger")){
                 url = urlAndSta[i].url;

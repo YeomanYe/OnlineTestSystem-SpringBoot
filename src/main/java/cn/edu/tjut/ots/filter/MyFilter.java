@@ -1,8 +1,8 @@
 package cn.edu.tjut.ots.filter;
 
 
-import cn.edu.tjut.ots.po.Log;
-import cn.edu.tjut.ots.services.LogService;
+import cn.edu.tjut.ots.po.UserLog;
+import cn.edu.tjut.ots.services.UserLogService;
 import cn.edu.tjut.ots.services.SubjectService;
 import cn.edu.tjut.ots.utils.EmptyUtil;
 import cn.edu.tjut.ots.utils.LogMap;
@@ -28,7 +28,7 @@ public class MyFilter implements Filter{
     private SubjectService subjectServiceImpl;
 
     @Resource
-    private LogService logServiceImpl;
+    private UserLogService userLogServiceImpl;
 
     private String[] excludeFilterArr = null;
 
@@ -61,12 +61,12 @@ public class MyFilter implements Filter{
         filterLogger.info("请求的URL:"+req.getRequestURL());
         String operation = LogMap.getValue(req.getRequestURI());
         if(!EmptyUtil.isObjEmpty(operation)){
-            Log log = new Log();
-            log.setIp(getRemoteHost(req));
-            log.setUuid(UUID.randomUUID().toString().replace("-",""));
-            log.setUserName((String)req.getSession().getAttribute("username"));
-            log.setOperation(operation);
-            logServiceImpl.addLog(log);
+            UserLog userLog = new UserLog();
+            userLog.setIp(getRemoteHost(req));
+            userLog.setUuid(UUID.randomUUID().toString().replace("-",""));
+            userLog.setUserName((String)req.getSession().getAttribute("username"));
+            userLog.setOperation(operation);
+            userLogServiceImpl.addLog(userLog);
         }
         filterChain.doFilter(servletRequest,servletResponse);
     }

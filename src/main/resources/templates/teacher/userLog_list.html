@@ -1,0 +1,105 @@
+<div class="tab-pane active" id="userLogListTab">
+    <section class="content-header">
+        <h1>用户日志
+            <small>userlog list</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> 主目录</li>
+            <li class="active">日志管理</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row" xmlns:th="http://www.w3.org/1999/xhtml">
+            <div class="col-xs-12">
+                <!-- /.box -->
+                <div class="box">
+                    <div style="cursor: pointer;" class="box-header">
+                        <div class="glyphicon glyphicon-remove" id="deleteUserLog" title="删除">删除</div>
+                        <div class="glyphicon glyphicon-refresh" id="refreshUserLog" title="刷新">刷新</div>
+                        <div class="glyphicon glyphicon-download-alt" id="downloadUserLog" title="下载"><a href="userLog/downloadExcel">下载</a></div>
+                        <div class="glyphicon glyphicon-stats" id="chartUserLog" title="图表">图表</div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="userLog1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <form role="form" id="userLogListForm">
+                                        <table id="userLog1" class="table table-bordered table-striped dataTable">
+                                            <thead>
+                                            <tr>
+                                                <th>
+                                                    <input class="thCheckbox" type="checkbox"/></th>
+                                                <th>用户名</th>
+                                                <th>IP</th>
+                                                <th>操作</th>
+                                                <th>时间</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </section>
+</div>
+<!--/.tab-pane -->
+
+<div class="modal" id="userLogChartDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close clsBtn" data-dismiss="userLogChartDialog" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">图表展示</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <canvas width="600" height="230" id="userLogChartCanvase"></canvas>
+                </div>
+                <div class="row blue-button-group">
+                    <button type="button" id="staUserLogUserName" class="btn pull-right btn-default margin">用户名
+                    </button>
+                    <button type="button" id="staUserLogOperation" class="btn pull-right btn-default btn-danger margin">操作
+                    </button>
+                    <button type="button" id="staUserLogDate" class="btn pull-right btn-default margin">日期</button>
+                </div>
+                <div class="row green-button-group">
+                    <button type="button" id="staUserLogBar" class="btn pull-right btn-default btn-success margin">柱状图</button>
+                    <button type="button" id="staUserLogLine" class="btn pull-right btn-default margin">折线图</button>
+                    <button type="button" id="staUserLogRadar" class="btn pull-right btn-default margin">雷达图</button>
+                    <button type="button" id="staUserLogDoughnut" class="btn pull-right btn-default margin">饼图</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="launchStaUserLog" class="btn btn-warning margin">统计</button>
+                <button type="button" class="btn btn-info clsBtn" data-dismiss="userLogChartDialog">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.css"/>
+<style>
+    #userLogInfoDialog {
+        display: none;
+    }
+    #downloadUserLog a{
+        color:black;
+    }
+</style>
+<script src="AdminLTE-2.3.11/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="js/teacher/userLog_list.js"></script>

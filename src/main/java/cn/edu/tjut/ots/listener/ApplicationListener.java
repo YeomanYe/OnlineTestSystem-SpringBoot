@@ -22,7 +22,7 @@ public class ApplicationListener implements ServletContextListener {
         listenLogger.debug("上下文监听器初始化。。。");
         //将log映射文件中的键值对添加到LogMap中
         FileInputStream fis = null;
-        File f = new File("src/main/resources/log_map.properties");
+        File f = new File("src/main/resources/userLog_map.properties");
         InputStreamReader isr = null;
         Properties p = new Properties();
         try {
