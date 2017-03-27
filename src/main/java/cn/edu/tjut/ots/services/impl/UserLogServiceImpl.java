@@ -3,10 +3,13 @@ package cn.edu.tjut.ots.services.impl;
 import cn.edu.tjut.ots.dao.UserLogDao;
 import cn.edu.tjut.ots.po.UserLog;
 import cn.edu.tjut.ots.services.UserLogService;
+import cn.edu.tjut.ots.utils.ExcelUtil;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -48,5 +51,15 @@ public class UserLogServiceImpl implements UserLogService {
     @Override
     public void deleteUserLogByIds(String[] ids) {
         userLogDao.deleteUserLogByIds(ids);
+    }
+
+    @Override
+    public void exportExcel(OutputStream os) {
+        List<UserLog> userLogs = userLogDao.queryAllUserLog();
+        try {
+            ExcelUtil.excelExport(UserLog.class,os,userLogs);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

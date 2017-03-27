@@ -2,6 +2,7 @@ package cn.edu.tjut.ots.services;
 
 import cn.edu.tjut.ots.po.UserLog;
 
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -32,4 +33,10 @@ public interface UserLogService {
      * @param ids
      */
     public void deleteUserLogByIds(String[] ids);
+
+    /**
+     * 导出excel
+     * @param os
+     */
+    public void exportExcel(OutputStream os);
 }

@@ -47,4 +47,29 @@ public class BaseDataController {
     public List refreshBaseData(){
         return baseDataServiceImpl.queryBaseData();
     }
+
+    @ResponseBody
+    @RequestMapping("queryType")
+    public List queryType(){
+        return baseDataServiceImpl.queryBaseDataType();
+    }
+
+    @ResponseBody
+    @RequestMapping("deleteBaseData")
+    public boolean deleteBaseData(@RequestParam("baseDataIds")String[] ids){
+        boolean bool = false;
+        baseDataServiceImpl.deleteBaseData(ids);
+        bool = true;
+        return bool;
+    }
+
+    @ResponseBody
+    @RequestMapping("mergeBaseData")
+    public String mergeBaseData(
+            @RequestParam("baseDataId")String baseDataId,
+            @RequestParam("baseDataType")String baseDataType,
+            @RequestParam("baseDataName")String baseDataName){
+        baseDataId = baseDataServiceImpl.mergeBaseData(baseDataId,baseDataType,baseDataName);
+        return baseDataId;
+    }
 }

@@ -1,5 +1,4 @@
-
-<div class="tab-pane active" id="baseDataListTab">
+<div class="tab-pane active" id="baseDataListTab" >
     <section class="content-header">
         <h1>基础数据
             <small>baseData list</small>
@@ -55,19 +54,42 @@
 
 
 <!-- /.tab-pane -->
-<div class="modal" id="baseDataInfoDialog">
+<div class="modal" id="baseDataAddDialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close clsBtn" data-dismiss="baseDataInfoDialog" aria-label="Close">
+                <button type="button" class="close clsBtn" data-dismiss="baseDataAddDialog" aria-label="Close">
                     <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">试题详情</h4>
+                <h4 class="modal-title">添加基础数据</h4>
             </div>
             <div class="modal-body">
-                <p id="dig_baseDataName"></p>
+                <form role="form" id="baseDataForm" action="baseData/addBaseData">
+                    <label>数据类型 &amp; 数据值</label>
+                    <input type="hidden" id="baseDataId" name="baseDataId" />
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <select name="baseDataType"
+                                        id="baseDataType" class="form-control select2 select2-hidden-accessible">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="input-group">
+                            <span class="input-group-addon" title="名称">
+                                <i class="fa fa-hand-o-right"></i>
+                            </span>
+                                <input id="baseDataName"
+                                       type="text"
+                                       name="baseDataName" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info clsBtn" data-dismiss="baseDataInfoDialog">关闭</button>
+                <button type="submit" class="btn btn-info" id="submitDataBaseBtn" >保存</button>
+                <button type="button" class="btn btn-info clsBtn" data-dismiss="baseDataAddDialog">关闭</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -77,19 +99,16 @@
 
 
 <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.css"/>
+<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/select2/select2.min.css"/>
+<link rel="stylesheet" href="AdminLTE-2.3.11/dist/css/AdminLTE.min.css"/>
+<link rel="stylesheet" href="AdminLTE-2.3.11/dist/css/skins/_all-skins.min.css"/>
 <style>
-    .tb_baseDataInfo {
-        cursor: pointer;
-    }
-
-    #baseDataInfoDialog {
+    #baseDataAddDialog {
         display: none;
     }
-
-    #dig_baseDataName {
-        font-weight: bold;
-    }
 </style>
+
 <script src="AdminLTE-2.3.11/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/select2/select2.full.min.js"></script>
 <script src="js/teacher/baseData_list.js"></script>

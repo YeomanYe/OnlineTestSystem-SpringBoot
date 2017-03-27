@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -44,5 +47,18 @@ public class UserLogController {
         userLogServiceImpl.deleteUserLogByIds(ids);
         bool = true;
         return bool;
+    }
+
+    @RequestMapping("downloadExcel")
+    public void downloadExcel(HttpServletResponse response){
+        response.setHeader("Content-Disposition", "attachment; filename=userLog.xlsx");
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        OutputStream os = null;
+        try {
+            os = response.getOutputStream();
+            userLogServiceImpl.exportExcel(os);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

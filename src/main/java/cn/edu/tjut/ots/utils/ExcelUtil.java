@@ -15,6 +15,7 @@ import java.util.UUID;
 import cn.edu.tjut.ots.po.Paper;
 import cn.edu.tjut.ots.po.Subject;
 import cn.edu.tjut.ots.po.SubjectItem;
+import cn.edu.tjut.ots.po.UserLog;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -43,6 +44,8 @@ public class ExcelUtil {
             exportSubject(wb, getHeadStyle(wb), getCellStyle(wb), list);
         }else if(clazz.equals(Paper.class)){
             exportPaper(wb,getHeadStyle(wb),getCellStyle(wb),list);
+        }else if(clazz.equals(UserLog.class)){
+            exportUserLog(wb,getHeadStyle(wb),getCellStyle(wb),list);
         }
         wb.write(os);
     }
@@ -263,6 +266,53 @@ public class ExcelUtil {
             cell = row.createCell(j);
             cell.setCellValue(ans.toString());
             cell.setCellStyle(cellStyle);
+        }
+    }
+
+    private static void exportUserLog(Workbook wb, CellStyle headStyle, CellStyle cellStyle, List<UserLog> datas) {
+        CreationHelper createHelper = wb.getCreationHelper();
+        Sheet sheet = wb.createSheet("用户日志表");
+        //创建表头
+        Row row = sheet.createRow(0);
+
+        Cell cell = row.createCell(0);
+        cell.setCellValue("用户名");
+        cell.setCellStyle(headStyle);
+
+        cell = row.createCell(1);
+        cell.setCellValue("IP");
+        cell.setCellStyle(headStyle);
+
+        cell = row.createCell(2);
+        cell.setCellValue("用户操作");
+        cell.setCellStyle(headStyle);
+
+        cell = row.createCell(3);
+        cell.setCellValue("时间");
+        cell.setCellStyle(headStyle);
+
+        int i = 1;
+        for (UserLog p : datas) {
+            //创建列
+            row = sheet.createRow(i);
+            ++i;
+            //填写试题数据
+            cell = row.createCell(0);
+            cell.setCellValue(p.getUserName());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(1);
+            cell.setCellValue(p.getIp());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(2);
+            cell.setCellValue(p.getOperation());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(3);
+            cell.setCellValue(p.getTimeStr());
+            cell.setCellStyle(cellStyle);
+
         }
     }
 
