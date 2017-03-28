@@ -15,6 +15,8 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -57,6 +59,11 @@ public class MyFilter implements Filter{
         if(EmptyUtil.isFieldEmpty(username)){
             session.setAttribute("username","admin");
         }
+        //测试权限
+        Set<String> set = new HashSet();
+        set.add("test");
+        set.add("test2");
+        session.setAttribute("resources",set);
         filterLogger.info("请求的URI:"+req.getRequestURI());
         filterLogger.info("请求的URL:"+req.getRequestURL());
         String operation = LogMap.getValue(req.getRequestURI());

@@ -19,7 +19,8 @@ $(function () {
             //清除paperID值
             $("#paperId").val("");
         }));
-    $("#query_userLog").click(toggleTabs("userLogListTab","日志管理","userLog/listUserLogPage"))
+    $("#query_userLog").click(toggleTabs("userLogListTab","日志管理","userLog/listUserLogPage"));
+    $("#query_permission").click(toggleTabs("permissionListTab","权限管理","permission/listPermissionPage"))
 });
 /**
  * 切换标签页

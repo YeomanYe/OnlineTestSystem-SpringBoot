@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -343,7 +343,7 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">显示时间</li>
-                <li class="treeview active">
+                <li th:remove="${#sets.contains(session.resources,'test')} ? none : all" class="treeview active">
                     <a href="#">
                         <i class="fa fa-edit"></i> <span>试题管理</span>
                         <span class="pull-right-container">
@@ -355,7 +355,7 @@
                         <li><a id="add_subject" href="#"><i class="glyphicon glyphicon-pencil"></i> 添加试题</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
+                <li th:remove="${#sets.contains(session.resources,'test')} ? none : all" class="treeview">
                     <a href="#">
                         <i class="fa fa-files-o"></i>
                         <span>试卷管理</span>
@@ -368,27 +368,24 @@
                         <li><a id="add_paper" href="#"><i class="glyphicon glyphicon-pencil"></i> 添加试卷</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
+                <li th:remove="${#sets.contains(session.resources,'test')} ? none : all" class="treeview">
                     <a id="query_basedata" href="#">
                         <i class="fa fa-table"></i> 基础数据
                     </a>
                     <ul class="treeview-menu">
                     </ul>
                 </li>
-                <li class="treeview">
+                <li th:remove="${#sets.contains(session.resources,'test')} ? none : all" class="treeview">
                     <a id="query_userLog" href="#">
                         <i class="fa fa-book"></i> <span>日志管理</span>
                     </a>
                     <ul class="treeview-menu">
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="#">
+                <li th:remove="${#sets.contains(session.resources,'test')} ? none : all" class="treeview">
+                    <a id="query_permission" href="#">
                         <i class="fa fa-laptop"></i>
                         <span>权限管理</span>
-                        <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
                     </a>
                     <ul class="treeview-menu">
                     </ul>
