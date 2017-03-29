@@ -24,7 +24,7 @@ $(function () {
                 "data": "userName",
                 "render": function (data) {
 
-                    return '<input name="userIds" type="checkbox" class="userCheckbox" value="' + data + '"/>'
+                    return '<input name="userNames" type="checkbox" class="userCheckbox" value="' + data + '"/>'
                 }
             }
         ]
@@ -81,31 +81,23 @@ $(function () {
             $("#againPassword").val("");
         })
     });
-    $("#updateUser").click(function () {
+    /*$("#updateUser").click(function () {
         var $checkedboxs = $(".userCheckbox:checked");
         if ($checkedboxs.length != 1) {
 
         } else {
             openDialog("#userAddDialog", null, function () {
-                $.ajax({
-                    type: "get",
-                    url: "permission/queryUserForUpdate?userName=" + $checkedboxs.val(),
-                    success: function (data) {
-                        $("#userName").val(data.userName);
-                        $("#password").val(data.pass);
-                        $("#againPassword").val(data.pass);
-                    }
-                })
+                $("#userName").val($checkedboxs.closest("tr").find(".userName").text());
             });
         }
-    });
+    });*/
     $("#deleteUser").click(function () {
         var $checkedboxs = $("table :checked");
         if (!$checkedboxs.length) {
 
         } else {
             $.ajax({
-                url: "permission/deleteUser",
+                url: "permission/deleteUsers",
                 type: "get",
                 data: $("#userListForm").serialize(),
                 context: $(this),
@@ -123,10 +115,12 @@ $(function () {
     $("#submitUserBtn").click(function () {
         $.ajax({
             type: "get",
-            url: "permission/mergeUser",
+            url: "permission/addUsers",
             data: $("#userForm").serialize(),
             success: function (data) {
-
+                if(data==true){
+                    userRefresh();
+                }
             }
         })
     })
@@ -182,6 +176,9 @@ $(function () {
                 }
             }
         })
+    });
+    $("#resourcesRelTree").click(function () {
+        openDialog("#resourcesDialog",null);
     })
     //绑定第一个复选框为反选按钮
     $("#userTable :checkbox:first").click(function (evt) {

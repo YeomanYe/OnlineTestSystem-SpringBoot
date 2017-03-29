@@ -13,4 +13,19 @@ public interface UsersService {
      * @return
      */
     public List<Users> queryUsers();
+
+    /**
+     * 添加用户
+     * @param userName
+     * @param pass
+     * @param againPass
+     * @param createBy
+     */
+    public boolean addUsers(String userName, String pass, String againPass, String createBy);
+
+    /**
+     * 删除用户
+     * @param userNames
+     */
+    public void deleteUsers(String[] userNames);
 }

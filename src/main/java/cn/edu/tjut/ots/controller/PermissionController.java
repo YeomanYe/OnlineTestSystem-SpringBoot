@@ -44,6 +44,12 @@ public class PermissionController {
         return roleServiceImpl.queryRole();
     }
 
+    /**
+     * 添加或更新角色
+     * @param role
+     * @param session
+     * @return
+     */
     @ResponseBody
     @RequestMapping("mergeRole")
     public String mergeRole(Role role, HttpSession session){
@@ -55,6 +61,25 @@ public class PermissionController {
     public boolean deleteRole(@RequestParam("roleIds")String[] ids){
         boolean bool = false;
         roleServiceImpl.deleteRole(ids);
+        bool = true;
+        return bool;
+    }
+
+    @ResponseBody
+    @RequestMapping("addUsers")
+    public boolean mergeUser(@RequestParam("userName")String userName,
+                             @RequestParam("password")String pass,
+                             @RequestParam("againPassword")String againPassword,
+                             HttpSession session){
+        boolean bool = usersServiceImpl.addUsers(userName,pass,againPassword,(String)session.getAttribute("username"));
+        return bool;
+    }
+
+    @ResponseBody
+    @RequestMapping("deleteUsers")
+    public boolean deleteUsers(@RequestParam("userNames")String[] userNames){
+        boolean bool = false;
+        usersServiceImpl.deleteUsers(userNames);
         bool = true;
         return bool;
     }
