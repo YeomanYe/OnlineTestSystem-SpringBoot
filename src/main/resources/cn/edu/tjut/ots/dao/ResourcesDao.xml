@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.tjut.ots.dao.ResourcesDao">
+    <insert id="addAuth" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT ALL INTO role_resources VALUES
+        <foreach collection="list" item="item" separator=" INTO role_resources VALUES ">
+             (#{item.roleId},#{item.resourcesId})
+         </foreach>
+        SELECT 1 FROM dual
+    </insert>
+</mapper>

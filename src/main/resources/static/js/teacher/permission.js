@@ -1,3 +1,4 @@
+var resourcesCodes = [];
 $(function () {
     //初始化用户表
     $('#userTable').DataTable({
@@ -62,6 +63,48 @@ $(function () {
             }
         ]
     });
+    //初始化权限树
+    var $checkableTree;
+    $.ajax({
+        type:"get",
+        url:"permission/queryPermissionTree",
+        success:function (data) {
+            //如果为空则返回
+            if(!data) return;
+            console.log(data);
+            $checkableTree = $('#permissionTree').treeview({
+                data: data,
+                showIcon: false,
+                showCheckbox: true,
+                onNodeChecked: function (event, node) {
+                    var parentNode = $checkableTree.treeview('getParent', node);
+                    if(parentNode.nodes){
+                        //递归选择
+                        $checkableTree.treeview('checkNode',parentNode);
+                    }
+                    //添加资源代码到数组中
+                    var value = node.value;
+                    if(value){
+                        resourcesCodes.push(node.value);
+                    }
+                },
+                onNodeUnchecked: function (event, node) {
+                    var childNodes = node.nodes;
+                    if(childNodes){
+                        //递归取消选择
+                        for(var i=0,len=childNodes.length;i<len;i++){
+                            $checkableTree.treeview('uncheckNode',[childNodes[i].nodeId]);
+                        }
+                    }
+                    //删除资源代码数组中的值
+                    var index = resourcesCodes.indexOf(node.value);
+                    if(index != -1)
+                        resourcesCodes.splice(index,1);
+                }
+            });
+        }
+    });
+
     //绑定事件处理函数
     //给关闭按钮添加事件
     $(".clsBtn").click(function () {
@@ -178,7 +221,49 @@ $(function () {
         })
     });
     $("#resourcesRelTree").click(function () {
-        openDialog("#resourcesDialog",null);
+        var $checkedboxs = $(".roleCheckbox:checked");
+        if ($checkedboxs.length != 1) {
+
+        } else {
+            openDialog("#resourcesDialog",null,function () {
+                $.ajax({
+                    url:"permission/queryAuth?roleId="+$checkedboxs.val(),
+                    type:"get",
+                    success:function (data) {
+                        $checkableTree.treeview('uncheckAll');
+                        resourcesCodes = [];
+                        if(!data.length) return;
+                        for(var i=0,len=data.length;i<len;i++){
+                            var checkableNodes = $checkableTree.treeview('search', [ data[i].text, {
+                                ignoreCase: false,     // case insensitive
+                                exactMatch: true,    // like or equals
+                                revealResults: true,  // reveal matching nodes
+                            }]);
+                            $checkableTree.treeview('checkNode', [ checkableNodes, { silent: true}]);
+                            resourcesCodes.push(data[i].resourcesId);
+                        }
+                        $checkableTree.treeview('clearSearch');
+                    }
+                })
+            });
+        }
+
+    });
+    $("#submitResourcesBtn").click(function () {
+        var data = $.param({
+            roleId: $(".roleCheckbox:checked").val(),
+            resourcesIds:resourcesCodes
+        },true);
+        $.ajax({
+            type:"get",
+            url:"permission/addAuth",
+            data:data,
+            success:function (data) {
+                if(data==true){
+
+                }
+            }
+        })
     })
     //绑定第一个复选框为反选按钮
     $("#userTable :checkbox:first").click(function (evt) {

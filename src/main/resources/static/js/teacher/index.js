@@ -1,6 +1,6 @@
 var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 $(function () {
-    toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage")();
+    // toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage")();
     /*设置事件处理函数*/
     $("#query_subject").click(toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage"));
     $("#add_subject").click(toggleTabs("subjectAddTab", "添加试题", "subject/addSubjectPage", null,

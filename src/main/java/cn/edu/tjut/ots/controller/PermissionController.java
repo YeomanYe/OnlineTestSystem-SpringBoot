@@ -1,6 +1,7 @@
 package cn.edu.tjut.ots.controller;
 
 import cn.edu.tjut.ots.po.Role;
+import cn.edu.tjut.ots.services.ResourcesService;
 import cn.edu.tjut.ots.services.RoleService;
 import cn.edu.tjut.ots.services.UsersService;
 import org.springframework.context.annotation.Scope;
@@ -26,6 +27,9 @@ public class PermissionController {
 
     @Resource
     UsersService usersServiceImpl;
+
+    @Resource
+    ResourcesService resourcesServiceImpl;
 
     @RequestMapping("listPermissionPage")
     public String listPermissionPage() {
@@ -82,5 +86,27 @@ public class PermissionController {
         usersServiceImpl.deleteUsers(userNames);
         bool = true;
         return bool;
+    }
+
+    @ResponseBody
+    @RequestMapping("queryPermissionTree")
+    public List queryPermissionTree(){
+        return resourcesServiceImpl.queryPermissionTree();
+    }
+
+    @ResponseBody
+    @RequestMapping("addAuth")
+    public boolean addAuth(@RequestParam("roleId")String roleId,
+                           @RequestParam("resourcesIds")String[] resourcesIds){
+        boolean bool = false;
+        resourcesServiceImpl.addAuth(roleId,resourcesIds);
+        bool = true;
+        return bool;
+    }
+
+    @ResponseBody
+    @RequestMapping("queryAuth")
+    public List queryAuth(@RequestParam("roleId") String roleId){
+        return resourcesServiceImpl.queryAuth(roleId);
     }
 }
