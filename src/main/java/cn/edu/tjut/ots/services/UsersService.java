@@ -28,4 +28,11 @@ public interface UsersService {
      * @param userNames
      */
     public void deleteUsers(String[] userNames);
+
+    /**
+     * 通过用户名查询密码
+     * @param userName
+     * @return
+     */
+    public String queryPassByName(String userName);
 }

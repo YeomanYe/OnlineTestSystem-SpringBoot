@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by KINGBOOK on 2017/3/28.
@@ -26,4 +27,11 @@ public interface RoleDao {
     public void updateRole(Role role);
     //批量删除角色
     public void deleteRoleByIds(String[] ids);
+    //查询角色，用于角色树的显示
+    @Select("SELECT NAME AS \"text\",uuid AS \"value\" FROM ROLE")
+    public List<Map<String,String>> queryRoleTree();
+    //查询用户关联的角色
+    @Select("SELECT r.uuid AS \"roleId\",r.NAME AS \"text\" FROM ROLE r " +
+            "JOIN (SELECT roleId FROM user_role WHERE userId=#{param}) t ON t.roleid = r.uuid")
+    public List<Map<String,String>> queryRelRole(String userId);
 }

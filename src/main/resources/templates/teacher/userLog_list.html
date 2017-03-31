@@ -16,10 +16,10 @@
                 <!-- /.box -->
                 <div class="box">
                     <div style="cursor: pointer;" class="box-header">
-                        <div class="glyphicon glyphicon-remove" id="deleteUserLog" title="删除">删除</div>
+                        <div th:remove="${#sets.contains(session.resources,'userLog_delete')} ? none : all" class="glyphicon glyphicon-remove" id="deleteUserLog" title="删除">删除</div>
                         <div class="glyphicon glyphicon-refresh" id="refreshUserLog" title="刷新">刷新</div>
-                        <div class="glyphicon glyphicon-download-alt" id="downloadUserLog" title="下载"><a href="userLog/downloadExcel">下载</a></div>
-                        <div class="glyphicon glyphicon-stats" id="chartUserLog" title="图表">图表</div>
+                        <div th:remove="${#sets.contains(session.resources,'userLog_download')} ? none : all" class="glyphicon glyphicon-download-alt" id="downloadUserLog" title="下载"><a href="userLog/downloadExcel">下载</a></div>
+                        <div th:remove="${#sets.contains(session.resources,'userLog_chart')} ? none : all" class="glyphicon glyphicon-stats" id="chartUserLog" title="图表">图表</div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">

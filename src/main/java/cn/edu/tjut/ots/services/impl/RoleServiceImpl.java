@@ -7,6 +7,7 @@ import cn.edu.tjut.ots.utils.CreateUserBy;
 import cn.edu.tjut.ots.utils.EmptyUtil;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.UUID;
  * Created by KINGBOOK on 2017/3/28.
  */
 @Service
+@Transactional
 @Scope("singleton")
 public class RoleServiceImpl implements RoleService {
     @Resource

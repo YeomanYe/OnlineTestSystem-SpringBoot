@@ -1,24 +1,31 @@
 package cn.edu.tjut.ots.services.impl;
 
 import cn.edu.tjut.ots.dao.ResourcesDao;
-import cn.edu.tjut.ots.services.ResourcesService;
+import cn.edu.tjut.ots.dao.RoleDao;
+import cn.edu.tjut.ots.dao.UsersDao;
+import cn.edu.tjut.ots.services.PermissionService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by KINGBOOK on 2017/3/30.
  */
 @Service
+@Transactional
 @Scope("singleton")
-public class ResourcesServiceImpl implements ResourcesService {
+public class PermissionServiceImpl implements PermissionService {
     @Resource
     ResourcesDao resourcesDao;
+
+    @Resource
+    RoleDao roleDao;
+
+    @Resource
+    UsersDao usersDao;
 
     @Override
     public List<Map<String, Object>> queryPermissionTree() {
@@ -62,5 +69,35 @@ public class ResourcesServiceImpl implements ResourcesService {
     @Override
     public List queryAuth(String roleId) {
         return resourcesDao.queryAuth(roleId);
+    }
+
+    @Override
+    public List queryRoleTree() {
+        return roleDao.queryRoleTree();
+    }
+
+    @Override
+    public List queryRefRole(String userId) {
+        return roleDao.queryRelRole(userId);
+    }
+
+    @Override
+    public void addUserRoleRel(String userId, String[] roleIds) {
+        //清空对应的用户角色关联
+        usersDao.deleteUserRoleRel(userId);
+        //添加用户角色关联到表中
+        List<Map<String,String>> maps = new ArrayList();
+        for (String roleId : roleIds) {
+            Map<String,String> map = new HashMap();
+            map.put("roleId",roleId);
+            map.put("userId",userId);
+            maps.add(map);
+        }
+        usersDao.addUserRoleRel(maps);
+    }
+
+    @Override
+    public Set queryUserAuth(String userId) {
+        return usersDao.queryUserAuth(userId);
     }
 }

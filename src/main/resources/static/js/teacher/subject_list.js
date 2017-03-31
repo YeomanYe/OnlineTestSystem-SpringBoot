@@ -205,19 +205,6 @@ function subjectInfoShow(uuid,dialogSelector) {
         }
     });
 }
-/**
- * 设置按钮组的按钮样式处理函数
- * @param goal 目标样式
- * @param origin 原样式
- */
-function setBtnStyle(goal, origin) {
-    return function () {
-        //清除按钮的样式
-        $(this).parent().children().filter("button").removeClass(goal).addClass(origin);
-        //添加目标样式
-        $(this).addClass(goal);
-    };
-}
 
 /**
  * 刷新试题

@@ -1,4 +1,4 @@
-<div class="tab-pane active" id="baseDataListTab" >
+<div class="tab-pane active" id="baseDataListTab" xmlns:th="http://www.w3.org/1999/xhtml">
     <section class="content-header">
         <h1>基础数据
             <small>baseData list</small>
@@ -16,9 +16,9 @@
                 <!-- /.box -->
                 <div class="box">
                     <div style="cursor: pointer;" class="box-header">
-                        <div class="glyphicon glyphicon-plus" id="addBaseData" title="添加">添加</div>
-                        <div class="glyphicon glyphicon-remove" id="deleteBaseData" title="删除">删除</div>
-                        <div class="glyphicon glyphicon-pencil" id="updateBaseData" title="编辑">编辑</div>
+                        <div th:remove="${#sets.contains(session.resources,'baseData_add')} ? none : all" class="glyphicon glyphicon-plus" id="addBaseData" title="添加">添加</div>
+                        <div th:remove="${#sets.contains(session.resources,'baseData_delete')} ? none : all" class="glyphicon glyphicon-remove" id="deleteBaseData" title="删除">删除</div>
+                        <div th:remove="${#sets.contains(session.resources,'baseData_update')} ? none : all" class="glyphicon glyphicon-pencil" id="updateBaseData" title="编辑">编辑</div>
                         <div class="glyphicon glyphicon-refresh" id="refreshBaseData" title="刷新">刷新</div>
                     </div>
                     <!-- /.box-header -->

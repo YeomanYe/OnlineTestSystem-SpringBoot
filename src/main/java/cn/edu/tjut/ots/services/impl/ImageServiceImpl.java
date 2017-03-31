@@ -9,6 +9,7 @@ import cn.edu.tjut.ots.utils.CreateUserBy;
 import cn.edu.tjut.ots.utils.EmptyUtil;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ import java.util.UUID;
  * Created by KINGBOOK on 2017/3/23.
  */
 @Service
+@Transactional
 @Scope("singleton")
 public class ImageServiceImpl implements ImageService {
     @Resource

@@ -1,4 +1,5 @@
 var resourcesCodes = [];
+var usersRole = [];
 $(function () {
     //初始化用户表
     $('#userTable').DataTable({
@@ -64,7 +65,7 @@ $(function () {
         ]
     });
     //初始化权限树
-    var $checkableTree;
+    var $checkablePermissionTree;
     $.ajax({
         type:"get",
         url:"permission/queryPermissionTree",
@@ -72,15 +73,18 @@ $(function () {
             //如果为空则返回
             if(!data) return;
             console.log(data);
-            $checkableTree = $('#permissionTree').treeview({
+            $checkablePermissionTree = $('#permissionTree').treeview({
                 data: data,
                 showIcon: false,
+                collapseIcon:"glyphicon glyphicon-folder-open",
+                expandIcon:"glyphicon glyphicon-folder-close",
+                emptyIcon:"glyphicon glyphicon-tower",
                 showCheckbox: true,
                 onNodeChecked: function (event, node) {
-                    var parentNode = $checkableTree.treeview('getParent', node);
+                    var parentNode = $checkablePermissionTree.treeview('getParent', node);
                     if(parentNode.nodes){
                         //递归选择
-                        $checkableTree.treeview('checkNode',parentNode);
+                        $checkablePermissionTree.treeview('checkNode',parentNode);
                     }
                     //添加资源代码到数组中
                     var value = node.value;
@@ -93,13 +97,57 @@ $(function () {
                     if(childNodes){
                         //递归取消选择
                         for(var i=0,len=childNodes.length;i<len;i++){
-                            $checkableTree.treeview('uncheckNode',[childNodes[i].nodeId]);
+                            $checkablePermissionTree.treeview('uncheckNode',[childNodes[i].nodeId]);
                         }
                     }
                     //删除资源代码数组中的值
                     var index = resourcesCodes.indexOf(node.value);
                     if(index != -1)
                         resourcesCodes.splice(index,1);
+                }
+            });
+        }
+    });
+    //初始角色树
+    var $checkableRoleTree;
+    $.ajax({
+        type:"get",
+        url:"permission/queryRoleTree",
+        success:function (data) {
+            //如果为空则返回
+            if(!data) return;
+            console.log(data);
+            $checkableRoleTree = $('#roleTree').treeview({
+                data: data,
+                showIcon: false,
+                collapseIcon:"glyphicon glyphicon-folder-open",
+                expandIcon:"glyphicon glyphicon-folder-close",
+                emptyIcon:"glyphicon glyphicon-tower",
+                showCheckbox: true,
+                onNodeChecked: function (event, node) {
+                    /*var parentNode = $checkableRoleTree.treeview('getParent', node);
+                    if(parentNode.nodes){
+                        //递归选择
+                        $checkableRoleTree.treeview('checkNode',parentNode);
+                    }*/
+                    //添加角色ID到数组中
+                    var value = node.value;
+                    if(value){
+                        usersRole.push(node.value);
+                    }
+                },
+                onNodeUnchecked: function (event, node) {
+                    /*var childNodes = node.nodes;
+                    if(childNodes){
+                        //递归取消选择
+                        for(var i=0,len=childNodes.length;i<len;i++){
+                            $checkableRoleTree.treeview('uncheckNode',[childNodes[i].nodeId]);
+                        }
+                    }*/
+                    //删除用户角色数组中的值
+                    var index = usersRole.indexOf(node.value);
+                    if(index != -1)
+                        usersRole.splice(index,1);
                 }
             });
         }
@@ -166,7 +214,51 @@ $(function () {
                 }
             }
         })
-    })
+    });
+    $("#roleTreeBtn").click(function () {
+        var $checkedboxs = $(".userCheckbox:checked");
+        if ($checkedboxs.length != 1) {
+
+        } else {
+            openDialog("#roleTreeDialog",null,function () {
+                $.ajax({
+                    url:"permission/queryRelRole?userId="+$checkedboxs.val(),
+                    type:"get",
+                    success:function (data) {
+                        $checkableRoleTree.treeview('uncheckAll');
+                        usersRole = [];
+                        if(!data.length) return;
+                        for(var i=0,len=data.length;i<len;i++){
+                            var checkableNodes = $checkableRoleTree.treeview('search', [ data[i].text, {
+                                ignoreCase: false,     // case insensitive
+                                exactMatch: true,    // like or equals
+                                revealResults: true,  // reveal matching nodes
+                            }]);
+                            $checkableRoleTree.treeview('checkNode', [ checkableNodes, { silent: true}]);
+                            usersRole.push(data[i].roleId);
+                        }
+                        $checkableRoleTree.treeview('clearSearch');
+                    }
+                })
+            });
+        }
+    });
+    $("#submitRoleTreeBtn").click(function () {
+        var data = $.param({
+            userId: $(".userCheckbox:checked").val(),
+            roleIds:usersRole
+        },true);
+        $.ajax({
+            type:"get",
+            url:"permission/addUserRoleRel",
+            data:data,
+            success:function (data) {
+                if(data==true){
+
+                }
+            }
+        })
+    });
     //角色相关操作
     $("#addRole").click(function () {
         openDialog("#roleAddDialog", null, function () {
@@ -220,7 +312,7 @@ $(function () {
             }
         })
     });
-    $("#resourcesRelTree").click(function () {
+    $("#resourcesRelTreeBtn").click(function () {
         var $checkedboxs = $(".roleCheckbox:checked");
         if ($checkedboxs.length != 1) {
 
@@ -230,19 +322,19 @@ $(function () {
                     url:"permission/queryAuth?roleId="+$checkedboxs.val(),
                     type:"get",
                     success:function (data) {
-                        $checkableTree.treeview('uncheckAll');
+                        $checkablePermissionTree.treeview('uncheckAll');
                         resourcesCodes = [];
                         if(!data.length) return;
                         for(var i=0,len=data.length;i<len;i++){
-                            var checkableNodes = $checkableTree.treeview('search', [ data[i].text, {
+                            var checkableNodes = $checkablePermissionTree.treeview('search', [ data[i].text, {
                                 ignoreCase: false,     // case insensitive
                                 exactMatch: true,    // like or equals
                                 revealResults: true,  // reveal matching nodes
                             }]);
-                            $checkableTree.treeview('checkNode', [ checkableNodes, { silent: true}]);
+                            $checkablePermissionTree.treeview('checkNode', [ checkableNodes, { silent: true}]);
                             resourcesCodes.push(data[i].resourcesId);
                         }
-                        $checkableTree.treeview('clearSearch');
+                        $checkablePermissionTree.treeview('clearSearch');
                     }
                 })
             });

@@ -1,12 +1,11 @@
 package cn.edu.tjut.ots.dao;
 
 import cn.edu.tjut.ots.po.Users;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by KINGBOOK on 2017/3/28.
@@ -25,4 +24,17 @@ public interface UsersDao {
     public Users queryUsersByUserName(String userName);
     //删除用户
     public void deleteUsers(String[] userNames);
+    //添加用户-角色关系到表中
+    public void addUserRoleRel(List<Map<String,String>> maps);
+    //根据用户ID，清除用户角色关联表中的数据
+    @Delete("delete from user_role where userId=#{param}")
+    public void deleteUserRoleRel(String userId);
+    //根据用户ID查询用户权限集合
+    @Select("SELECT r.resourceCode FROM resources r JOIN (SELECT resourcesId FROM role_resources a JOIN " +
+            "(SELECT roleId FROM user_role WHERE userId=#{param}) b ON a.roleid = b.roleid ) c " +
+            "ON r.uuid = c.resourcesId")
+    public Set<String> queryUserAuth(String userId);
+    //查询用户的密码
+    @Select("select pass from users where username=#{param}")
+    public String queryPassByUsername(String userName);
 }

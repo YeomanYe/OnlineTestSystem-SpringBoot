@@ -1,5 +1,7 @@
 var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 $(function () {
+    //显示时间
+    setInterval(systemTime("#showTime"),1000);
     // toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage")();
     /*设置事件处理函数*/
     $("#query_subject").click(toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage"));
@@ -260,5 +262,72 @@ function uploadFile(form,url,call) {
                 }
             }
         });
+    }
+}
+
+/**
+ * 设置按钮组的按钮样式处理函数
+ * @param goal 目标样式
+ * @param origin 原样式
+ */
+function setBtnStyle(goal, origin) {
+    return function () {
+        //清除按钮的样式
+        $(this).parent().children().filter("button").removeClass(goal).addClass(origin);
+        //添加目标样式
+        $(this).addClass(goal);
+    };
+}
+
+/**
+ * 显示时间,显示时间的块需要设置为相对定位
+ * @param selector jQuery选择器
+ */
+function systemTime(selector){
+    return function () {
+        var myDate = new Date();
+        var year = myDate.getFullYear();
+        var month = myDate.getMonth() + 1;
+        var date = myDate.getDate();
+        var day = myDate.getDay();
+        var hours = myDate.getHours();
+        var minutes = myDate.getMinutes();
+        var seconds = myDate.getSeconds();
+        switch(day){
+            case 0 : day="日";break;
+            case 1 : day="一";break;
+            case 2 : day="二";break;
+            case 3 : day="三";break;
+            case 4 : day="四";break;
+            case 5 : day="五";break;
+            case 6 : day="六";break;
+            default : brak;
+        }
+        switch(minutes){
+            case 0 : minutes = "00";break;
+            case 1 : minutes = "01";break;
+            case 2 : minutes = "02";break;
+            case 3 : minutes = "03";break;
+            case 4 : minutes = "04";break;
+            case 5 : minutes = "05";break;
+            case 6 : minutes = "06";break;
+            case 7 : minutes = "07";break;
+            case 8 : minutes = "08";break;
+            case 9 : minutes = "09";break;
+        }
+        switch(seconds){
+            case 0 : seconds = "00";break;
+            case 1 : seconds = "01";break;
+            case 2 : seconds = "02";break;
+            case 3 : seconds = "03";break;
+            case 4 : seconds = "04";break;
+            case 5 : seconds = "05";break;
+            case 6 : seconds = "06";break;
+            case 7 : seconds = "07";break;
+            case 8 : seconds = "08";break;
+            case 9 : seconds = "09";break;
+        }
+        var fullTime = year + "-" + month + "-" + date + " 周" + day + " " + hours + ":" + minutes + ":" + seconds;
+        $(selector).html(fullTime);
     }
 }

@@ -6,6 +6,7 @@ import cn.edu.tjut.ots.services.UserLogService;
 import cn.edu.tjut.ots.utils.ExcelUtil;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.List;
  * Created by KINGBOOK on 2017/3/24.
  */
 @Service
+@Transactional
 @Scope("singleton")
 public class UserLogServiceImpl implements UserLogService {
     @Resource

@@ -8,6 +8,7 @@ import cn.edu.tjut.ots.utils.EmptyUtil;
 import cn.edu.tjut.ots.utils.MD5Util;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * Created by KINGBOOK on 2017/3/28.
  */
 @Service
+@Transactional
 @Scope("singleton")
 public class UsersServiceImpl implements UsersService {
     @Resource
@@ -41,5 +43,10 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public void deleteUsers(String[] userNames) {
         usersDao.deleteUsers(userNames);
+    }
+
+    @Override
+    public String queryPassByName(String userName) {
+        return usersDao.queryPassByUsername(userName);
     }
 }

@@ -7,4 +7,11 @@
             #{userName}
         </foreach>
     </delete>
+    <insert id="addUserRoleRel" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT ALL INTO user_role VALUES
+        <foreach collection="list" item="item" separator=" INTO user_role VALUES ">
+            (#{item.userId},#{item.roleId})
+        </foreach>
+        SELECT 1 FROM dual
+    </insert>
 </mapper>

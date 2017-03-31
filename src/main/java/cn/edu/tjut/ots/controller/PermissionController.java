@@ -1,7 +1,7 @@
 package cn.edu.tjut.ots.controller;
 
 import cn.edu.tjut.ots.po.Role;
-import cn.edu.tjut.ots.services.ResourcesService;
+import cn.edu.tjut.ots.services.PermissionService;
 import cn.edu.tjut.ots.services.RoleService;
 import cn.edu.tjut.ots.services.UsersService;
 import org.springframework.context.annotation.Scope;
@@ -29,19 +29,31 @@ public class PermissionController {
     UsersService usersServiceImpl;
 
     @Resource
-    ResourcesService resourcesServiceImpl;
+    PermissionService permissionServiceImpl;
 
+    /**
+     * 返回权限页
+     * @return
+     */
     @RequestMapping("listPermissionPage")
     public String listPermissionPage() {
         return "teacher/permission";
     }
 
+    /**
+     * 刷新用户列表
+     * @return
+     */
     @ResponseBody
     @RequestMapping("refreshUserList")
     public List refreshUserList() {
         return usersServiceImpl.queryUsers();
     }
 
+    /**
+     * 刷新角色列表
+     * @return
+     */
     @ResponseBody
     @RequestMapping("refreshRoleList")
     public List refreshRoleList() {
@@ -60,6 +72,11 @@ public class PermissionController {
         return roleServiceImpl.mergeRole(role,(String)session.getAttribute("username"));
     }
 
+    /**
+     * 删除角色
+     * @param ids
+     * @return
+     */
     @ResponseBody
     @RequestMapping("deleteRole")
     public boolean deleteRole(@RequestParam("roleIds")String[] ids){
@@ -69,6 +86,14 @@ public class PermissionController {
         return bool;
     }
 
+    /**
+     * 添加用户
+     * @param userName
+     * @param pass
+     * @param againPassword
+     * @param session
+     * @return
+     */
     @ResponseBody
     @RequestMapping("addUsers")
     public boolean mergeUser(@RequestParam("userName")String userName,
@@ -79,6 +104,11 @@ public class PermissionController {
         return bool;
     }
 
+    /**
+     * 删除用户
+     * @param userNames
+     * @return
+     */
     @ResponseBody
     @RequestMapping("deleteUsers")
     public boolean deleteUsers(@RequestParam("userNames")String[] userNames){
@@ -88,25 +118,72 @@ public class PermissionController {
         return bool;
     }
 
+    /**
+     * 查询权限树使用的数据
+     * @return
+     */
     @ResponseBody
     @RequestMapping("queryPermissionTree")
     public List queryPermissionTree(){
-        return resourcesServiceImpl.queryPermissionTree();
+        return permissionServiceImpl.queryPermissionTree();
     }
 
+    /**
+     * 查询角色树使用的数据
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("queryRoleTree")
+    public List queryRoleTree(){
+        return permissionServiceImpl.queryRoleTree();
+    }
+
+    /**
+     * 添加角色权限
+     * @param roleId
+     * @param resourcesIds
+     * @return
+     */
     @ResponseBody
     @RequestMapping("addAuth")
     public boolean addAuth(@RequestParam("roleId")String roleId,
                            @RequestParam("resourcesIds")String[] resourcesIds){
         boolean bool = false;
-        resourcesServiceImpl.addAuth(roleId,resourcesIds);
+        permissionServiceImpl.addAuth(roleId,resourcesIds);
         bool = true;
         return bool;
     }
 
+    /**
+     * 查询角色对应的权限树
+     * @param roleId
+     * @return
+     */
     @ResponseBody
     @RequestMapping("queryAuth")
     public List queryAuth(@RequestParam("roleId") String roleId){
-        return resourcesServiceImpl.queryAuth(roleId);
+        return permissionServiceImpl.queryAuth(roleId);
+    }
+
+    /**
+     * 查询用户关联的角色
+     * @param userId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("queryRelRole")
+    public List queryRelRole(@RequestParam("userId")String userId){
+        return permissionServiceImpl.queryRefRole(userId);
+    }
+
+    @ResponseBody
+    @RequestMapping("addUserRoleRel")
+    public boolean addUserRoleRel(
+            @RequestParam("userId")String userId,
+            @RequestParam("roleIds")String[] roleIds){
+        boolean bool = false;
+        permissionServiceImpl.addUserRoleRel(userId,roleIds);
+        bool = true;
+        return bool;
     }
 }

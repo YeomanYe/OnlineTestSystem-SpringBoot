@@ -17,13 +17,13 @@
                 <!-- /.box -->
                 <div class="box">
                     <div style="cursor: pointer;" class="box-header">
-                        <div th:remove="${#sets.contains(session.resources,'test')} ? none : all"  class="glyphicon glyphicon-plus" id="addSubject" title="添加">添加</div>
-                        <div th:remove="${#sets.contains(session.resources,'test')} ? none : all" class="glyphicon glyphicon-remove" id="deleteSubject" title="删除">删除</div>
-                        <div th:remove="${#sets.contains(session.resources,'test')} ? none : all" class="glyphicon glyphicon-pencil" id="updateSubject" title="编辑">编辑</div>
-                        <div th:remove="${#sets.contains(session.resources,'test')} ? none : all" class="glyphicon glyphicon-refresh" id="refreshSubject" title="刷新">刷新</div>
-                        <div th:remove="${#sets.contains(session.resources,'test')} ? none : all" class="glyphicon glyphicon-stats" id="chartSubject" title="图表">图表</div>
-                        <div th:remove="${#sets.contains(session.resources,'test')} ? none : all" class="glyphicon glyphicon-cloud-upload" id="uploadSubject" title="上传">上传</div>
-                        <div th:remove="${#sets.contains(session.resources,'test')} ? none : all" class="glyphicon glyphicon-cloud-download" id="downloadSubject" title="下载"><a href="subject/downloadExcel">下载</a></div>
+                        <div th:remove="${#sets.contains(session.resources,'subject_add')} ? none : all"  class="glyphicon glyphicon-plus" id="addSubject" title="添加">添加</div>
+                        <div th:remove="${#sets.contains(session.resources,'subject_delete')} ? none : all" class="glyphicon glyphicon-remove" id="deleteSubject" title="删除">删除</div>
+                        <div th:remove="${#sets.contains(session.resources,'subject_update')} ? none : all" class="glyphicon glyphicon-pencil" id="updateSubject" title="编辑">编辑</div>
+                        <div class="glyphicon glyphicon-refresh" id="refreshSubject" title="刷新">刷新</div>
+                        <div th:remove="${#sets.contains(session.resources,'subject_chart')} ? none : all" class="glyphicon glyphicon-stats" id="chartSubject" title="图表">图表</div>
+                        <div th:remove="${#sets.contains(session.resources,'subject_import')} ? none : all" class="glyphicon glyphicon-cloud-upload" id="uploadSubject" title="上传">上传</div>
+                        <div th:remove="${#sets.contains(session.resources,'subject_export')} ? none : all" class="glyphicon glyphicon-cloud-download" id="downloadSubject" title="下载"><a href="subject/downloadExcel">下载</a></div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">

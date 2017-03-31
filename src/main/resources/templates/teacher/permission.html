@@ -15,17 +15,19 @@
                 <div class="box box-success">
                     <div class="box-header with-border">
                         <div style="cursor: pointer;" class="box-header">
-                            <div th:remove="${#sets.contains(session.resources,'test')} ? none : all"
+                            <div th:remove="${#sets.contains(session.resources,'permission_user_add')} ? none : all"
                                  class="glyphicon glyphicon-plus" id="addUser" title="添加">添加
                             </div>
-                            <div th:remove="${#sets.contains(session.resources,'test')} ? none : all"
+                            <div th:remove="${#sets.contains(session.resources,'permission_user_delete')} ? none : all"
                                  class="glyphicon glyphicon-remove" id="deleteUser" title="删除">删除
                             </div>
                             <!--<div th:remove="${#sets.contains(session.resources,'test')} ? none : all"
                                  class="glyphicon glyphicon-pencil" id="updateUser" title="编辑">编辑
                             </div>-->
-                            <div th:remove="${#sets.contains(session.resources,'test')} ? none : all"
-                                 class="glyphicon glyphicon-refresh" id="refreshUser" title="刷新">刷新
+                            <div class="glyphicon glyphicon-refresh" id="refreshUser" title="刷新">刷新
+                            </div>
+                            <div th:remove="${#sets.contains(session.resources,'permission_role_rel')} ? none : all"
+                                 class="glyphicon glyphicon-grain" id="roleTreeBtn" title="角色关联">角色关联
                             </div>
                         </div>
                     </div>
@@ -54,20 +56,20 @@
             <div class="col-xs-6">
                 <div class="box box-info">
                     <div style="cursor: pointer;" class="box-header with-border">
-                        <div th:remove="${#sets.contains(session.resources,'test')} ? none : all"
+                        <div th:remove="${#sets.contains(session.resources,'permission_role_add')} ? none : all"
                              class="glyphicon glyphicon-plus" id="addRole" title="添加">添加
                         </div>
-                        <div th:remove="${#sets.contains(session.resources,'test')} ? none : all"
+                        <div th:remove="${#sets.contains(session.resources,'permission_role_delete')} ? none : all"
                              class="glyphicon glyphicon-remove" id="deleteRole" title="删除">删除
                         </div>
-                        <div th:remove="${#sets.contains(session.resources,'test')} ? none : all"
+                        <div th:remove="${#sets.contains(session.resources,'permission_role_update')} ? none : all"
                              class="glyphicon glyphicon-pencil" id="updateRole" title="编辑">编辑
                         </div>
                         <div th:remove="${#sets.contains(session.resources,'test')} ? none : all"
                              class="glyphicon glyphicon-refresh" id="refreshRole" title="刷新">刷新
                         </div>
-                        <div th:remove="${#sets.contains(session.resources,'test')} ? none : all"
-                             class="glyphicon glyphicon-grain" id="resourcesRelTree" title="资源关联">资源关联
+                        <div th:remove="${#sets.contains(session.resources,'permission_resources_rel')} ? none : all"
+                             class="glyphicon glyphicon-grain" id="resourcesRelTreeBtn" title="资源关联">资源关联
                         </div>
                     </div>
                     <!-- /.box-header -->
