@@ -129,8 +129,8 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public void deleteSubjectByIds(String[] uuids, String realPath) {
-        //判断paper中是否含有该试题,若含有则返回并提示
-        if(subjectDao.queryCntSubjectInPaper(uuids)!=0) return;
+        /*//判断paper中是否含有该试题,若含有则返回并提示
+        if(subjectDao.queryCntSubjectInPaper(uuids)!=0) return;*/
         if(!EmptyUtil.isObjEmpty(uuids)){
             for(int len=uuids.length,i=0;i<len;i++){
                 Subject subject = subjectDao.querySubjectById(uuids[i]);

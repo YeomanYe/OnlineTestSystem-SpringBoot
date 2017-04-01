@@ -8,7 +8,7 @@ $(function () {
         "searching": true,
         "ordering": true,
         "info": true,
-        "autoWidth": true,
+        "autoWidth": false,
         "ajax": {
             url: "paper/refreshPaper",
             dataSrc: ''
@@ -42,11 +42,8 @@ $(function () {
         ]
     });
     //给关闭按钮添加关闭事件
-    $(".clsBtn").click(function () {
-        //获取需要关闭的modal的ID
-        var modal = $(this).data("dismiss");
-        $("#" + modal).hide();
-    });
+    //给关闭按钮添加关闭事件
+    $(".clsBtn").click(closeDialogBtn);
     //绑定事件处理函数
     $("#addPaper").click(toggleTabs("paperAddTab", "添加试题", "paper/addPaperPage", null,
         function () {

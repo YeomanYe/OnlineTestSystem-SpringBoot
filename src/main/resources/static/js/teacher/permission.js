@@ -9,7 +9,7 @@ $(function () {
         "searching": true,
         "ordering": true,
         "info": true,
-        "autoWidth": true,
+        "autoWidth": false,
         "ajax": {
             url: "permission/refreshUserList",
             dataSrc: ''
@@ -35,11 +35,11 @@ $(function () {
     $('#roleTable').DataTable({
         "paging": true,
         "pageingType": "input",
-        "lengthChange": true,
+        "lengthChange": false,
         "searching": true,
         "ordering": true,
         "info": true,
-        "autoWidth": true,
+        "autoWidth": false,
         "ajax": {
             url: "permission/refreshRoleList",
             dataSrc: ''
@@ -155,12 +155,7 @@ $(function () {
 
     //绑定事件处理函数
     //给关闭按钮添加事件
-    $(".clsBtn").click(function () {
-        //获取需要关闭的modal的ID
-        var modal = $(this).data("dismiss");
-        $("#" + modal).hide();
-
-    });
+    $(".clsBtn").click(closeDialogBtn);
     /*
      用户相关操作
      */

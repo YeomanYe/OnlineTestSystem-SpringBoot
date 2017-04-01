@@ -27,13 +27,8 @@ $(function () {
             $(this).attr({name: "subjectItemId" + index});
         })
     }
-
     //给关闭按钮添加关闭事件
-    $(".clsBtn").click(function () {
-        //获取需要关闭的modal的ID
-        var modal = $(this).data("dismiss");
-        $("#" + modal).hide();
-    });
+    $(".clsBtn").click(closeDialogBtn);
     /**
      * 绑定事件处理函数
      */

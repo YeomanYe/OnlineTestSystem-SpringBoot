@@ -9,7 +9,7 @@ $(function () {
         "searching": true,
         "ordering": true,
         "info": true,
-        "autoWidth": true,
+        "autoWidth": false,
         "ajax": {
             url: "subject/refreshSubject",
             dataSrc: ''
@@ -44,12 +44,8 @@ $(function () {
     });
     //绑定事件处理函数
     //给关闭按钮添加事件
-    $(".clsBtn").click(function () {
-        //获取需要关闭的modal的ID
-        var modal = $(this).data("dismiss");
-        $("#" + modal).hide();
-
-    })
+    //给关闭按钮添加关闭事件
+    $(".clsBtn").click(closeDialogBtn);
     $("#addSubject").click(toggleTabs("subjectAddTab", "添加试题", "subject/addSubjectPage", null,
         function () {
             //清除添加表单
@@ -60,7 +56,7 @@ $(function () {
     $("#updateSubject").click(function () {
         var checkedboxs = $(".subjectCheckbox:checked");
         if (checkedboxs.length != 1) {
-
+            openDialog("#infoDialog","<p>请选择一个试题</p>");
         } else {
             //切换到添加试题标签
             toggleTabs("subjectAddTab", "添加试题", "subject/addSubjectPage", null)();
@@ -108,23 +104,34 @@ $(function () {
         }
     });
     $("#deleteSubject").click(function () {
-        var checkedboxs = $("table :checked");
+        var checkedboxs = $(".subjectCheckbox:checked");
         if (!checkedboxs.length) {
-
+            openDialog("#infoDialog","<p>请选择一个试题</p>");
         } else {
-            $.ajax({
-                url: "subject/deleteSubject",
-                type: "get",
-                data: $("#subjectListForm").serialize(),
-                context: $(this),
-                success: function (data) {
+            confirmDialog("<p>确认删除吗?</p>",function () {
+                $.ajax({
+                    url: "subject/deleteSubject",
+                    type: "get",
+                    data: $("#subjectListForm").serialize(),
+                    context: $(this),
+                    beforeSend:function () {
 
-                    if (data === true) {
-                        //刷新
-                        subjectRefresh();
+                    },
+                    success: function (data) {
+
+                        if (data === true) {
+                            openDialog("#successDialog","<p>删除成功</p>");
+                            //刷新
+                            subjectRefresh();
+                        }else{
+                            openDialog("#errorDialog","<p>删除失败，未知错误</p>");
+                        }
+                    },
+                    error:function () {
+                        openDialog("#errorDialog","<p>删除失败,请检查试卷中有无包含试题</p>");
                     }
-                }
-            })
+                })
+            });
         }
     });
     $("#refreshSubject").click(subjectRefresh);

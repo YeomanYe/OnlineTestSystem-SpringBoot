@@ -8,7 +8,7 @@ $(function () {
         "searching": true,
         "ordering": true,
         "info": true,
-        "autoWidth": true,
+        "autoWidth": false,
         "ajax": {
             url: "userLog/refreshUserLog",
             dataSrc: ''
@@ -33,11 +33,7 @@ $(function () {
     });
     //绑定事件处理函数
     //给关闭按钮添加关闭事件
-    $(".clsBtn").click(function () {
-        //获取需要关闭的modal的ID
-        var modal = $(this).data("dismiss");
-        $("#" + modal).hide();
-    });
+    $(".clsBtn").click(closeDialogBtn);
     $("#deleteUserLog").click(function () {
         var checkedboxs = $("#userLog1 :checked");
         if (!checkedboxs.length) {

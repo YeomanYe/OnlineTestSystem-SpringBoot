@@ -7,7 +7,7 @@ $(function () {
         "searching": true,
         "ordering": false,
         "info": true,
-        "autoWidth": true,
+        "autoWidth": false,
         "ajax": {
             url: "subject/refreshSubject",
             dataSrc: ''

@@ -220,10 +220,35 @@ function openDialog(digSelector, content, callback) {
         digBody.html("");
         digBody.append(content);
     }
-    $(digSelector).css({"display": "block"});
+    $(digSelector).modal("show");
     if (typeof callback === 'function') {
         callback();
     }
+}
+/**
+ * 确认会话框
+ * @param content 显示内容
+ * @param handler 点击确认的处理函数
+ */
+function confirmDialog(content,handler) {
+    var digBody = $("#confirmDialog .modal-body");
+    digBody.html("");
+    digBody.append(content);
+    $("#confirmDialog").modal("show");
+    if(typeof handler === "function"){
+        $("#confirmDialog .okBtn")[0].onclick = function(){
+            handler();
+            $("#confirmDialog").modal("hide");
+        }
+    }
+}
+/**
+ * 关闭会话框按钮
+ */
+function closeDialogBtn() {
+    //获取需要关闭的modal的ID
+    var modal = $(this).data("dismiss");
+    $("#" + modal).modal("hide");
 }
 /**
  * 随机整数，高位为空时从零到低位

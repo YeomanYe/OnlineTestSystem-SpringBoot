@@ -342,8 +342,9 @@
             <!-- /.search form -->
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="header" id="showTime" >显示时间</li>
-                <li th:remove="${#sets.contains(session.resources,'subject_manage')} ? none : all" class="treeview active">
+                <li class="header" id="showTime">显示时间</li>
+                <li th:remove="${#sets.contains(session.resources,'subject_manage')} ? none : all"
+                    class="treeview active">
                     <a href="#">
                         <i class="fa fa-edit"></i> <span>试题管理</span>
                         <span class="pull-right-container">
@@ -352,7 +353,8 @@
                     </a>
                     <ul class="treeview-menu menu-open" style="display: block;">
                         <li><a id="query_subject" href="#"><i class="glyphicon glyphicon-th-list"></i> 查看试题</a></li>
-                        <li th:remove="${#sets.contains(session.resources,'subject_add')} ? none : all"><a id="add_subject" href="#"><i class="glyphicon glyphicon-pencil"></i> 添加试题</a></li>
+                        <li th:remove="${#sets.contains(session.resources,'subject_add')} ? none : all"><a
+                                id="add_subject" href="#"><i class="glyphicon glyphicon-pencil"></i> 添加试题</a></li>
                     </ul>
                 </li>
                 <li th:remove="${#sets.contains(session.resources,'paper_manage')} ? none : all" class="treeview">
@@ -365,19 +367,22 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a id="query_paper" href="#"><i class="glyphicon glyphicon-th-list"></i> 查看试卷</a></li>
-                        <li th:remove="${#sets.contains(session.resources,'paper_add')} ? none : all"><a id="add_paper" href="#"><i class="glyphicon glyphicon-pencil"></i> 添加试卷</a></li>
+                        <li th:remove="${#sets.contains(session.resources,'paper_add')} ? none : all"><a id="add_paper"
+                                                                                                         href="#"><i
+                                class="glyphicon glyphicon-pencil"></i> 添加试卷</a></li>
                     </ul>
                 </li>
                 <li th:remove="${#sets.contains(session.resources,'baseData_manage')} ? none : all" class="treeview">
                     <a id="query_basedata" href="#">
-                        <i class="fa fa-table"></i> 基础数据
+                        <i class="fa fa-table"></i> <span>基础数据</span>
                     </a>
                     <ul class="treeview-menu">
                     </ul>
                 </li>
                 <li th:remove="${#sets.contains(session.resources,'userLog_manage')} ? none : all" class="treeview">
                     <a id="query_userLog" href="#">
-                        <i class="fa fa-book"></i> <span>日志管理</span>
+                        <i class="fa fa-book"></i>
+                        <span>日志管理</span>
                     </a>
                     <ul class="treeview-menu">
                     </ul>
@@ -394,6 +399,95 @@
         </section>
         <!-- /.sidebar -->
     </aside>
+
+    <!-- /.tab-pane -->
+    <div class="modal modal-info" id="infoDialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close clsBtn" data-dismiss="infoDialog" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">
+                        <div class="glyphicon glyphicon-info-sign">提示</div>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline clsBtn" data-dismiss="infoDialog">关闭</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <!-- /.tab-pane -->
+    <div class="modal modal-primary" id="confirmDialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close clsBtn" data-dismiss="confirmDialog" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">
+                        <div class="glyphicon glyphicon-question-sign">确认</div>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success okBtn margin">确定</button>
+                    <button type="button" class="btn btn-danger clsBtn" data-dismiss="confirmDialog">关闭</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <!-- /.tab-pane -->
+    <div class="modal modal-success" id="successDialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close clsBtn" data-dismiss="successDialog" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">
+                        <div class="glyphicon glyphicon-info-sign">成功</div>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline clsBtn" data-dismiss="successDialog">关闭</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <!-- /.tab-pane -->
+    <div class="modal modal-danger" id="errorDialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close clsBtn" data-dismiss="errorDialog" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">
+                        <div class="glyphicon glyphicon-info-sign">错误</div>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline clsBtn" data-dismiss="errorDialog">关闭</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
