@@ -165,7 +165,7 @@ $(function () {
             $("#userName").val("");
             $("#password").val("");
             $("#againPassword").val("");
-        })
+        },true)
     });
     /*$("#updateUser").click(function () {
         var $checkedboxs = $(".userCheckbox:checked");
@@ -178,23 +178,30 @@ $(function () {
         }
     });*/
     $("#deleteUser").click(function () {
-        var $checkedboxs = $("table :checked");
+        var $checkedboxs = $(".userCheckbox:checked");
         if (!$checkedboxs.length) {
-
+            openDialog("#infoDialog","<p>请选择一个以上的用户</p>",null,true);
         } else {
-            $.ajax({
-                url: "permission/deleteUsers",
-                type: "get",
-                data: $("#userListForm").serialize(),
-                context: $(this),
-                success: function (data) {
-
-                    if (data === true) {
-                        //刷新
-                        userRefresh();
+            confirmDialog("<p>确定删除吗?</p>",function () {
+                $.ajax({
+                    url: "permission/deleteUsers",
+                    type: "get",
+                    data: $("#userListForm").serialize(),
+                    context: $(this),
+                    success: function (data) {
+                        if (data === true) {
+                            openDialog("#successDialog","<p>删除成功</p>",null,true);
+                            //刷新
+                            userRefresh();
+                        }else{
+                            openDialog("#errorDialog","<p>删除失败，原因不明</p>",null,true);
+                        }
+                    },
+                    error:function () {
+                        openDialog("#errorDialog","<p>删除失败，服务器端错误</p>",null,true);
                     }
-                }
-            })
+                });
+            });
         }
     });
     $("#refreshUser").click(userRefresh);
@@ -213,7 +220,7 @@ $(function () {
     $("#roleTreeBtn").click(function () {
         var $checkedboxs = $(".userCheckbox:checked");
         if ($checkedboxs.length != 1) {
-
+            openDialog("#infoDialog","<p>请选择一个用户</p>",null,true);
         } else {
             openDialog("#roleTreeDialog",null,function () {
                 $.ajax({
@@ -235,7 +242,7 @@ $(function () {
                         $checkableRoleTree.treeview('clearSearch');
                     }
                 })
-            });
+            },true);
         }
     });
     $("#submitRoleTreeBtn").click(function () {
@@ -260,37 +267,45 @@ $(function () {
             //将表单以及ID清空
             $("#roleId").val("");
             $("#roleName").val("");
-        })
+        },true)
     });
     $("#updateRole").click(function () {
         var $checkedboxs = $(".roleCheckbox:checked");
         if ($checkedboxs.length != 1) {
-
+            openDialog("#infoDialog","<p>请选择一个角色</p>",null,true);
         } else {
             openDialog("#roleAddDialog", null, function () {
                 $("#roleId").val($checkedboxs.val());
                 $("#roleName").val($checkedboxs.closest('tr').find('.roleName').text())
-            });
+            },true);
         }
     });
     $("#deleteRole").click(function () {
-        var $checkedboxs = $("table :checked");
+        var $checkedboxs = $(".roleCheckbox:checked");
         if (!$checkedboxs.length) {
-
+            openDialog("#infoDialog","<p>请选择一个以上的角色</p>",null,true);
         } else {
-            $.ajax({
-                url: "permission/deleteRole",
-                type: "get",
-                data: $("#roleListForm").serialize(),
-                context: $(this),
-                success: function (data) {
+            confirmDialog("<p>确定删除吗?</p>",function () {
+                $.ajax({
+                    url: "permission/deleteRole",
+                    type: "get",
+                    data: $("#roleListForm").serialize(),
+                    context: $(this),
+                    success: function (data) {
 
-                    if (data === true) {
-                        //刷新
-                        roleRefresh();
+                        if (data === true) {
+                            openDialog("#successDialog","<p>删除成功</p>",null,true);
+                            //刷新
+                            roleRefresh();
+                        }else{
+                            openDialog("#errorDialog","<p>删除失败，原因不明</p>",null,true);
+                        }
+                    },
+                    error:function () {
+                        openDialog("#errorDialog","<p>删除失败，服务器端错误</p>",null,true);
                     }
-                }
-            })
+                })
+            });
         }
     });
     $("#refreshRole").click(roleRefresh);
@@ -310,7 +325,7 @@ $(function () {
     $("#resourcesRelTreeBtn").click(function () {
         var $checkedboxs = $(".roleCheckbox:checked");
         if ($checkedboxs.length != 1) {
-
+            openDialog("#infoDialog","<p>请选择一个角色</p>",null,true);
         } else {
             openDialog("#resourcesDialog",null,function () {
                 $.ajax({

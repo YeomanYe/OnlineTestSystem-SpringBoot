@@ -68,15 +68,24 @@ $(function () {
             context: $(this),
             success: function (datas) {
                 //显示添加成功提示
-                debugger
-                $("input[name='subjectId']").val(datas.subjectId);
-                $(".subjectItemIds").each(function (index) {
-                    $(this).val(datas.subjectItemIds[index])
-                })
+                if(datas){
+                    openDialog("#successDialog","<p>更改成功</p>",null,true);
+                    $("input[name='subjectId']").val(datas.subjectId);
+                    $(".subjectItemIds").each(function (index) {
+                        $(this).val(datas.subjectItemIds[index])
+                    })
+                }else{
+                    openDialog("#errorDialog","<p>更改失败，原因不明</p>",null,true);
+                }
+            },
+            error:function () {
+                openDialog("#errorDialog","<p>更改失败，服务器端错误</p>",null,true);
             }
         });
     })
-    $('button[type="reset"]').click(resetAddSubjectForm);
+    $('button[type="reset"]').click(function(){
+        confirmDialog("确定重置吗?",resetAddSubjectForm);
+    });
     //打开上传图片会话框
     $("#uploadSubjectImg").click(function () {
         openDialog("#subjectImgDialog", null, function () {
@@ -115,7 +124,7 @@ $(function () {
                 ]
             });
 
-        });
+        },true);
     });
     //上传图片
     $("#uploadImgBtn").click(function () {
@@ -173,12 +182,21 @@ $(function () {
     })
 });
 /**
- * 重置添加表单
+ * 重置添加试题表单
  */
 function resetAddSubjectForm() {
     debugger;
-    $("textarea").val("");
-    $("input[type='text']").val("");
+    $("#subjectName").val("");
+    $("#subjectScore").val("");
+    $("#subjectParse").val("");
+    $("#subjectImgFile").val("");
+    //清空试题选项值
+    var len = $("#subjectItem input[type='hidden']").length;
+    for(var i=0;i<len;i++){
+        $("input[name='subjectItem"+i+"']").val("");
+    }
+    //清空图片缓存
+    hasImage = null;
 }
 /**
  * 刷新试题图片表格
@@ -191,18 +209,26 @@ function refreshSubjectImgTable() {
  * @param uuid
  */
 function removeImage(uuid) {
-    $.ajax({
-        url: "image/removeImage?imageId=" + uuid,
-        type: "get",
-        context: $(this),
-        success: function (data) {
-            if (data == true) {
-                console.log("success");
-                refreshSubjectImgTable();
-            } else {
-                console.log("error");
+    confirmDialog("<p>确定移除图片吗?</p>",function () {
+        $.ajax({
+            url: "image/removeImage?imageId=" + uuid,
+            type: "get",
+            context: $(this),
+            beforeSend:function () {
+
+            },
+            success: function (data) {
+                if (data == true) {
+                    openDialog("#successDialog", "<p>删除成功!</p>", null, true);
+                    refreshSubjectImgTable();
+                } else {
+                    openDialog("#errorDialog", "<p>删除失败,原因未知</p>", null, true);
+                }
+            },
+            error:function () {
+                openDialog("#errorDialog", "<p>删除失败,服务器端错误</p>", null, true);
             }
-        }
+        });
     });
 }
 

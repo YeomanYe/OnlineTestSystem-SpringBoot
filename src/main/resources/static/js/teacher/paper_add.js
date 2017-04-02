@@ -64,17 +64,26 @@ $(function () {
         var data = "";
        data = $("#paperAddForm").serialize() + "&" + $.param({
                subjectIds:subjectIds,paperScore:$("#paperScore").val(),subjectCnt:$("#subjectCnt").val()},true);
-        console.log(data);
         $.ajax({
             url:"paper/mergePaper",
             data:data,
             type:"post",
             success:function (data) {
-                if(data) $("#paperId").val(data);
+                if(data){
+                    openDialog("#successDialog","<p>更改成功</p>",null,true);
+                    $("#paperId").val(data);
+                }else{
+                    openDialog("#errorDialog","<p>更改失败，原因不明</p>",null,true);
+                }
+            },
+            error:function () {
+                openDialog("#errorDialog","<p>更改失败，服务器端错误</p>",null,true);
             }
         })
-    })
-    $("#paperReset").click(resetAddPaperForm);
+    });
+    $("#paperReset").click(function(){
+        confirmDialog("<p>确定重置吗?</p>",resetAddPaperForm);
+    });
 });
 /**
  * 试题勾选状态改变时，采取相应处理

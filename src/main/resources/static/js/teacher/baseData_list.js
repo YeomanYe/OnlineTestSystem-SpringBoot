@@ -49,6 +49,16 @@ $(function () {
     });
     //添加事件
     //给关闭按钮添加关闭事件
+    //绑定第一个复选框为反选按钮
+    $("#baseData1 :checkbox:first").click(function (evt) {
+        $("#baseData1 :checkbox:not(:first)").each(function () {
+            if (this.checked) {
+                $(this).prop("checked", false);
+            } else {
+                $(this).prop("checked", true);
+            }
+        })
+    })
     $(".clsBtn").click(closeDialogBtn);
     $("#refreshBaseData").click(refreshBaseData);
     $("#addBaseData").click(function () {
@@ -74,31 +84,39 @@ $(function () {
                     });
                 }
             });
-        })
+        },true)
     });
     $("#deleteBaseData").click(function () {
         var checkedboxs = $("#baseData1 :checked");
         if (!checkedboxs.length) {
-
+            openDialog("#infoDialog","<p>请选择一个以上的基础数据值</p>",null,true);
         } else {
-            $.ajax({
-                url: "baseData/deleteBaseData",
-                type: "get",
-                data: $("#baseDataListForm").serialize(),
-                context: $(this),
-                success: function (data) {
-                    if (data === true) {
-                        //刷新
-                        refreshBaseData();
+            confirmDialog("<p>确定删除吗?</p>",function () {
+                $.ajax({
+                    url: "baseData/deleteBaseData",
+                    type: "get",
+                    data: $("#baseDataListForm").serialize(),
+                    context: $(this),
+                    success: function (data) {
+                        if (data === true) {
+                            //刷新
+                            openDialog("#successDialog", "<p>删除成功</p>", null, true);
+                            refreshBaseData();
+                        } else {
+                            openDialog("#errorDialog", "<p>删除失败，原因不明</p>", null, true);
+                        }
+                    },
+                    error:function () {
+                        openDialog("#errorDialog","<p>删除失败，服务器端错误</p>",null,true);
                     }
-                }
+                });
             })
         }
     });
     $("#updateBaseData").click(function () {
         var $checkedboxs = $("#baseData1 :checked");
         if ($checkedboxs.length != 1) {
-
+            openDialog("#infoDialog","<p>请选择一个基础数据</p>",null,true);
         } else {
             openDialog("#baseDataAddDialog", null, function () {
                 //查询所有基础数据类型,并添加到下拉框中
@@ -139,10 +157,10 @@ $(function () {
                 }
                 $("#baseDataType").val(baseDataType).trigger("change");
                 $("#baseDataName").val(name);
-            });
+            },true);
         }
     });
-    //点击按钮保存试题
+    //点击按钮保存基础数据
     $("#submitDataBaseBtn").click(function () {
         $.ajax({
             type: "get",
@@ -151,10 +169,15 @@ $(function () {
             success: function (data) {
                 //如果数据不为空，说明保存成功
                 if (data) {
-                    debugger;
+                    openDialog("#successDialog","<p>更改成功</p>",null,true);
                     $("#baseDataId").val(data);
                     refreshBaseData();
+                }else{
+                    openDialog("#errorDialog","<p>更改失败，原因不明</p>",null,true);
                 }
+            },
+            error:function () {
+                openDialog("#errorDialog","<p>更改失败，服务器端错误</p>",null,true);
             }
         })
     })

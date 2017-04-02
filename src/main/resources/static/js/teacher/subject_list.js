@@ -56,7 +56,7 @@ $(function () {
     $("#updateSubject").click(function () {
         var checkedboxs = $(".subjectCheckbox:checked");
         if (checkedboxs.length != 1) {
-            openDialog("#infoDialog","<p>请选择一个试题</p>");
+            openDialog("#infoDialog","<p>请选择一个试题</p>",null,true);
         } else {
             //切换到添加试题标签
             toggleTabs("subjectAddTab", "添加试题", "subject/addSubjectPage", null)();
@@ -106,7 +106,7 @@ $(function () {
     $("#deleteSubject").click(function () {
         var checkedboxs = $(".subjectCheckbox:checked");
         if (!checkedboxs.length) {
-            openDialog("#infoDialog","<p>请选择一个试题</p>");
+            openDialog("#infoDialog","<p>请选择一个试题</p>",null,true);
         } else {
             confirmDialog("<p>确认删除吗?</p>",function () {
                 $.ajax({
@@ -120,15 +120,15 @@ $(function () {
                     success: function (data) {
 
                         if (data === true) {
-                            openDialog("#successDialog","<p>删除成功</p>");
+                            openDialog("#successDialog","<p>删除成功</p>",null,true);
                             //刷新
                             subjectRefresh();
                         }else{
-                            openDialog("#errorDialog","<p>删除失败，未知错误</p>");
+                            openDialog("#errorDialog","<p>删除失败，未知错误</p>",null,true);
                         }
                     },
                     error:function () {
-                        openDialog("#errorDialog","<p>删除失败,请检查试卷中有无包含试题</p>");
+                        openDialog("#errorDialog","<p>删除失败,请检查试卷中有无包含试题</p>",null,true);
                     }
                 })
             });
@@ -136,10 +136,10 @@ $(function () {
     });
     $("#refreshSubject").click(subjectRefresh);
     $("#chartSubject").click(function () {
-        openDialog("#subjectChartDialog", null);
+        openDialog("#subjectChartDialog", null,null,true);
     });
     $("#uploadSubject").click(function () {
-        openDialog("#subjectUploadDialog", null)
+        openDialog("#subjectUploadDialog", null,null,true)
     });
     //绑定第一个复选框为反选按钮
     $("#subjectFirstCheck").click(function (evt) {

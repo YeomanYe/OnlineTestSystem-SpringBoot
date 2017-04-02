@@ -210,17 +210,31 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
 }
 /**
  * 打开会话框并显示内容
- * @param digId
- * @param content
+ * @param digSelector 会话框选择器
+ * @param content 内容，为空则不添加
  * @param callback 回调函数
+ * @param isCenter 是否居中
  */
-function openDialog(digSelector, content, callback) {
+function openDialog(digSelector, content, callback,isCenter) {
     if (content) {
         var digBody = $(digSelector + " .modal-body");
         digBody.html("");
         digBody.append(content);
     }
-    $(digSelector).modal("show");
+    //模态窗口垂直居中设置
+    if(isCenter){
+        var $modal = $(digSelector);
+        $modal.on('shown.bs.modal', function(){
+            var $this = $(this);
+            var $modal_dialog = $this.find('.modal-dialog');
+            var m_top = ( $(document).height() - $modal_dialog.height() )/2;
+            $modal_dialog.css({'margin': m_top + 'px auto'});
+        });
+    }
+    $(digSelector).modal({
+        keyboard:true,
+        show:true
+    });
     if (typeof callback === 'function') {
         callback();
     }
@@ -234,7 +248,14 @@ function confirmDialog(content,handler) {
     var digBody = $("#confirmDialog .modal-body");
     digBody.html("");
     digBody.append(content);
-    $("#confirmDialog").modal("show");
+    var $modal = $("#confirmDialog");
+    $modal.on('shown.bs.modal', function(){
+        var $this = $(this);
+        var $modal_dialog = $this.find('.modal-dialog');
+        var m_top = ( $(window).height() - $modal_dialog.height() )/2;
+        $modal_dialog.css({'margin': m_top + 'px auto'});
+    });
+    $modal.modal("show");
     if(typeof handler === "function"){
         $("#confirmDialog .okBtn")[0].onclick = function(){
             handler();
@@ -277,14 +298,20 @@ function uploadFile(form,url,call) {
         $(form).ajaxSubmit({
             type: "POST",
             url:url,
+            beforeSend:function () {
+
+            },
             success: function(data){
                 if(data === true){
-                    alert("success");
+                    openDialog("#successDialog","<p>上传成功!</p>",null,true);
                     if(typeof call == "function") call();
                 }
                 else{
-                    alert("error");
+                    openDialog("#errorDialog","<p>上传失败,原因未知</p>",null,true);
                 }
+            },
+            error:function () {
+                openDialog("#errorDialog","<p>上传失败,服务器端错误</p>",null,true);
             }
         });
     }

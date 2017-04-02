@@ -55,7 +55,7 @@ $(function () {
     $("#updatePaper").click(function () {
         var checkedboxs = $(".paperCheckbox:checked");
         if (checkedboxs.length != 1) {
-
+            openDialog("#infoDialog","<p>请选择一个试卷</p>",null,true);
         } else {
             //切换到添加试题标签
             toggleTabs("paperAddTab", "添加试卷", "paper/addPaperPage", null)();
@@ -97,25 +97,33 @@ $(function () {
     $("#deletePaper").click(function () {
         var checkedboxs = $("#paper1 :checked");
         if (!checkedboxs.length) {
-
+            openDialog("#infoDialog","<p>请选择一个以上的试卷</p>",null,true);
         } else {
-            $.ajax({
-                url: "paper/deletePaper",
-                type: "get",
-                data: $("#paperListForm").serialize(),
-                context: $(this),
-                success: function (data) {
-                    debugger;
-                    if (data === true) {
-                        paperRefresh();
+            confirmDialog("<p>确定删除吗?</p>",function () {
+                $.ajax({
+                    url: "paper/deletePaper",
+                    type: "get",
+                    data: $("#paperListForm").serialize(),
+                    context: $(this),
+                    success: function (data) {
+                        debugger;
+                        if (data === true) {
+                            openDialog("#successDialog","<p>删除成功</p>",null,true);
+                            paperRefresh();
+                        }else{
+                            openDialog("#errorDialog","<p>删除失败，原因不明</p>",null,true);
+                        }
+                    },
+                    error:function () {
+                        openDialog("#errorDialog","<p>删除失败，服务器端错误</p>",null,true);
                     }
-                }
-            })
+                })
+            });
         }
     });
     $("#refreshPaper").click(paperRefresh);
     $("#chartPaper").click(function () {
-        openDialog("#paperChartDialog", null);
+        openDialog("#paperChartDialog", null,null,true);
     })
     //图表Dialog,点击按钮切换样式事件
     $(".blue-button-group button").click(setBtnStyle("btn-danger", "btn-default"));
