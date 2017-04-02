@@ -27,7 +27,7 @@ $(function () {
                 "data": "uuid",
                 "render": function (data, type, full) {
                     debugger
-                    return '<input name="subjectIds" onchange="checkboxChangeHandler(this)" type="checkbox" class="subjectCheckbox" value="' + data + '"/>'
+                    return '<input name="subjectIds" onchange="checkboxChangeHandler(this)" type="checkbox" class="paperSubjectCheckbox" value="' + data + '"/>'
                 }
             },
         ]
@@ -68,7 +68,11 @@ $(function () {
             url:"paper/mergePaper",
             data:data,
             type:"post",
+            beforeSend:function () {
+                startProgress();
+            },
             success:function (data) {
+                endProgress();
                 if(data){
                     openDialog("#successDialog","<p>更改成功</p>",null,true);
                     $("#paperId").val(data);
@@ -77,6 +81,7 @@ $(function () {
                 }
             },
             error:function () {
+                endProgress();
                 openDialog("#errorDialog","<p>更改失败，服务器端错误</p>",null,true);
             }
         })

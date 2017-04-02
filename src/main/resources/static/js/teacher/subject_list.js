@@ -68,8 +68,14 @@ $(function () {
                 type: "get",
                 url: "subject/querySubject4Update?subjectId=" + subjectId,
                 context: $(this),
+                beforeSend:function () {
+                    startProgress()
+                },
+                error:function () {
+                    endProgress();
+                },
                 success: function (data) {
-                    ;
+                    endProgress();
                     //清空所有选项
                     $("#subjectItem .input-group:not(:first)").remove();
                     var items = data.items,
@@ -115,10 +121,10 @@ $(function () {
                     data: $("#subjectListForm").serialize(),
                     context: $(this),
                     beforeSend:function () {
-
+                        startProgress();
                     },
                     success: function (data) {
-
+                        endProgress();
                         if (data === true) {
                             openDialog("#successDialog","<p>删除成功</p>",null,true);
                             //刷新
@@ -128,6 +134,7 @@ $(function () {
                         }
                     },
                     error:function () {
+                        endProgress();
                         openDialog("#errorDialog","<p>删除失败,请检查试卷中有无包含试题</p>",null,true);
                     }
                 })
@@ -181,7 +188,11 @@ function subjectInfoShow(uuid,dialogSelector) {
         url: "subject/querySubjectInfo?uuid=" + uuid,
         type: "get",
         context: $(this),
+        beforeSend:function () {
+            startProgress();
+        },
         success: function (dataSet) {
+            endProgress();
             if (dataSet == null) {
                 return;
             }
@@ -209,6 +220,9 @@ function subjectInfoShow(uuid,dialogSelector) {
             }
             content += subjectItem + "<p>" + answerStr + "</p><p>" + subjectParse + "</p>";
             openDialog(dialogSelector, content);
+        },
+        error:function () {
+            endProgress();
         }
     });
 }

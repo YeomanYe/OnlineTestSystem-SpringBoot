@@ -68,7 +68,11 @@ $(function () {
                 type: "get",
                 url: "paper/queryPaper4Update?paperId=" + paperId,
                 context: $(this),
+                beforeSend:function () {
+                    startProgress();
+                },
                 success: function (data) {
+                    endProgress();
                     var table = $("#subjectTable").DataTable();
                     //将试题ID放入全局数组中
                     subjectIds = data.subjectIds;
@@ -90,6 +94,9 @@ $(function () {
                     $("#subjectCnt").val(paper.subjectCnt);
                     $("#paperDesc").val(paper.paperDesc);
                     $("#paperType").val(paper.paperType).trigger("change");
+                },
+                error:function () {
+                    endProgress();
                 }
             });
         }
@@ -105,8 +112,12 @@ $(function () {
                     type: "get",
                     data: $("#paperListForm").serialize(),
                     context: $(this),
+                    beforeSend:function () {
+                        startProgress();
+                    },
                     success: function (data) {
                         debugger;
+                        endProgress();
                         if (data === true) {
                             openDialog("#successDialog","<p>删除成功</p>",null,true);
                             paperRefresh();
@@ -115,6 +126,7 @@ $(function () {
                         }
                     },
                     error:function () {
+                        endProgress();
                         openDialog("#errorDialog","<p>删除失败，服务器端错误</p>",null,true);
                     }
                 })

@@ -45,8 +45,12 @@ $(function () {
                     type: "get",
                     data: $("#userLogListForm").serialize(),
                     context: $(this),
+                    beforeSend:function () {
+                        startProgress();
+                    },
                     success: function (data) {
                         debugger;
+                        endProgress();
                         if (data === true) {
                             openDialog("#successDialog","<p>删除成功</p>",null,true);
                             userLogRefresh();
@@ -56,6 +60,7 @@ $(function () {
                     },
                     error:function () {
                         openDialog("#errorDialog","<p>删除失败，服务器端错误!</p>",null,true);
+                        endProgress();
                     }
                 });
             });

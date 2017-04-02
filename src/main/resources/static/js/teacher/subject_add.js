@@ -5,12 +5,19 @@ $(function () {
         url: "baseData/queryByType?dataType=subjectType",
         type: "get",
         async: false,
+        beforeSend:function () {
+            startProgress();
+        },
         success: function (datas) {
+            endProgress();
             var len = datas.length;
             for (var i = 0; i < len; i++) {
                 var $option = $("<option></option>").val(datas[i].uuid).text(datas[i].name);
                 $("#subjectType").append($option);
             }
+        },
+        error:function () {
+            endProgress();
         }
     });
     //如果存在ID说明是更新试题，并且没有选择试题类型
@@ -66,8 +73,12 @@ $(function () {
             type: "post",
             data: $("#subjectItemForm").serialize(),
             context: $(this),
+            beforeSend:function () {
+                startProgress();
+            },
             success: function (datas) {
                 //显示添加成功提示
+                endProgress();
                 if(datas){
                     openDialog("#successDialog","<p>更改成功</p>",null,true);
                     $("input[name='subjectId']").val(datas.subjectId);
@@ -79,6 +90,7 @@ $(function () {
                 }
             },
             error:function () {
+                endProgress();
                 openDialog("#errorDialog","<p>更改失败，服务器端错误</p>",null,true);
             }
         });
@@ -215,9 +227,10 @@ function removeImage(uuid) {
             type: "get",
             context: $(this),
             beforeSend:function () {
-
+                startProgress();
             },
             success: function (data) {
+                endProgress();
                 if (data == true) {
                     openDialog("#successDialog", "<p>删除成功!</p>", null, true);
                     refreshSubjectImgTable();
@@ -226,6 +239,7 @@ function removeImage(uuid) {
                 }
             },
             error:function () {
+                endProgress();
                 openDialog("#errorDialog", "<p>删除失败,服务器端错误</p>", null, true);
             }
         });

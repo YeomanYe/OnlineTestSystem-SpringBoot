@@ -1,7 +1,7 @@
 var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 $(function () {
     //显示时间
-    setInterval(systemTime("#showTime"),1000);
+    setInterval(systemTime("#showTime"), 1000);
     // toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage")();
     /*设置事件处理函数*/
     $("#query_subject").click(toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage"));
@@ -21,8 +21,8 @@ $(function () {
             //清除paperID值
             $("#paperId").val("");
         }));
-    $("#query_userLog").click(toggleTabs("userLogListTab","日志管理","userLog/listUserLogPage"));
-    $("#query_permission").click(toggleTabs("permissionListTab","权限管理","permission/listPermissionPage"))
+    $("#query_userLog").click(toggleTabs("userLogListTab", "日志管理", "userLog/listUserLogPage"));
+    $("#query_permission").click(toggleTabs("permissionListTab", "权限管理", "permission/listPermissionPage"))
 });
 /**
  * 切换标签页
@@ -79,7 +79,7 @@ function resetAddPaperForm() {
     $("#subjectCnt").val("0");
     $("#paperDesc").val("");
     $("#subjectTable").DataTable().rows().invalidate().draw();
-    $(":checked").prop({checked:false});
+    $(":checked").prop({checked: false});
     subjectIds = [];
 }
 
@@ -91,7 +91,7 @@ function resetAddPaperForm() {
  * @param canSelector canvas选择器
  * @returns {Function}
  */
-function staHandler(canSelector,urlAndSta,staTypes,legends){
+function staHandler(canSelector, urlAndSta, staTypes, legends) {
     var chart = null;
     var staTemplateData = [
         {
@@ -99,12 +99,8 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
             datasets: [
                 {
                     label: "",
-                    backgroundColor: [
-
-                    ],
-                    borderColor: [
-
-                    ],
+                    backgroundColor: [],
+                    borderColor: [],
                     borderWidth: 1,
                     data: []
                 }
@@ -138,10 +134,10 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
             ]
         },
     ];
-    return function(){
+    return function () {
         var ctx = $(canSelector)[0].getContext("2d");
         //类型字符串数组
-        var staTypeArr = ['bar','line','radar','doughnut'];
+        var staTypeArr = ['bar', 'line', 'radar', 'doughnut'];
         //类型名
         var type = "";
         //循环遍历，有对应的类的按钮既是被选择的按钮
@@ -149,13 +145,13 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
         var url = "";
         var data = null;
         //必须先获取数据data
-        for(var i=0;i<len;i++){
-            if($(staTypes[i]).hasClass("btn-success") && i!=1){
+        for (var i = 0; i < len; i++) {
+            if ($(staTypes[i]).hasClass("btn-success") && i != 1) {
                 //i不等于1时生成与图表对应的颜色数
                 var boderColorArr = [],
                     bgColorArr = [];
-                for(var j=0,len2=staTemplateData[0].datasets[0].data.length;j<len2;j++){
-                    var color = 'rgba('+randInt(255)+', '+randInt(150)+', '+randInt(50);
+                for (var j = 0, len2 = staTemplateData[0].datasets[0].data.length; j < len2; j++) {
+                    var color = 'rgba(' + randInt(255) + ', ' + randInt(150) + ', ' + randInt(50);
                     bgColorArr.push(color + ', 0.2)');
                     boderColorArr.push(color + ', 1)');
                 }
@@ -163,19 +159,19 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
                 data.datasets[0].backgroundColor = bgColorArr;
                 data.datasets[0].borderColor = boderColorArr;
                 type = staTypeArr[i];
-            }else if($(staTypes[i]).hasClass("btn-success")){
+            } else if ($(staTypes[i]).hasClass("btn-success")) {
                 data = staTemplateData[1];
                 type = staTypeArr[i];
             }
         }
         len = urlAndSta.length;
-        for(i=0;i<len;i++){
-            if($(urlAndSta[i].selector).hasClass("btn-danger")){
+        for (i = 0; i < len; i++) {
+            if ($(urlAndSta[i].selector).hasClass("btn-danger")) {
                 url = urlAndSta[i].url;
                 //加入标题
-                if( legends instanceof Array){
+                if (legends instanceof Array) {
                     data.datasets[0].label = legends[i];
-                }else{
+                } else {
                     data.datasets[0].label = legends;
                 }
             }
@@ -184,13 +180,13 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
             url: url,
             type: "get",
             context: $(this),
-            success:function (datas) {
+            success: function (datas) {
 
                 var labelArr = [],
                     dataArr = [];
                 //将返回值封装为数组用于图表展示
                 var len = datas.length;
-                for(var i=0;i<len;i++){
+                for (var i = 0; i < len; i++) {
                     //x轴
                     labelArr.push(datas[i].name);
                     //y轴
@@ -199,7 +195,7 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
                 data.labels = labelArr;
                 data.datasets[0].data = dataArr;
                 //清除上一种显示状态
-                if(chart) chart.destroy();
+                if (chart) chart.destroy();
                 chart = new Chart(ctx, {
                     type: type,
                     data: data
@@ -215,25 +211,25 @@ function staHandler(canSelector,urlAndSta,staTypes,legends){
  * @param callback 回调函数
  * @param isCenter 是否居中
  */
-function openDialog(digSelector, content, callback,isCenter) {
+function openDialog(digSelector, content, callback, isCenter) {
     if (content) {
         var digBody = $(digSelector + " .modal-body");
         digBody.html("");
         digBody.append(content);
     }
     //模态窗口垂直居中设置
-    if(isCenter){
+    if (isCenter) {
         var $modal = $(digSelector);
-        $modal.on('shown.bs.modal', function(){
+        $modal.on('shown.bs.modal', function () {
             var $this = $(this);
             var $modal_dialog = $this.find('.modal-dialog');
-            var m_top = ( $(document).height() - $modal_dialog.height() )/2;
+            var m_top = ( $(document).height() - $modal_dialog.height() ) / 2;
             $modal_dialog.css({'margin': m_top + 'px auto'});
         });
     }
     $(digSelector).modal({
-        keyboard:true,
-        show:true
+        keyboard: true,
+        show: true
     });
     if (typeof callback === 'function') {
         callback();
@@ -244,20 +240,20 @@ function openDialog(digSelector, content, callback,isCenter) {
  * @param content 显示内容
  * @param handler 点击确认的处理函数
  */
-function confirmDialog(content,handler) {
+function confirmDialog(content, handler) {
     var digBody = $("#confirmDialog .modal-body");
     digBody.html("");
     digBody.append(content);
     var $modal = $("#confirmDialog");
-    $modal.on('shown.bs.modal', function(){
+    $modal.on('shown.bs.modal', function () {
         var $this = $(this);
         var $modal_dialog = $this.find('.modal-dialog');
-        var m_top = ( $(window).height() - $modal_dialog.height() )/2;
+        var m_top = ( $(window).height() - $modal_dialog.height() ) / 2;
         $modal_dialog.css({'margin': m_top + 'px auto'});
     });
     $modal.modal("show");
-    if(typeof handler === "function"){
-        $("#confirmDialog .okBtn")[0].onclick = function(){
+    if (typeof handler === "function") {
+        $("#confirmDialog .okBtn")[0].onclick = function () {
             handler();
             $("#confirmDialog").modal("hide");
         }
@@ -276,11 +272,11 @@ function closeDialogBtn() {
  * @param low 低位
  * @param high 高位
  */
-function randInt(low,high) {
+function randInt(low, high) {
     var ret = 0;
-    if(high){
+    if (high) {
         ret = parseInt(Math.random() * (high - low) + low);
-    }else{
+    } else {
         ret = parseInt(Math.random() * low);
     }
     return ret;
@@ -293,28 +289,60 @@ function randInt(low,high) {
  * @param call 成功时的回调函数
  * @returns {Function}
  */
-function uploadFile(form,url,call) {
-    return function(){
+function uploadFile(form, url, call) {
+    return function () {
         $(form).ajaxSubmit({
             type: "POST",
-            url:url,
-            beforeSend:function () {
+            url: url,
+            beforeSend: function () {
 
             },
-            success: function(data){
-                if(data === true){
-                    openDialog("#successDialog","<p>上传成功!</p>",null,true);
-                    if(typeof call == "function") call();
+            success: function (data) {
+                if (data === true) {
+                    openDialog("#successDialog", "<p>上传成功!</p>", null, true);
+                    if (typeof call == "function") call();
                 }
-                else{
-                    openDialog("#errorDialog","<p>上传失败,原因未知</p>",null,true);
+                else {
+                    openDialog("#errorDialog", "<p>上传失败,原因未知</p>", null, true);
                 }
             },
-            error:function () {
-                openDialog("#errorDialog","<p>上传失败,服务器端错误</p>",null,true);
+            error: function () {
+                openDialog("#errorDialog", "<p>上传失败,服务器端错误</p>", null, true);
             }
         });
     }
+}
+/**
+ * 启动进度条
+ */
+var progressTimeout; //进度条计时器标志位
+var curProgress = 0;
+function startProgress() {
+    $("#progressPanel").show();
+    //第一次启动时，设置进度条位置
+    if (!curProgress) {
+        $("#progressPanel").css({
+            position: "absolute",
+            top: ($(window).height() - $("#progress-bar").height()) / 2,
+            left: ($(window).width() - $("#progress-bar").width()) / 2
+        });
+    }
+
+    if (curProgress >= 100) {
+        curProgress = 100;
+    }
+    $("#progress-bar").css("width", curProgress + "%").text("进度:" + curProgress + "%");
+    curProgress += 10;
+    progressTimeout = setTimeout(startProgress, 50);
+}
+/**
+ * 关闭进度条
+ */
+function endProgress() {
+    $("#progressPanel").hide();
+    $("#progress-bar").css("width", "0%").text("进度:0%");
+    curProgress = 0;
+    clearTimeout(progressTimeout);
 }
 
 /**
@@ -335,7 +363,7 @@ function setBtnStyle(goal, origin) {
  * 显示时间,显示时间的块需要设置为相对定位
  * @param selector jQuery选择器
  */
-function systemTime(selector){
+function systemTime(selector) {
     return function () {
         var myDate = new Date();
         var year = myDate.getFullYear();
@@ -345,39 +373,94 @@ function systemTime(selector){
         var hours = myDate.getHours();
         var minutes = myDate.getMinutes();
         var seconds = myDate.getSeconds();
-        switch(day){
-            case 0 : day="日";break;
-            case 1 : day="一";break;
-            case 2 : day="二";break;
-            case 3 : day="三";break;
-            case 4 : day="四";break;
-            case 5 : day="五";break;
-            case 6 : day="六";break;
-            default : brak;
+        switch (day) {
+            case 0 :
+                day = "日";
+                break;
+            case 1 :
+                day = "一";
+                break;
+            case 2 :
+                day = "二";
+                break;
+            case 3 :
+                day = "三";
+                break;
+            case 4 :
+                day = "四";
+                break;
+            case 5 :
+                day = "五";
+                break;
+            case 6 :
+                day = "六";
+                break;
+            default :
+                brak;
         }
-        switch(minutes){
-            case 0 : minutes = "00";break;
-            case 1 : minutes = "01";break;
-            case 2 : minutes = "02";break;
-            case 3 : minutes = "03";break;
-            case 4 : minutes = "04";break;
-            case 5 : minutes = "05";break;
-            case 6 : minutes = "06";break;
-            case 7 : minutes = "07";break;
-            case 8 : minutes = "08";break;
-            case 9 : minutes = "09";break;
+        switch (minutes) {
+            case 0 :
+                minutes = "00";
+                break;
+            case 1 :
+                minutes = "01";
+                break;
+            case 2 :
+                minutes = "02";
+                break;
+            case 3 :
+                minutes = "03";
+                break;
+            case 4 :
+                minutes = "04";
+                break;
+            case 5 :
+                minutes = "05";
+                break;
+            case 6 :
+                minutes = "06";
+                break;
+            case 7 :
+                minutes = "07";
+                break;
+            case 8 :
+                minutes = "08";
+                break;
+            case 9 :
+                minutes = "09";
+                break;
         }
-        switch(seconds){
-            case 0 : seconds = "00";break;
-            case 1 : seconds = "01";break;
-            case 2 : seconds = "02";break;
-            case 3 : seconds = "03";break;
-            case 4 : seconds = "04";break;
-            case 5 : seconds = "05";break;
-            case 6 : seconds = "06";break;
-            case 7 : seconds = "07";break;
-            case 8 : seconds = "08";break;
-            case 9 : seconds = "09";break;
+        switch (seconds) {
+            case 0 :
+                seconds = "00";
+                break;
+            case 1 :
+                seconds = "01";
+                break;
+            case 2 :
+                seconds = "02";
+                break;
+            case 3 :
+                seconds = "03";
+                break;
+            case 4 :
+                seconds = "04";
+                break;
+            case 5 :
+                seconds = "05";
+                break;
+            case 6 :
+                seconds = "06";
+                break;
+            case 7 :
+                seconds = "07";
+                break;
+            case 8 :
+                seconds = "08";
+                break;
+            case 9 :
+                seconds = "09";
+                break;
         }
         var fullTime = year + "-" + month + "-" + date + " 周" + day + " " + hours + ":" + minutes + ":" + seconds;
         $(selector).html(fullTime);

@@ -68,7 +68,11 @@ $(function () {
                 url: "baseData/queryType",
                 type: "get",
                 async: true,
+                beforeSend:function () {
+                    startProgress();
+                },
                 success: function (datas) {
+                    endProgress();
                     var len = datas.length,
                         //用于存放select数据
                         selectData = [];
@@ -82,6 +86,9 @@ $(function () {
                     $("#baseDataType").select2({
                         data: selectData
                     });
+                },
+                error:function () {
+                    endProgress();
                 }
             });
         },true)
@@ -97,7 +104,11 @@ $(function () {
                     type: "get",
                     data: $("#baseDataListForm").serialize(),
                     context: $(this),
+                    beforeSend:function () {
+                        startProgress();
+                    },
                     success: function (data) {
+                        endProgress();
                         if (data === true) {
                             //刷新
                             openDialog("#successDialog", "<p>删除成功</p>", null, true);
@@ -107,6 +118,7 @@ $(function () {
                         }
                     },
                     error:function () {
+                        endProgress();
                         openDialog("#errorDialog","<p>删除失败，服务器端错误</p>",null,true);
                     }
                 });
@@ -124,7 +136,11 @@ $(function () {
                     url: "baseData/queryType",
                     type: "get",
                     async: true,
+                    beforeSend:function () {
+                        startProgress();
+                    },
                     success: function (datas) {
+                        endProgress();
                         var len = datas.length,
                             //用于存放select数据
                             selectData = [];
@@ -138,6 +154,9 @@ $(function () {
                         $("#baseDataType").select2({
                             data: selectData
                         });
+                    },
+                    error:function () {
+                        endProgress();
                     }
                 });
 
@@ -166,7 +185,11 @@ $(function () {
             type: "get",
             data: $("#baseDataForm").serialize(),
             url: "baseData/mergeBaseData",
+            beforeSend:function () {
+                startProgress();
+            },
             success: function (data) {
+                endProgress();
                 //如果数据不为空，说明保存成功
                 if (data) {
                     openDialog("#successDialog","<p>更改成功</p>",null,true);
@@ -177,6 +200,7 @@ $(function () {
                 }
             },
             error:function () {
+                endProgress();
                 openDialog("#errorDialog","<p>更改失败，服务器端错误</p>",null,true);
             }
         })

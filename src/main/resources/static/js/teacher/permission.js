@@ -188,7 +188,11 @@ $(function () {
                     type: "get",
                     data: $("#userListForm").serialize(),
                     context: $(this),
+                    beforeSend:function () {
+                        startProgress();
+                    },
                     success: function (data) {
+                        endProgress();
                         if (data === true) {
                             openDialog("#successDialog","<p>删除成功</p>",null,true);
                             //刷新
@@ -198,6 +202,7 @@ $(function () {
                         }
                     },
                     error:function () {
+                        endProgress();
                         openDialog("#errorDialog","<p>删除失败，服务器端错误</p>",null,true);
                     }
                 });
@@ -210,10 +215,17 @@ $(function () {
             type: "get",
             url: "permission/addUsers",
             data: $("#userForm").serialize(),
+            beforeSend:function () {
+                startProgress();
+            },
             success: function (data) {
+                endProgress();
                 if(data==true){
                     userRefresh();
                 }
+            },
+            error:function () {
+                endProgress();
             }
         })
     });
@@ -226,7 +238,11 @@ $(function () {
                 $.ajax({
                     url:"permission/queryRelRole?userId="+$checkedboxs.val(),
                     type:"get",
+                    beforeSend:function () {
+                        startProgress();
+                    },
                     success:function (data) {
+                        endProgress();
                         $checkableRoleTree.treeview('uncheckAll');
                         usersRole = [];
                         if(!data.length) return;
@@ -240,6 +256,9 @@ $(function () {
                             usersRole.push(data[i].roleId);
                         }
                         $checkableRoleTree.treeview('clearSearch');
+                    },
+                    error:function () {
+                        endProgress();
                     }
                 })
             },true);
@@ -254,10 +273,17 @@ $(function () {
             type:"get",
             url:"permission/addUserRoleRel",
             data:data,
+            beforeSend:function () {
+                startProgress();
+            },
             success:function (data) {
+                endProgress();
                 if(data==true){
 
                 }
+            },
+            error:function () {
+                endProgress();
             }
         })
     });
@@ -291,8 +317,11 @@ $(function () {
                     type: "get",
                     data: $("#roleListForm").serialize(),
                     context: $(this),
+                    beforeSend:function () {
+                        startProgress();
+                    },
                     success: function (data) {
-
+                        endProgress();
                         if (data === true) {
                             openDialog("#successDialog","<p>删除成功</p>",null,true);
                             //刷新
@@ -302,6 +331,7 @@ $(function () {
                         }
                     },
                     error:function () {
+                        endProgress();
                         openDialog("#errorDialog","<p>删除失败，服务器端错误</p>",null,true);
                     }
                 })
@@ -314,11 +344,18 @@ $(function () {
             type: "get",
             url: "permission/mergeRole",
             data: $("#roleForm").serialize(),
+            beforeSend:function () {
+                startProgress();
+            },
             success: function (data) {
+                endProgress();
                 if (data) {
                     $("#roleId").val(data);
                     roleRefresh();
                 }
+            },
+            error:function () {
+                endProgress();
             }
         })
     });
@@ -331,7 +368,11 @@ $(function () {
                 $.ajax({
                     url:"permission/queryAuth?roleId="+$checkedboxs.val(),
                     type:"get",
+                    beforeSend:function () {
+                        startProgress();
+                    },
                     success:function (data) {
+                        endProgress();
                         $checkablePermissionTree.treeview('uncheckAll');
                         resourcesCodes = [];
                         if(!data.length) return;
@@ -345,6 +386,9 @@ $(function () {
                             resourcesCodes.push(data[i].resourcesId);
                         }
                         $checkablePermissionTree.treeview('clearSearch');
+                    },
+                    error:function () {
+                        endProgress();
                     }
                 })
             });
@@ -360,10 +404,17 @@ $(function () {
             type:"get",
             url:"permission/addAuth",
             data:data,
+            beforeSend:function () {
+                startProgress();
+            },
             success:function (data) {
+                endProgress();
                 if(data==true){
 
                 }
+            },
+            error:function () {
+                endProgress();
             }
         })
     })
