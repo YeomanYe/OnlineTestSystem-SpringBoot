@@ -53,10 +53,8 @@
                                 <div class="input-group">
                             <span class="input-group-addon">
                             <label class="itemCheckbox">
-                              <div class="icheckbox_flat-green"
-                                   style="position: relative;">
-                                  <input name="answers" type="checkbox" checked="checked" value="false"
-                                         class="flat-red"/>
+                              <div class="icheckbox_flat-green">
+                                  <input style="opacity: 0;" name="answers" type="checkbox" checked="checked" value="false"/>
                                   <ins class=" iCheck-helper"></ins>
                               </div>
                             </label>
@@ -164,28 +162,9 @@
         cursor: pointer;
     }
 
-    .iCheck-helper {
-        position: absolute;
-        top: 0%;
-        left: 0%;
-        display: block;
-        width: 100%;
-        height: 100%;
-        margin: 0px;
-        padding: 0px;
-        background: rgb(255, 255, 255);
-        border: 0px;
-        opacity: 0;
-    }
-
-    .flat-red {
-        position: absolute;
-        opacity: 0;
-    }
     #subjectImgTable a{
         color:black;
     }
 </style>
-<script src="AdminLTE-2.3.11/plugins/iCheck/icheck.min.js"></script>
 <script src="AdminLTE-2.3.11/plugins/select2/select2.full.min.js"></script>
 <script src="js/teacher/subject_add.js"></script>

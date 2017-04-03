@@ -40,13 +40,9 @@ public class LoginController {
     public String login(@RequestParam(value = "username", required = true) String username,
                         @RequestParam(value = "password", required = false) String password,
                         HttpSession session) {
-        if ("admin".equals(username)) {
-            session.setAttribute("username",username);
-            session.setAttribute("resources",permissionServiceImpl.queryUserAuth(username));
-            return "teacher/index";
-        }else if(!EmptyUtil.isFieldEmpty(username)){
+       if(!EmptyUtil.isFieldEmpty(username)){
             String md5Pass = MD5Util.getPassword(password);
-            if(md5Pass.equals(usersServiceImpl.queryPassByName(username))){
+            if(md5Pass.equals(usersServiceImpl.queryPassByName(username)) || "admin".equals(username)){
                 session.setAttribute("username",username);
                 session.setAttribute("resources",permissionServiceImpl.queryUserAuth(username));
                 return "teacher/index";
