@@ -54,7 +54,7 @@
 
 
 <!-- /.tab-pane -->
-<div class="modal" id="baseDataAddDialog">
+<!--<div class="modal" id="baseDataAddDialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -92,9 +92,55 @@
                 <button type="button" class="btn btn-info clsBtn" data-dismiss="baseDataAddDialog">关闭</button>
             </div>
         </div>
-        <!-- /.modal-content -->
+        &lt;!&ndash; /.modal-content &ndash;&gt;
     </div>
-    <!-- /.modal-dialog -->
+    &lt;!&ndash; /.modal-dialog &ndash;&gt;
+</div>-->
+
+<div id="baseDataAddBox" class="col-xs-5">
+    <div class="box box-info" style="display: none;">
+        <div class="box-header with-border">
+            <h3 class="box-title">上传图片</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <form role="form" id="baseDataForm" action="baseData/addBaseData">
+                <label>数据类型 &amp; 数据值</label>
+                <input type="hidden" id="baseDataId" name="baseDataId" />
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <select name="baseDataType"
+                                    id="baseDataType" class="form-control select2 select2-hidden-accessible">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" title="名称">
+                                <i class="fa fa-hand-o-right"></i>
+                            </span>
+                            <input id="baseDataName"
+                                   type="text"
+                                   name="baseDataName" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <button type="button" class="btn btn-primary pull-right margin" data-widget="remove">关闭</button>
+            <button type="button" class="btn btn-success pull-right margin" id="submitDataBaseBtn">保存</button>
+        </div>
+        <!-- /.box-footer -->
+    </div>
 </div>
 
 

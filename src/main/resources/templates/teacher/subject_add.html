@@ -54,7 +54,8 @@
                             <span class="input-group-addon">
                             <label class="itemCheckbox">
                               <div class="icheckbox_flat-green">
-                                  <input style="opacity: 0;" name="answers" type="checkbox" checked="checked" value="false"/>
+                                  <input style="opacity: 0;" name="answers" type="checkbox" checked="checked"
+                                         value="false"/>
                                   <ins class=" iCheck-helper"></ins>
                               </div>
                             </label>
@@ -83,49 +84,6 @@
     </section>
 </div>
 
-<div class="modal" id="subjectImgDialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close clsBtn" data-dismiss="subjectImgDialog" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">上传图片</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row margin">
-                    <form enctype="multipart/form-data" action="subject/imgUpload" id="subjectImgForm" method="post">
-                        <div class="form-group">
-                            <label for="subjectImgFile">试题图片</label>
-                            <input type="hidden" name="subjectId"/>
-                            <input type="file" id="subjectImgFile" name="subjectImgFile"/>
-                            <p class="help-block">注意:必须先保存试题才能上传图片,图片有且只有一张</p>
-                        </div>
-                    </form>
-                </div>
-                <div class="row margin">
-                    <table id="subjectImgTable" class="table table-bordered table-striped dataTable">
-                        <thead>
-                        <tr role="row">
-                            <th>类型</th>
-                            <th>名字</th>
-                            <th>大小</th>
-                            <th>上传时间</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="uploadImgBtn">上传</button>
-                <button type="button" class="btn btn-info clsBtn" data-dismiss="subjectImgDialog">关闭</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-
 
 <div class="modal" id="subjectPreviewDialog">
     <div class="modal-dialog">
@@ -146,6 +104,51 @@
     <!-- /.modal-dialog -->
 </div>
 
+<div id="subjectImgBox" class="col-xs-5">
+    <div class="box box-info" style="display: none;">
+        <div class="box-header with-border">
+            <h3 class="box-title">上传图片</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="row margin">
+                <form enctype="multipart/form-data" action="subject/imgUpload" id="subjectImgForm" method="post">
+                    <div class="form-group">
+                        <label for="subjectImgFile">试题图片</label>
+                        <input type="hidden" name="subjectId"/>
+                        <input type="file" id="subjectImgFile" name="subjectImgFile"/>
+                        <p class="help-block">注意:必须先保存试题才能上传图片,图片有且只有一张</p>
+                    </div>
+                </form>
+            </div>
+            <div class="row margin">
+                <table id="subjectImgTable" class="table table-bordered table-striped dataTable">
+                    <thead>
+                    <tr role="row">
+                        <th>类型</th>
+                        <th>名字</th>
+                        <th>大小</th>
+                        <th>上传时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <button type="button" class="btn btn-primary pull-right margin" data-widget="remove">关闭</button>
+            <button type="button" class="btn btn-success pull-right margin" id="uploadImgBtn">上传</button>
+        </div>
+        <!-- /.box-footer -->
+    </div>
+</div>
 
 
 <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/iCheck/all.css"/>
@@ -162,8 +165,8 @@
         cursor: pointer;
     }
 
-    #subjectImgTable a{
-        color:black;
+    #subjectImgTable a {
+        color: black;
     }
 </style>
 <script src="AdminLTE-2.3.11/plugins/select2/select2.full.min.js"></script>

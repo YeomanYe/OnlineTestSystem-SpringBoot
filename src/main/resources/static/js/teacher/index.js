@@ -223,7 +223,7 @@ function openDialog(digSelector, content, callback, isCenter) {
         $modal.on('shown.bs.modal', function () {
             var $this = $(this);
             var $modal_dialog = $this.find('.modal-dialog');
-            var m_top = ( $(document).height() - $modal_dialog.height() ) / 2;
+            var m_top = ( $(window).height() - $modal_dialog.height() ) / 2;
             $modal_dialog.css({'margin': m_top + 'px auto'});
         });
     }
@@ -310,6 +310,27 @@ function uploadFile(form, url, call) {
                 openDialog("#errorDialog", "<p>上传失败,服务器端错误</p>", null, true);
             }
         });
+    }
+}
+/**
+ * 打开面板
+ * @param selector
+ * @param content
+ * @param callback
+ */
+function openBox(selector, content, callback) {
+    if(content){
+        $(selector).find(".box-body").html(content);
+    }
+    $(selector).find(".box").show();
+    $(selector).css({
+        position: "absolute",
+        top: ($(window).height() - $(selector).height()) / 2 > 0 ? ($(window).height() - $(selector).height()) / 2 : 60,
+        left: ($(window).width() - $(selector).width()) / 2 > 0 ? ($(window).width() - $(selector).width()) / 2 : 60,
+        zIndex:999
+    });
+    if(typeof callback === "function"){
+        callback();
     }
 }
 /**

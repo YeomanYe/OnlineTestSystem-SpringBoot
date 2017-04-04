@@ -108,50 +108,6 @@ $(function () {
             });
         }
     });
-    //初始角色树
-    var $checkableRoleTree;
-    $.ajax({
-        type:"get",
-        url:"permission/queryRoleTree",
-        success:function (data) {
-            //如果为空则返回
-            if(!data) return;
-            console.log(data);
-            $checkableRoleTree = $('#roleTree').treeview({
-                data: data,
-                showIcon: false,
-                collapseIcon:"glyphicon glyphicon-folder-open",
-                expandIcon:"glyphicon glyphicon-folder-close",
-                emptyIcon:"glyphicon glyphicon-tower",
-                showCheckbox: true,
-                onNodeChecked: function (event, node) {
-                    /*var parentNode = $checkableRoleTree.treeview('getParent', node);
-                    if(parentNode.nodes){
-                        //递归选择
-                        $checkableRoleTree.treeview('checkNode',parentNode);
-                    }*/
-                    //添加角色ID到数组中
-                    var value = node.value;
-                    if(value){
-                        usersRole.push(node.value);
-                    }
-                },
-                onNodeUnchecked: function (event, node) {
-                    /*var childNodes = node.nodes;
-                    if(childNodes){
-                        //递归取消选择
-                        for(var i=0,len=childNodes.length;i<len;i++){
-                            $checkableRoleTree.treeview('uncheckNode',[childNodes[i].nodeId]);
-                        }
-                    }*/
-                    //删除用户角色数组中的值
-                    var index = usersRole.indexOf(node.value);
-                    if(index != -1)
-                        usersRole.splice(index,1);
-                }
-            });
-        }
-    });
 
     //绑定事件处理函数
     //给关闭按钮添加事件
@@ -160,12 +116,12 @@ $(function () {
      用户相关操作
      */
     $("#addUser").click(function () {
-        openDialog("#userAddDialog", null, function () {
+        openBox("#userAddBox",null,function () {
             //将表单以及ID清空
             $("#userName").val("");
             $("#password").val("");
             $("#againPassword").val("");
-        },true)
+        });
     });
     /*$("#updateUser").click(function () {
         var $checkedboxs = $(".userCheckbox:checked");
@@ -221,10 +177,14 @@ $(function () {
             success: function (data) {
                 endProgress();
                 if(data==true){
+                    openDialog("#successDialog","<p>更改成功</p>",null,true);
                     userRefresh();
+                }else{
+                    openDialog("#errorDialog","<p>未知错误，请重试!</p>",null,true);
                 }
             },
             error:function () {
+                openDialog("#errorDialog","<p>操作失败，服务器端错误!</p>",null,true);
                 endProgress();
             }
         })
@@ -234,7 +194,40 @@ $(function () {
         if ($checkedboxs.length != 1) {
             openDialog("#infoDialog","<p>请选择一个用户</p>",null,true);
         } else {
-            openDialog("#roleTreeDialog",null,function () {
+            //初始角色树
+            var $checkableRoleTree;
+            $.ajax({
+                type:"get",
+                async:false,
+                url:"permission/queryRoleTree",
+                success:function (data) {
+                    //如果为空则返回
+                    if(!data) return;
+                    console.log(data);
+                    $checkableRoleTree = $('#roleTree').treeview({
+                        data: data,
+                        showIcon: false,
+                        collapseIcon:"glyphicon glyphicon-folder-open",
+                        expandIcon:"glyphicon glyphicon-folder-close",
+                        emptyIcon:"glyphicon glyphicon-tower",
+                        showCheckbox: true,
+                        onNodeChecked: function (event, node) {
+                            //添加角色ID到数组中
+                            var value = node.value;
+                            if(value){
+                                usersRole.push(node.value);
+                            }
+                        },
+                        onNodeUnchecked: function (event, node) {
+                            //删除用户角色数组中的值
+                            var index = usersRole.indexOf(node.value);
+                            if(index != -1)
+                                usersRole.splice(index,1);
+                        }
+                    });
+                }
+            });
+            openBox("#roleTreeBox",null,function(){
                 $.ajax({
                     url:"permission/queryRelRole?userId="+$checkedboxs.val(),
                     type:"get",
@@ -261,7 +254,7 @@ $(function () {
                         endProgress();
                     }
                 })
-            },true);
+            });
         }
     });
     $("#submitRoleTreeBtn").click(function () {
@@ -279,31 +272,34 @@ $(function () {
             success:function (data) {
                 endProgress();
                 if(data==true){
-
+                    openDialog("#successDialog","<p>更改成功</p>",null,true);
+                }else{
+                    openDialog("#errorDialog","<p>未知错误，请重试!</p>",null,true);
                 }
             },
             error:function () {
+                openDialog("#errorDialog","<p>操作失败，服务器端错误!</p>",null,true);
                 endProgress();
             }
         })
     });
     //角色相关操作
     $("#addRole").click(function () {
-        openDialog("#roleAddDialog", null, function () {
+        openBox("#roleAddBox",null,function () {
             //将表单以及ID清空
             $("#roleId").val("");
             $("#roleName").val("");
-        },true)
+        });
     });
     $("#updateRole").click(function () {
         var $checkedboxs = $(".roleCheckbox:checked");
         if ($checkedboxs.length != 1) {
             openDialog("#infoDialog","<p>请选择一个角色</p>",null,true);
         } else {
-            openDialog("#roleAddDialog", null, function () {
+            openBox("#roleAddBox",null,function () {
                 $("#roleId").val($checkedboxs.val());
                 $("#roleName").val($checkedboxs.closest('tr').find('.roleName').text())
-            },true);
+            });
         }
     });
     $("#deleteRole").click(function () {
@@ -350,11 +346,15 @@ $(function () {
             success: function (data) {
                 endProgress();
                 if (data) {
+                    openDialog("#successDialog","<p>更改成功</p>",null,true);
                     $("#roleId").val(data);
                     roleRefresh();
+                }else{
+                    openDialog("#errorDialog","<p>未知错误，请重试!</p>",null,true);
                 }
             },
             error:function () {
+                openDialog("#errorDialog","<p>操作失败，服务器端错误!</p>",null,true);
                 endProgress();
             }
         })
@@ -364,7 +364,7 @@ $(function () {
         if ($checkedboxs.length != 1) {
             openDialog("#infoDialog","<p>请选择一个角色</p>",null,true);
         } else {
-            openDialog("#resourcesDialog",null,function () {
+            openBox("#resourcesTreeBox",null,function () {
                 $.ajax({
                     url:"permission/queryAuth?roleId="+$checkedboxs.val(),
                     type:"get",
@@ -375,7 +375,9 @@ $(function () {
                         endProgress();
                         $checkablePermissionTree.treeview('uncheckAll');
                         resourcesCodes = [];
-                        if(!data.length) return;
+                        if(!data.length) {
+                            return;
+                        }
                         for(var i=0,len=data.length;i<len;i++){
                             var checkableNodes = $checkablePermissionTree.treeview('search', [ data[i].text, {
                                 ignoreCase: false,     // case insensitive
@@ -410,10 +412,13 @@ $(function () {
             success:function (data) {
                 endProgress();
                 if(data==true){
-
+                    openDialog("#successDialog","<p>更改成功</p>",null,true);
+                }else{
+                    openDialog("#errorDialog","<p>未知错误，请重试!</p>",null,true);
                 }
             },
             error:function () {
+                openDialog("#errorDialog","<p>操作失败，服务器端错误!</p>",null,true);
                 endProgress();
             }
         })

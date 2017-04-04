@@ -100,9 +100,10 @@ $(function () {
     });
     //打开上传图片会话框
     $("#uploadSubjectImg").click(function () {
-        openDialog("#subjectImgDialog", null, function () {
+        openBox("#subjectImgBox", null, function () {
             //将试题ID复制到subjectImgForm表单下
             var subjectId = $("#subjectId").val();
+            debugger;
             $("#subjectImgForm input[name='subjectId']").val(subjectId);
             //清空原来的表格
             $("#subjectImgTable").DataTable().destroy();
@@ -136,7 +137,7 @@ $(function () {
                 ]
             });
 
-        },true);
+        });
     });
     //上传图片
     $("#uploadImgBtn").click(function () {

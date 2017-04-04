@@ -96,163 +96,172 @@
 </div>
 <!-- /.tab-pane -->
 
-<div class="modal" id="userAddDialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close clsBtn" data-dismiss="userAddDialog" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">添加用户</h4>
+<div id="userAddBox" class="col-xs-4">
+    <div class="box box-info" style="display: none;">
+        <div class="box-header with-border">
+            <h3 class="box-title">添加用户</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
-            <div class="modal-body">
-                <form role="form" id="userForm">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>用户名</label>
-                                <div class="input-group">
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <form role="form" id="userForm">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>用户名</label>
+                            <div class="input-group">
                             <span class="input-group-addon" title="用户名">
                                 <i class="fa fa-user-plus"></i>
                             </span>
-                                    <input id="userName"
-                                           type="text"
-                                           name="userName" class="form-control"/>
-                                </div>
+                                <input id="userName"
+                                       type="text"
+                                       name="userName" class="form-control"/>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>密码</label>
-                                <div class="input-group">
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>密码</label>
+                            <div class="input-group">
                             <span class="input-group-addon" title="密码">
                                 <i class="fa  fa-expeditedssl"></i>
                             </span>
-                                    <input id="password"
-                                           type="password"
-                                           name="password" class="form-control"/>
-                                </div>
+                                <input id="password"
+                                       type="password"
+                                       name="password" class="form-control"/>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>确认密码</label>
-                                <div class="input-group">
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>确认密码</label>
+                            <div class="input-group">
                             <span class="input-group-addon" title="确认密码">
                                 <i class="fa fa-unlock"></i>
                             </span>
-                                    <input id="againPassword"
-                                           type="password"
-                                           name="againPassword" class="form-control"/>
-                                </div>
+                                <input id="againPassword"
+                                       type="password"
+                                       name="againPassword" class="form-control"/>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-info" id="submitUserBtn">保存</button>
-                <button type="button" class="btn btn-info clsBtn" data-dismiss="userAddDialog">关闭</button>
-            </div>
+                </div>
+            </form>
         </div>
-        <!-- /.modal-content -->
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <button type="button" class="btn btn-primary pull-right margin" data-widget="remove">关闭</button>
+            <button type="button" class="btn btn-success pull-right margin" id="submitUserBtn">保存</button>
+        </div>
+        <!-- /.box-footer -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
-<!-- /.tab-pane -->
-<div class="modal" id="roleAddDialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close clsBtn" data-dismiss="roleAddDialog" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">添加角色</h4>
+
+<div id="roleAddBox" class="col-xs-4">
+    <div class="box box-info" style="display: none;">
+        <div class="box-header with-border">
+            <h3 class="box-title">添加角色</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
-            <div class="modal-body">
-                <form role="form" id="roleForm">
-                    <label>角色</label>
-                    <input type="hidden" id="roleId" name="uuid"/>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="input-group">
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <form role="form" id="roleForm">
+                <label>角色</label>
+                <input type="hidden" id="roleId" name="uuid"/>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="input-group">
                             <span class="input-group-addon" title="角色名">
                                 <i class="fa fa-users"></i>
                             </span>
-                                <input id="roleName"
-                                       type="text"
-                                       name="name" class="form-control"/>
-                            </div>
+                            <input id="roleName"
+                                   type="text"
+                                   name="name" class="form-control"/>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-info" id="submitRoleBtn">保存</button>
-                <button type="button" class="btn btn-info clsBtn" data-dismiss="roleAddDialog">关闭</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <button type="button" class="btn btn-primary pull-right margin" data-widget="remove">关闭</button>
+            <button type="button" class="btn btn-success pull-right margin" id="submitRoleBtn">保存</button>
+        </div>
+        <!-- /.box-footer -->
+    </div>
+</div>
+
+<div id="resourcesTreeBox" class="col-xs-4">
+    <div class="box box-info" style="display: none;">
+        <div class="box-header with-border">
+            <h3 class="box-title">关联资源</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
         </div>
-        <!-- /.modal-content -->
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div id="permissionTree"></div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <button type="button" class="btn btn-primary pull-right margin" data-widget="remove">关闭</button>
+            <button type="button" class="btn btn-success pull-right margin" id="submitResourcesBtn">保存</button>
+        </div>
+        <!-- /.box-footer -->
     </div>
-    <!-- /.modal-dialog -->
+</div>
+
+<div id="roleTreeBox" class="col-xs-4">
+    <div class="box box-info" style="display: none;">
+        <div class="box-header with-border">
+            <h3 class="box-title">角色列表</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div id="roleTree"></div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <button type="button" class="btn btn-primary pull-right margin" data-widget="remove">关闭</button>
+            <button type="button" class="btn btn-success pull-right margin" id="submitRoleTreeBtn">保存</button>
+        </div>
+        <!-- /.box-footer -->
+    </div>
 </div>
 
 
-<!-- /.tab-pane -->
-<div class="modal" id="resourcesDialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close clsBtn" data-dismiss="resourcesDialog" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">关联资源</h4>
-            </div>
-            <div class="modal-body">
-                <div id="permissionTree"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-info" id="submitResourcesBtn">保存</button>
-                <button type="button" class="btn btn-info clsBtn" data-dismiss="resourcesDialog">关闭</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-
-<div class="modal" id="roleTreeDialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close clsBtn" data-dismiss="roleTreeDialog" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">角色列表</h4>
-            </div>
-            <div class="modal-body">
-                <div id="roleTree"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-info" id="submitRoleTreeBtn">保存</button>
-                <button type="button" class="btn btn-info clsBtn" data-dismiss="roleTreeDialog">关闭</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
 
 
 <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.css"/>
 <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/bootstrap-treeview/bootstrap-treeview.css"/>
-<!--<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/select2/select2.min.css"/>
-<link rel="stylesheet" href="AdminLTE-2.3.11/dist/css/AdminLTE.min.css"/>
-<link rel="stylesheet" href="AdminLTE-2.3.11/dist/css/skins/_all-skins.min.css"/>-->
+
 
 <script src="AdminLTE-2.3.11/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="AdminLTE-2.3.11/plugins/bootstrap-treeview/bootstrap-treeview.js"></script>
-<!--<script src="AdminLTE-2.3.11/plugins/select2/select2.full.min.js"></script>-->
 <script src="js/teacher/permission.js"></script>

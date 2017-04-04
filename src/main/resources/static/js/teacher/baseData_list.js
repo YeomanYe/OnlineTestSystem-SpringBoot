@@ -62,7 +62,7 @@ $(function () {
     $(".clsBtn").click(closeDialogBtn);
     $("#refreshBaseData").click(refreshBaseData);
     $("#addBaseData").click(function () {
-        openDialog("#baseDataAddDialog", null, function () {
+        openBox("#baseDataAddBox", null, function () {
             //查询所有基础数据类型
             $.ajax({
                 url: "baseData/queryType",
@@ -130,7 +130,7 @@ $(function () {
         if ($checkedboxs.length != 1) {
             openDialog("#infoDialog","<p>请选择一个基础数据</p>",null,true);
         } else {
-            openDialog("#baseDataAddDialog", null, function () {
+            openBox("#baseDataAddBox", null, function () {
                 //查询所有基础数据类型,并添加到下拉框中
                 $.ajax({
                     url: "baseData/queryType",
