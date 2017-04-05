@@ -125,7 +125,7 @@ $(function () {
                         "data": "uuid",
                         "render": function (data) {
                             return '<div style="cursor: pointer;" class="glyphicon glyphicon-list-alt margin" onclick="subjectInfoShow(\'' + data + '\')" title="详情"></div>'
-                                + '<div style="cursor: pointer;" class="glyphicon glyphicon-trash margin" onclick="removeSubjectFromPaper(\'' + data + '\')" title="删除"></div>';
+                                + '<div style="cursor: pointer;" class="glyphicon glyphicon-remove margin" onclick="removeSubjectFromPaper(\'' + data + '\')" title="删除"></div>';
                         }
                     }
                 ]

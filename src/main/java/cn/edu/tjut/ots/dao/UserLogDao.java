@@ -1,6 +1,7 @@
 package cn.edu.tjut.ots.dao;
 
 import cn.edu.tjut.ots.po.UserLog;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -31,4 +32,6 @@ public interface UserLogDao {
     public List<UserLog> queryOperationForSta();
     //批量删除日志记录
     public void deleteUserLogByIds(String[] ids);
+    @Delete("delete from userLog")
+    public void deleteAllUserLog();
 }

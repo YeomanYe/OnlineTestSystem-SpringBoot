@@ -39,4 +39,9 @@ public interface UserLogService {
      * @param os
      */
     public void exportExcel(OutputStream os);
+
+    /**
+     * 清空用户日志
+     */
+    public void deleteAllUserLog();
 }

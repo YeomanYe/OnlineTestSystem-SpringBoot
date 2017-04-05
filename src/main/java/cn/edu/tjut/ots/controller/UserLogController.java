@@ -49,6 +49,15 @@ public class UserLogController {
         return bool;
     }
 
+    @ResponseBody
+    @RequestMapping("deleteAllUserLog")
+    public boolean deleteAllUserLog(){
+        boolean bool = false;
+        userLogServiceImpl.deleteAllUserLog();
+        bool = true;
+        return bool;
+    }
+
     @RequestMapping("downloadExcel")
     public void downloadExcel(HttpServletResponse response){
         response.setHeader("Content-Disposition", "attachment; filename=userLog.xlsx");

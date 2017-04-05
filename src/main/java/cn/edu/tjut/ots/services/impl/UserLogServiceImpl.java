@@ -64,4 +64,9 @@ public class UserLogServiceImpl implements UserLogService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void deleteAllUserLog() {
+        userLogDao.deleteAllUserLog();
+    }
 }

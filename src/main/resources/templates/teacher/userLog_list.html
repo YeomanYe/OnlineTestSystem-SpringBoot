@@ -20,6 +20,7 @@
                         <div class="glyphicon glyphicon-refresh" id="refreshUserLog" title="刷新">刷新</div>
                         <div th:remove="${#sets.contains(session.resources,'userLog_download')} ? none : all" class="glyphicon glyphicon-download-alt" id="downloadUserLog" title="下载"><a href="userLog/downloadExcel">下载</a></div>
                         <div th:remove="${#sets.contains(session.resources,'userLog_chart')} ? none : all" class="glyphicon glyphicon-stats" id="chartUserLog" title="图表">图表</div>
+                        <div th:remove="${#sets.contains(session.resources,'userLog_delete')} ? none : all" class="glyphicon glyphicon-trash" id="deleteAllUserLog" title="清空">清空</div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
