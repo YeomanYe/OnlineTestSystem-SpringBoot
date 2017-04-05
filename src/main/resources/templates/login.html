@@ -2,7 +2,7 @@
 <html lang="zh_CN">
 <head>
     <meta charset="UTF-8"></meta>
-    <title>Login</title>
+    <title>登陆</title>
     <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="AdminLTE-2.3.11/bootstrap/css/bootstrap.min.css"/>
     <!-- Font Awesome -->
@@ -21,11 +21,11 @@
     <div id="content">
         <form id="mainForm" method="post" action="login">
             <div class="form-group has-feedback">
-                <input type="text" name="username" class="form-control input-sm" placeholder="Username"/>
+                <input id="username" type="text" name="username" class="form-control input-sm" placeholder="Username"/>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" name="password" class="form-control input-sm" placeholder="Password"/>
+                <input id="password" type="password" name="password" class="form-control input-sm" placeholder="Password"/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">
@@ -57,6 +57,21 @@
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             increaseArea: '20%' // optional
+        });
+        var username = localStorage.getItem("username"),
+                password = localStorage.getItem("password");
+        if(username){
+            $("#username").val(username);
+            $("#password").val(password);
+            $(":checkbox").iCheck("check");
+        }
+        $("button[type='submit']").click(function () {
+            if($(":checkbox").prop("checked")){
+                localStorage.setItem("username",$("#username").val());
+                localStorage.setItem("password",$("#password").val());
+            }else{
+                localStorage.clear();
+            }
         });
     });
 </script>
