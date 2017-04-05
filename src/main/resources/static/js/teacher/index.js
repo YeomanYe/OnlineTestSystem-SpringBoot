@@ -379,7 +379,53 @@ function setBtnStyle(goal, origin) {
         $(this).addClass(goal);
     };
 }
-
+/**
+ * 点击显示试题信息
+ */
+function subjectInfoShow(uuid) {
+    //获取subjectId
+    $.ajax({
+        url: "subject/querySubjectInfo?uuid=" + uuid,
+        type: "get",
+        context: $(this),
+        beforeSend:function () {
+            startProgress();
+        },
+        success: function (dataSet) {
+            endProgress();
+            if (dataSet == null) {
+                return;
+            }
+            var datas = dataSet.subjectItems,
+                subjectNameText = dataSet.subjectName,
+                answerStr = "答案: ",
+                subjectItem = "",
+                subjectParse = "解析: " ,
+                src = dataSet.src;
+            for (var i = 0, len = datas.length; i < len; i++) {
+                subjectItem += "<p>" + ALPHA_CONSTANT.charAt(i) + ". " + datas[i].name + "</p>"
+                if (datas[i].answer) answerStr += ALPHA_CONSTANT.charAt(i);
+            }
+            var content = "<p id='dig_subjectName'>" + subjectNameText + "</p>";
+            //存在图片才加入图片元素
+            if (src) {
+                console.log(src);
+                content += '<img class="img-responsive pad" src="' + src + '">'
+            }
+            //如果没有解析则显示无
+            if(!dataSet.subjectParse){
+                subjectParse += "无";
+            }else{
+                subjectParse += dataSet.subjectParse;
+            }
+            content += subjectItem + "<p>" + answerStr + "</p><p>" + subjectParse + "</p>";
+            openDialog("#subjectInfoDialog", content);
+        },
+        error:function () {
+            endProgress();
+        }
+    });
+}
 /**
  * 显示时间,显示时间的块需要设置为相对定位
  * @param selector jQuery选择器

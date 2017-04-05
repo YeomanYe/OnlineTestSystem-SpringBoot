@@ -51,7 +51,7 @@ public interface SubjectService {
      * @param uuids
      * @param realPath
      */
-    public void deleteSubjectByIds(String[] uuids, String realPath);
+    public boolean deleteSubjectByIds(String[] uuids, String realPath);
 
     /**
      * 查询试题为了更新

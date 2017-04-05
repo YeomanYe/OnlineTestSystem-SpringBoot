@@ -37,7 +37,7 @@ $(function () {
                 "targets": [5],
                 "data": "uuid",
                 "render": function (data) {
-                    return '<div class="fa fa-fw fa-file tb_subjectInfo" onclick="subjectInfoShow(\''+data+'\',\'#subjectInfoDialog\')" title="详情"></div>';
+                    return '<div class="fa fa-fw fa-file tb_subjectInfo" onclick="subjectInfoShow(\''+data+'\')" title="详情"></div>';
                 }
             }
         ]
@@ -178,54 +178,7 @@ $(function () {
     //上传文件触发ajax文件上传事件
     $("#uploadSubjectBtn").click(uploadFile("#subjectUploadForm", "subject/uploadExcel", subjectRefresh));
 });
-/**
- * 点击显示试题信息
- 必须在页面中绑定，因为使用的前端分页不会扫描出所有元素，造成除第一页的元素都没有事件
- */
-function subjectInfoShow(uuid,dialogSelector) {
-    //获取subjectId
-    $.ajax({
-        url: "subject/querySubjectInfo?uuid=" + uuid,
-        type: "get",
-        context: $(this),
-        beforeSend:function () {
-            startProgress();
-        },
-        success: function (dataSet) {
-            endProgress();
-            if (dataSet == null) {
-                return;
-            }
-            var datas = dataSet.subjectItems,
-                subjectNameText = dataSet.subjectName,
-                answerStr = "答案: ",
-                subjectItem = "",
-                subjectParse = "解析: " ,
-                src = dataSet.src;
-            for (var i = 0, len = datas.length; i < len; i++) {
-                subjectItem += "<p>" + ALPHA_CONSTANT.charAt(i) + ". " + datas[i].name + "</p>"
-                if (datas[i].answer) answerStr += ALPHA_CONSTANT.charAt(i);
-            }
-            var content = "<p id='dig_subjectName'>" + subjectNameText + "</p>";
-            //存在图片才加入图片元素
-            if (src) {
-                console.log(src);
-                content += '<img class="img-responsive pad" src="' + src + '">'
-            }
-            //如果没有解析则显示无
-            if(!dataSet.subjectParse){
-                subjectParse += "无";
-            }else{
-                subjectParse += dataSet.subjectParse;
-            }
-            content += subjectItem + "<p>" + answerStr + "</p><p>" + subjectParse + "</p>";
-            openDialog(dialogSelector, content);
-        },
-        error:function () {
-            endProgress();
-        }
-    });
-}
+
 
 /**
  * 刷新试题

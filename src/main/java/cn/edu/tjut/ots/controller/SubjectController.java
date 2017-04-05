@@ -128,9 +128,7 @@ public class SubjectController {
     public boolean deleteSubjectById(
             @RequestParam("subjectIds") String[] subjectIds,
             HttpSession session){
-        boolean bool = false;
-        subjectServiceImpl.deleteSubjectByIds(subjectIds, session.getServletContext().getRealPath(""));
-        bool = true;
+        boolean bool = subjectServiceImpl.deleteSubjectByIds(subjectIds, session.getServletContext().getRealPath(""));
         return bool;
     }
 
