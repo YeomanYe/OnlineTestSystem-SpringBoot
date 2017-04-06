@@ -107,14 +107,18 @@ $(function () {
             $("#subjectImgForm input[name='subjectId']").val(subjectId);
             //清空原来的表格
             $("#subjectImgTable").DataTable().destroy();
-
-            $("#subjectImgTable").DataTable({
-                "paging": false,
-                "lengthChange": true,
-                "searching": false,
-                "ordering": false,
-                "info": true,
-                "autoWidth": true,
+            var dtOption = {
+                "rowCallback": function (row, data, index) {
+                    //单击选择元素
+                    $(row).on("click",function () {
+                        debugger;
+                        if($(this).find(":checkbox").prop("checked")){
+                            $(this).find(":checkbox").prop({checked:false});
+                        }else{
+                            $(this).find(":checkbox").prop({checked:true});
+                        }
+                    })
+                },
                 "ajax": {
                     url: "image/queryImageBySubjectId?subjectId=" + subjectId,
                     dataSrc: ''
@@ -135,7 +139,8 @@ $(function () {
                         }
                     }
                 ]
-            });
+            };
+            $("#subjectImgTable").DataTable($.extend(dtOption,dtTemplateOption));
 
         });
     });

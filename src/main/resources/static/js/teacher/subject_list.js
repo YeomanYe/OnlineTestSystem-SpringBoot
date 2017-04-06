@@ -2,20 +2,31 @@
  * Created by KINGBOOK on 2017/3/2.
  */
 $(function () {
-    $('#subject1').DataTable({
-        "paging": true,
-        "pageingType": "input",
-        "lengthChange": true,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
+    var dtOption = {
+        "rowCallback": function (row, data, index) {
+            //双极显示试题信息
+            $(row).on("dblclick", function () {
+                var subjectId = $(this).find(":checkbox").val();
+                subjectInfoShow(subjectId);
+            });
+            //单击选择元素
+            $(row).on("click",function () {
+                debugger;
+                if($(this).find(":checkbox").prop("checked")){
+                    $(this).find(":checkbox").prop({checked:false});
+                }else{
+                    $(this).find(":checkbox").prop({checked:true});
+                }
+            })
+        },
         "ajax": {
             url: "subject/refreshSubject",
             dataSrc: ''
         },
         "columns": [
-            {data: 'uuid'},
+            {
+                data: 'uuid'
+            },
             {
                 data: 'subjectName',
                 className: 'tb_subjectName'
@@ -27,6 +38,7 @@ $(function () {
         "columnDefs": [
             {
                 "targets": [0],
+                "orderable":false,
                 "data": "uuid",
                 "render": function (data, type, full) {
 
@@ -35,13 +47,15 @@ $(function () {
             },
             {
                 "targets": [5],
+                "orderable":false,
                 "data": "uuid",
                 "render": function (data) {
-                    return '<div class="fa fa-fw fa-file tb_subjectInfo" onclick="subjectInfoShow(\''+data+'\')" title="详情"></div>';
+                    return '<div class="fa fa-fw fa-file tb_subjectInfo" onclick="subjectInfoShow(\'' + data + '\')" title="详情"></div>';
                 }
             }
         ]
-    });
+    };
+    $('#subject1').DataTable($.extend(dtOption,dtTemplateOption));
     //绑定事件处理函数
     //给关闭按钮添加事件
     //给关闭按钮添加关闭事件
@@ -56,7 +70,7 @@ $(function () {
     $("#updateSubject").click(function () {
         var checkedboxs = $(".subjectCheckbox:checked");
         if (checkedboxs.length != 1) {
-            openDialog("#infoDialog","<p>请选择一个试题</p>",null,true);
+            openDialog("#infoDialog", "<p>请选择一个试题</p>", null, true);
         } else {
             //切换到添加试题标签
             toggleTabs("subjectAddTab", "添加试题", "subject/addSubjectPage", null)();
@@ -68,10 +82,10 @@ $(function () {
                 type: "get",
                 url: "subject/querySubject4Update?subjectId=" + subjectId,
                 context: $(this),
-                beforeSend:function () {
+                beforeSend: function () {
                     startProgress()
                 },
-                error:function () {
+                error: function () {
                     endProgress();
                 },
                 success: function (data) {
@@ -112,30 +126,30 @@ $(function () {
     $("#deleteSubject").click(function () {
         var checkedboxs = $(".subjectCheckbox:checked");
         if (!checkedboxs.length) {
-            openDialog("#infoDialog","<p>请选择一个试题</p>",null,true);
+            openDialog("#infoDialog", "<p>请选择一个试题</p>", null, true);
         } else {
-            confirmDialog("<p>确认删除吗?</p>",function () {
+            confirmDialog("<p>确认删除吗?</p>", function () {
                 $.ajax({
                     url: "subject/deleteSubject",
                     type: "get",
                     data: $("#subjectListForm").serialize(),
                     context: $(this),
-                    beforeSend:function () {
+                    beforeSend: function () {
                         startProgress();
                     },
                     success: function (data) {
                         endProgress();
                         if (data === true) {
-                            openDialog("#successDialog","<p>删除成功</p>",null,true);
+                            openDialog("#successDialog", "<p>删除成功</p>", null, true);
                             //刷新
                             subjectRefresh();
-                        }else{
-                            openDialog("#errorDialog","<p>删除失败，未知错误</p>",null,true);
+                        } else {
+                            openDialog("#errorDialog", "<p>删除失败，未知错误</p>", null, true);
                         }
                     },
-                    error:function () {
+                    error: function () {
                         endProgress();
-                        openDialog("#errorDialog","<p>删除失败,请检查试卷中有无包含试题</p>",null,true);
+                        openDialog("#errorDialog", "<p>删除失败,请检查试卷中有无包含试题</p>", null, true);
                     }
                 })
             });
@@ -143,10 +157,10 @@ $(function () {
     });
     $("#refreshSubject").click(subjectRefresh);
     $("#chartSubject").click(function () {
-        openDialog("#subjectChartDialog", null,null,true);
+        openDialog("#subjectChartDialog", null, null, true);
     });
     $("#uploadSubject").click(function () {
-        openDialog("#subjectUploadDialog", null,null,true)
+        openDialog("#subjectUploadDialog", null, null, true)
     });
     //绑定第一个复选框为反选按钮
     $("#subjectFirstCheck").click(function (evt) {

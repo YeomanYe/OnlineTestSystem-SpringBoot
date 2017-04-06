@@ -2,13 +2,18 @@
  * Created by KINGBOOK on 2017/3/2.
  */
 $(function () {
-    $('#userLog1').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
+    var dtOption = {
+        "rowCallback": function (row, data, index) {
+            //单击选择元素
+            $(row).on("click",function () {
+                debugger;
+                if($(this).find(":checkbox").prop("checked")){
+                    $(this).find(":checkbox").prop({checked:false});
+                }else{
+                    $(this).find(":checkbox").prop({checked:true});
+                }
+            })
+        },
         "ajax": {
             url: "userLog/refreshUserLog",
             dataSrc: ''
@@ -30,7 +35,8 @@ $(function () {
                 }
             }
         ]
-    });
+    };
+    $('#userLog1').DataTable($.extend(dtOption,dtTemplateOption));
     //绑定事件处理函数
     //给关闭按钮添加关闭事件
     $(".clsBtn").click(closeDialogBtn);

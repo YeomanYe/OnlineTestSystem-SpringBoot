@@ -1,19 +1,24 @@
 var subjectIds = [];
 
 $(function () {
-    $('#subjectTable').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": false,
-        "info": true,
-        "autoWidth": false,
+    var dtOption = {
+        "rowCallback": function (row, data, index) {
+            debugger;
+            //双极显示试题信息
+            $(row).dblclick(function () {
+                var subjectId = $(this).find(":checkbox").val();
+                subjectInfoShow(subjectId);
+            });
+        },
         "ajax": {
             url: "subject/refreshSubject",
             dataSrc: ''
         },
         "columns": [
-            {data: 'uuid'},
+            {
+                data: 'uuid',
+                orderable: false
+            },
             {data: 'subjectType'},
             {
                 data: 'subjectName',
@@ -25,13 +30,14 @@ $(function () {
             {
                 "targets": [0],
                 "data": "uuid",
+                "orderable":false,
                 "render": function (data, type, full) {
-                    debugger
                     return '<input name="subjectIds" onchange="checkboxChangeHandler(this)" type="checkbox" class="paperSubjectCheckbox" value="' + data + '"/>'
                 }
             },
         ]
-    });
+    };
+    $('#subjectTable').DataTable($.extend(dtOption, dtTemplateOption));
     //初始化试卷类型
     $.ajax({
         url: "baseData/queryByType?dataType=paperType",
@@ -91,13 +97,24 @@ $(function () {
             }
             //加载前先清空数据
             $("#paperInfoSubjectTable").DataTable().destroy();
-            $("#paperInfoSubjectTable").DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": false,
-                "info": true,
-                "autoWidth": false,
+            debugger;
+            var dtPaperInfoOption = {
+                "rowCallback": function (row, data, index) {
+                    //双极显示试题信息
+                    $(row).on("dblclick", function () {
+                        var subjectId = $(this).find(":checkbox").val();
+                        subjectInfoShow(subjectId);
+                    });
+                    //单击选择元素
+                    $(row).on("click", function () {
+                        debugger;
+                        if ($(this).find(":checkbox").prop("checked")) {
+                            $(this).find(":checkbox").prop({checked: false});
+                        } else {
+                            $(this).find(":checkbox").prop({checked: true});
+                        }
+                    })
+                },
                 "data": loadData,
                 "columns": [
                     {data: 'uuid'},
@@ -129,8 +146,9 @@ $(function () {
                         }
                     }
                 ]
-            });
-        });
+            };
+            $("#paperInfoSubjectTable").DataTable($.extend(dtPaperInfoOption, dtTemplateOption));
+        },true);
     });
     //提交按钮的事件
     $("#paperSubmit").click(function () {

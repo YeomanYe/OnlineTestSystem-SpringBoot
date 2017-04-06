@@ -2,6 +2,23 @@ var ALPHA_CONSTANT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 $(function () {
     //显示时间
     setInterval(systemTime("#showTime"), 1000);
+    $(window).keydown(function (evt) {
+        if (evt.which == 0x1b) {
+            //按下Esc按照优先级顺序关闭窗口,modal,panel
+            var clsDialogBtn = $(".clsBtn :visible");
+            //关闭模态框
+            if (clsDialogBtn.length) {
+                clsDialogBtn.eq(0).click();
+                return;
+            }
+            //关闭面板
+            var clsPanelBtn = $("button[data-widget='remove'] :visible");
+            if (clsPanelBtn.length) {
+                clsPanelBtn.eq(0).click();
+                return;
+            }
+        }
+    });
     // toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage")();
     /*设置事件处理函数*/
     $("#query_subject").click(toggleTabs("subjectListTab", "试题列表", "subject/listSubjectPage"));
@@ -317,19 +334,29 @@ function uploadFile(form, url, call) {
  * @param selector
  * @param content
  * @param callback
+ * @param flag true表示不垂直居中
  */
-function openBox(selector, content, callback) {
-    if(content){
+function openBox(selector, content, callback,flag) {
+    if (content) {
         $(selector).find(".box-body").html(content);
     }
     $(selector).find(".box").show();
-    $(selector).css({
-        position: "absolute",
-        top: ($(window).height() - $(selector).height()) / 2 > 0 ? ($(window).height() - $(selector).height()) / 2 : 60,
-        left: ($(window).width() - $(selector).width()) / 2 > 0 ? ($(window).width() - $(selector).width()) / 2 : 60,
-        zIndex:999
-    });
-    if(typeof callback === "function"){
+    if(flag){
+        $(selector).css({
+            position: "absolute",
+            top: 0,
+            left: ($(window).width() - $(selector).width()) / 2 > 0 ? ($(window).width() - $(selector).width()) / 2 : 60,
+            zIndex: 999
+        });
+    }else{
+        $(selector).css({
+            position: "absolute",
+            top: ($(window).height() - $(selector).height()) / 2 > 0 ? ($(window).height() - $(selector).height()) / 2 : 60,
+            left: ($(window).width() - $(selector).width()) / 2 > 0 ? ($(window).width() - $(selector).width()) / 2 : 60,
+            zIndex: 999
+        });
+    }
+    if (typeof callback === "function") {
         callback();
     }
 }
@@ -360,10 +387,10 @@ function startProgress() {
  * 关闭进度条
  */
 function endProgress() {
+    clearTimeout(progressTimeout);
     $("#progressPanel").hide();
     $("#progress-bar").css("width", "0%").text("进度:0%");
     curProgress = 0;
-    clearTimeout(progressTimeout);
 }
 
 /**
@@ -384,14 +411,15 @@ function setBtnStyle(goal, origin) {
  */
 function subjectInfoShow(uuid) {
     //获取subjectId
+    debugger;
     $.ajax({
         url: "subject/querySubjectInfo?uuid=" + uuid,
         type: "get",
-        context: $(this),
-        beforeSend:function () {
+        beforeSend: function () {
             startProgress();
         },
         success: function (dataSet) {
+            debugger;
             endProgress();
             if (dataSet == null) {
                 return;
@@ -400,7 +428,7 @@ function subjectInfoShow(uuid) {
                 subjectNameText = dataSet.subjectName,
                 answerStr = "答案: ",
                 subjectItem = "",
-                subjectParse = "解析: " ,
+                subjectParse = "解析: ",
                 src = dataSet.src;
             for (var i = 0, len = datas.length; i < len; i++) {
                 subjectItem += "<p>" + ALPHA_CONSTANT.charAt(i) + ". " + datas[i].name + "</p>"
@@ -413,19 +441,57 @@ function subjectInfoShow(uuid) {
                 content += '<img class="img-responsive pad" src="' + src + '">'
             }
             //如果没有解析则显示无
-            if(!dataSet.subjectParse){
+            if (!dataSet.subjectParse) {
                 subjectParse += "无";
-            }else{
+            } else {
                 subjectParse += dataSet.subjectParse;
             }
             content += subjectItem + "<p>" + answerStr + "</p><p>" + subjectParse + "</p>";
             openDialog("#subjectInfoDialog", content);
         },
-        error:function () {
+        error: function () {
             endProgress();
         }
     });
 }
+/**
+ * DataTable模板配置
+ * @type {{paging: boolean, pagingType: string, lengthChange: boolean, searching: boolean, ordering: boolean, info: boolean, autoWidth: boolean, lengthMenu: number[], language: {processing: string, search: string, loadingRecords: string, sLengthMenu: string, emptyTable: string, info: string, infoEmpty: string, paginate: {first: string, previous: string, next: string, last: string}, aria: {paginate: {first: string, previous: string, next: string, last: string}}}}}
+ */
+var dtTemplateOption = {
+    "paging": true,
+    "pagingType": "full_numbers",
+    "lengthChange": true,
+    "searching": true,
+    "ordering": true,
+    "info": true,
+    "autoWidth": false,
+    "lengthMenu": [10, 20, 50, 100],
+    "language": {
+        "processing": "正忙，请稍后",
+        "search": "查询：",
+        "loadingRecords": "请等待 - 载入中...",
+        "sLengthMenu": "每页 _MENU_ 条数据",
+        "emptyTable": "无数据",
+        "info": "当前显示第_START_-_END_条数据/共_TOTAL_条数据",
+        "infoEmpty": "当前无条数据显示",
+        "paginate": {
+            "first": "首页",
+            "previous": "上一页",
+            "next": "下一页",
+            "last": "尾页"
+
+        },
+        aria: {
+            paginate: {
+                first: 'First',
+                previous: 'Previous',
+                next: 'Next',
+                last: 'Last'
+            }
+        }
+    }
+};
 /**
  * 显示时间,显示时间的块需要设置为相对定位
  * @param selector jQuery选择器

@@ -1,15 +1,18 @@
 var resourcesCodes = [];
 var usersRole = [];
 $(function () {
-    //初始化用户表
-    $('#userTable').DataTable({
-        "paging": true,
-        "pageingType": "input",
-        "lengthChange": true,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
+    var userDtOption = {
+        "rowCallback": function (row, data, index) {
+            //单击选择元素
+            $(row).on("click",function () {
+                debugger;
+                if($(this).find(":checkbox").prop("checked")){
+                    $(this).find(":checkbox").prop({checked:false});
+                }else{
+                    $(this).find(":checkbox").prop({checked:true});
+                }
+            })
+        },
         "ajax": {
             url: "permission/refreshUserList",
             dataSrc: ''
@@ -30,16 +33,22 @@ $(function () {
                 }
             }
         ]
-    });
+    };
+    //初始化用户表
+    $('#userTable').DataTable($.extend(userDtOption,dtTemplateOption));
     //初始化角色表
-    $('#roleTable').DataTable({
-        "paging": true,
-        "pageingType": "input",
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
+    var roleDtOption = {
+        "rowCallback": function (row, data, index) {
+            //单击选择元素
+            $(row).on("click",function () {
+                debugger;
+                if($(this).find(":checkbox").prop("checked")){
+                    $(this).find(":checkbox").prop({checked:false});
+                }else{
+                    $(this).find(":checkbox").prop({checked:true});
+                }
+            })
+        },
         "ajax": {
             url: "permission/refreshRoleList",
             dataSrc: ''
@@ -63,7 +72,8 @@ $(function () {
                 }
             }
         ]
-    });
+    };
+    $('#roleTable').DataTable($.extend(roleDtOption,dtTemplateOption));
     //初始化权限树
     var $checkablePermissionTree;
     $.ajax({
