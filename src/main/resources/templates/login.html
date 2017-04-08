@@ -58,8 +58,8 @@
             checkboxClass: 'icheckbox_square-blue',
             increaseArea: '20%' // optional
         });
-        var username = localStorage.getItem("username"),
-                password = localStorage.getItem("password");
+        var username = localStorage.getItem("ots_username"),
+                password = localStorage.getItem("ots_password");
         if(username){
             $("#username").val(username);
             $("#password").val(password);
@@ -67,8 +67,8 @@
         }
         $("button[type='submit']").click(function () {
             if($(":checkbox").prop("checked")){
-                localStorage.setItem("username",$("#username").val());
-                localStorage.setItem("password",$("#password").val());
+                localStorage.setItem("ots_username",$("#username").val());
+                localStorage.setItem("ots_password",$("#password").val());
             }else{
                 localStorage.clear();
             }
