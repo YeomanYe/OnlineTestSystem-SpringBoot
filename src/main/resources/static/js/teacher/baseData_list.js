@@ -97,7 +97,7 @@ $(function () {
                     endProgress();
                 }
             });
-        },true)
+        })
     });
     $("#deleteBaseData").click(function () {
         var checkedboxs = $("#baseData1 :checked");

@@ -29,22 +29,26 @@
                                           class="form-control" rows="4" name="subjectName"
                                           placeholder="在此输入试题名..."></textarea>
                             </div>
-                            <label>试题类型 &amp; 试题分值</label>
+                            <!--<label>试题类型 &amp; 试题分值</label>-->
                             <div class="row">
                                 <div class="col-xs-6">
                                     <div class="form-group">
+                                        <label>试题类型</label>
                                         <select name="subjectType"
-                                                id="subjectType" class="form-control select2 select2-hidden-accessible">
+                                                id="subjectType" class="form-control select2">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
-                                    <div class="input-group">
+                                    <div class="form-group">
+                                        <label>试题分值</label>
+                                        <div class="input-group">
                                             <span class="input-group-addon" title="分值"><i
                                                     class="fa fa-dollar"></i></span>
-                                        <input id="subjectScore" th:value="${subject}?${subject.subjectScore}"
-                                               type="text"
-                                               name="subjectScore" class="form-control"/>
+                                            <input id="subjectScore" th:value="${subject}?${subject.subjectScore}"
+                                                   type="text"
+                                                   name="subjectScore" class="form-control"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

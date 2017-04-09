@@ -39,7 +39,64 @@ $(function () {
             $("#paperId").val("");
         }));
     $("#query_userLog").click(toggleTabs("userLogListTab", "日志管理", "userLog/listUserLogPage"));
-    $("#query_permission").click(toggleTabs("permissionListTab", "权限管理", "permission/listPermissionPage"))
+    $("#query_permission").click(toggleTabs("permissionListTab", "权限管理", "permission/listPermissionPage"));
+    $("#query_userInfo").click(toggleTabs("userInfoTab","用户信息","userInfo/userInfoPage"));
+    //设置关闭modal框按钮事件
+    $(".clsBtn").click(closeDialogBtn);
+    //打开用户信息面板
+    $("#userProfile").click(function () {
+       openBox("#userInfoBox",null,function () {
+           //初始化icheck
+           $('input[type="radio"].flat-red').iCheck({
+               radioClass: 'iradio_flat-red'
+           });
+           //查询用户信息并装填到表单中
+           $.ajax({
+               type: "get",
+               url: "userInfo/queryUserInfoByUsername",
+               success: function (data) {
+                   if(!data) return;
+                   $("input[name='nickName']").val(data.nickName);
+                   $("input[name='job']").val(data.job);
+                   $("input[value='"+data.sex+"']").iCheck("check");
+                   $("input[name='phone']").val(data.phone);
+                   $("input[name='qq']").val(data.qq);
+                   $("input[name='email']").val(data.email);
+                   $("input[name='birthday']").val(data.birthday);
+                   $("textarea[name='profile']").val(data.profile);
+                   //开启遮罩效果
+                   $("#userBirthday").inputmask("yyyy/mm/dd", {"placeholder": "yyyy/mm/dd"});
+                   $("#userPhone").inputmask("999-9999-9999", {"placeholder": "___-____-____"});
+               }
+           });
+       },true);
+    });
+    $(".userAvater").click(function () {
+        openBox("#userAvaterBox",null,null);
+    });
+    $("#submitUserInfo").click(function () {
+        $("#userInfoForm").ajaxSubmit({
+            type: "GET",
+            beforeSend: function () {
+                startProgress();
+            },
+            success: function (data) {
+                endProgress();
+                if (data === true) {
+                    openDialog("#successDialog", "<p>更改成功!</p>", null, true);
+                    $("#profileShow").text($("textarea[name='profile']").val());
+                    if (typeof call == "function") call();
+                }
+                else {
+                    openDialog("#errorDialog", "<p>更改失败,原因未知</p>", null, true);
+                }
+            },
+            error: function () {
+                endProgress();
+                openDialog("#errorDialog", "<p>更改失败,服务器端错误</p>", null, true);
+            }
+        });
+    });
 });
 /**
  * 切换标签页
@@ -312,18 +369,19 @@ function uploadFile(form, url, call) {
             type: "POST",
             url: url,
             beforeSend: function () {
-
+                startProgress();
             },
             success: function (data) {
+                endProgress();
                 if (data === true) {
                     openDialog("#successDialog", "<p>上传成功!</p>", null, true);
-                    if (typeof call == "function") call();
                 }
                 else {
                     openDialog("#errorDialog", "<p>上传失败,原因未知</p>", null, true);
                 }
             },
             error: function () {
+                endProgress();
                 openDialog("#errorDialog", "<p>上传失败,服务器端错误</p>", null, true);
             }
         });
@@ -344,7 +402,7 @@ function openBox(selector, content, callback,flag) {
     if(flag){
         $(selector).css({
             position: "absolute",
-            top: 0,
+            top: 60,
             left: ($(window).width() - $(selector).width()) / 2 > 0 ? ($(window).width() - $(selector).width()) / 2 : 60,
             zIndex: 999
         });

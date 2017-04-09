@@ -21,8 +21,6 @@ $(function () {
         }
     });
     //如果存在ID说明是更新试题，并且没有选择试题类型
-    //初始化选择器二
-    $("#subjectType").select2();
     /**
      * 将试题项输入框的name以及输入框的name重新编排
      */
@@ -146,6 +144,7 @@ $(function () {
     });
     //上传图片
     $("#uploadImgBtn").click(function () {
+        debugger;
         var subjectId = $("#subjectImgForm input[name='subjectId']").val();
         //不存在ID则不能上传
         if (subjectId == "") {
@@ -198,6 +197,8 @@ $(function () {
         openDialog("#subjectPreviewDialog", content);
 
     })
+    //初始化选择器二
+    $("#subjectType").select2();
 });
 /**
  * 重置添加试题表单
