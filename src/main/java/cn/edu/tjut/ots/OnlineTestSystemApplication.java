@@ -24,7 +24,8 @@ public class OnlineTestSystemApplication {
 		FilterRegistrationBean registration = new FilterRegistrationBean();
 		registration.setFilter(myFilter());
 		registration.addUrlPatterns("/*");
-		registration.addInitParameter("excludeStr", ".jpg;.png;.js;.css;.ico");
+		//直接放行
+		registration.addInitParameter("excludeStr", ".jpg;.png;.js;.css;.ico;login.html");
 		registration.setName("myFilter");
 		return registration;
 	}
