@@ -72,4 +72,16 @@ public class ImageController {
             e.printStackTrace();
         }
     }
+
+    @ResponseBody
+    @RequestMapping("saveAvater")
+    public String saveAvater(
+            HttpServletRequest req,
+            HttpSession session){
+        MultipartHttpServletRequest multReq = (MultipartHttpServletRequest) req;
+        return imageServiceImpl.saveAvater(
+                multReq.getFile("userAvater"),
+                (String)session.getAttribute("username"),
+                session.getServletContext().getRealPath(""));
+    }
 }

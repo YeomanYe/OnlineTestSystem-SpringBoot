@@ -45,4 +45,13 @@ public interface ImageService {
      * @return
      */
     public String getImageName(String imageId);
+
+    /**
+     * 保存用户头像
+     * @param file
+     * @param username
+     * @param realPath
+     * @return
+     */
+    public String saveAvater(MultipartFile file,String username,String realPath);
 }

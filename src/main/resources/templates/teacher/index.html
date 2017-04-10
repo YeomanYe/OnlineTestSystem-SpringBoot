@@ -46,17 +46,16 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="images/imgPlaceholder.png" class="user-image" alt="User Image"/>
+                            <img th:src="${#strings.defaultString(avater,'images/imgPlaceholder.png')}" class="user-image" alt="User Image"/>
                             <span class="hidden-xs" th:text="${session.username}"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img id="userAvaterImg1" src="images/imgPlaceholder.png" style="cursor: pointer;" class="userAvater img-circle"
+                                <img id="userAvaterImg1" th:src="${#strings.defaultString(avater,'images/imgPlaceholder.png')}" style="cursor: pointer;" class="userAvater img-circle"
                                      alt="User Image"/>
 
-                                <p id="profileShow">
-                                    这个童鞋很懒什么都没有写~
+                                <p id="profileShow" th:text="${#strings.defaultString(profile,'这个童鞋很懒什么都没有写~')}">
                                 </p>
                             </li>
                             <!-- Menu Body
@@ -85,11 +84,11 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img style="cursor: pointer;" src="images/imgPlaceholder.png" class="userAvater img-circle" alt="User Image"/>
+                    <img style="cursor: pointer;" th:src="${#strings.defaultString(avater,'images/imgPlaceholder.png')}" class="userAvater img-circle" alt="User Image"/>
                 </div>
                 <div class="pull-left info">
-                    <p th:text="${session.username}"></p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> 角色</a>
+                    <p style="cursor: pointer;" id="usernameShow" th:text="${session.username}"></p>
+                    <a href="#" ><i class="fa fa-circle text-success"></i><span th:text="${rolename}"></span></a>
                 </div>
             </div>
             <!-- search form -->
@@ -416,10 +415,10 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="row margin text-center">
-                        <img src="images/imgPlaceholder.png" alt="用户头像预览" class="img-circle"/>
+                        <img id="previewAvater" src="images/imgPlaceholder.png" alt="用户头像预览" class="img-circle"/>
                     </div>
                     <div class="row margin">
-                        <form enctype="multipart/form-data" action="userInfo/saveAvater" id="userAvaterForm"
+                        <form enctype="multipart/form-data" action="image/saveAvater" id="userAvaterForm"
                               method="post">
                             <div class="form-group">
                                 <label for="userAvater">用户头像</label>

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -44,5 +45,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void deleteRole(String[] ids) {
         roleDao.deleteRoleByIds(ids);
+    }
+
+    @Override
+    public Map<String, String> queryMaxResRole(String username) {
+        return roleDao.queryMaxResRole(username);
     }
 }

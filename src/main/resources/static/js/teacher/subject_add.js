@@ -154,7 +154,9 @@ $(function () {
         uploadFile("#subjectImgForm", "image/saveImage", refreshSubjectImgTable)();
     });
     $("#subjectImgFile").on('change', function () {
-        selectImage(this);
+        selectImage(this,function (data) {
+            hasImage = data;
+        });
     });
     //预览试题
     $("#previewSubject").click(function () {
@@ -253,19 +255,4 @@ function removeImage(uuid) {
     });
 }
 
-/**
- * 本地添加图片后预览
- * @param file
- */
-var hasImage = null; //判断是否有图片,有图片则存入图片数据
-function selectImage(file) {
-    if (!file.files || !file.files[0]) {
-        return;
-    }
-    var reader = new FileReader();
-    reader.onload = function (evt) {
-        // $("#previewImage").get(0).src = evt.target.result;
-        hasImage = evt.target.result;
-    };
-    reader.readAsDataURL(file.files[0]);
-}
+var hasImage = null; //判断是否有试题图片,有图片则存入图片数据

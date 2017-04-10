@@ -42,4 +42,5 @@ public class UserInfoController {
     public UserInfo queryUserInfoForUpdate(HttpSession session){
         return userInfoServiceImpl.queryUserInfoByUsername((String)session.getAttribute("username"));
     }
+
 }

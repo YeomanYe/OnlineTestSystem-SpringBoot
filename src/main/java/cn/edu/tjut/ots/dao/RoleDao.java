@@ -34,4 +34,10 @@ public interface RoleDao {
     @Select("SELECT r.uuid AS \"roleId\",r.NAME AS \"text\" FROM ROLE r " +
             "JOIN (SELECT roleId FROM user_role WHERE userId=#{param}) t ON t.roleid = r.uuid")
     public List<Map<String,String>> queryRelRole(String userId);
+    //查询资源数最多的一个角色
+    @Select("SELECT * FROM (SELECT COUNT(*) AS \"cnt\",c.name AS \"rolename\" FROM role_resources d " +
+            " JOIN (SELECT * FROM  ROLE r " +
+            " JOIN (SELECT * FROM user_role a WHERE a.userid = #{param}) t ON r.uuid = t.roleid ) c " +
+            " ON d.roleid = c.uuid GROUP BY c.name ORDER BY \"cnt\" DESC) s WHERE rownum = 1")
+    public Map<String,String> queryMaxResRole(String username);
 }

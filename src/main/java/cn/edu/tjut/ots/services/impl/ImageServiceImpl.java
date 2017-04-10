@@ -2,8 +2,10 @@ package cn.edu.tjut.ots.services.impl;
 
 import cn.edu.tjut.ots.dao.ImageDao;
 import cn.edu.tjut.ots.dao.SubjectDao;
+import cn.edu.tjut.ots.dao.UserInfoDao;
 import cn.edu.tjut.ots.po.Image;
 import cn.edu.tjut.ots.po.Subject;
+import cn.edu.tjut.ots.po.UserInfo;
 import cn.edu.tjut.ots.services.ImageService;
 import cn.edu.tjut.ots.utils.CreateUserBy;
 import cn.edu.tjut.ots.utils.EmptyUtil;
@@ -30,6 +32,9 @@ public class ImageServiceImpl implements ImageService {
 
     @Resource
     SubjectDao subjectDao;
+
+    @Resource
+    UserInfoDao userInfoDao;
 
     @Override
     public List queryImageBySubjectId(String subjectId) {
@@ -141,5 +146,64 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public String getImageName(String imageId) {
         return imageDao.queryImageById(imageId).get(0).getFormerName();
+    }
+
+    @Override
+    public String saveAvater(MultipartFile file, String username, String realPath) {
+        if (EmptyUtil.isObjEmpty(file)) return null;
+        //查询图片是否存在，若果存在则删除
+        UserInfo userInfo = userInfoDao.queryUserInfoByUsername(username);
+        String lastImgId = userInfo.getAvaterId();
+        if(!EmptyUtil.isFieldEmpty(lastImgId)){
+            deleteImage(lastImgId, realPath);
+        }
+        //生成新图片的UUID
+        String imgId = UUID.randomUUID().toString().replace("-", "");
+        String path = new File("src/main/resources/static/images/avaterImages").getAbsolutePath();
+        //保存图片到文件中;需要保存到资源文件夹中和部署文件夹中
+        OutputStream os = null;
+        String suffix = file.getOriginalFilename().split("\\.")[1];
+        String presentName = Long.toString(System.currentTimeMillis()) + "." + suffix;
+        String absPath = path + File.separator + presentName;
+        String relPath = "images" + File.separator + "avaterImages" + File.separator + presentName;
+
+        //保存图片信息到数据库
+        Image image = new Image();
+        image.setUuid(imgId);
+        image.setFileType(suffix);
+        image.setFileSize(file.getSize());
+        image.setFormerName(file.getOriginalFilename());
+        image.setPresentName(presentName);
+        image.setAbsPath(absPath);
+        image.setRelPath(relPath);
+        CreateUserBy.setUser(image, null, username);
+        imageDao.addImage(image);
+        //更新userInfo的图片ID
+        userInfo.setAvaterId(imgId);
+        userInfoDao.updateAvaterId(userInfo);
+        //保存文件
+        try {
+            //保存到资源文件夹中
+            //如果不存在文件夹，则创建
+            File pathFile = new File(path);
+            if (!pathFile.exists())
+                pathFile.mkdirs();
+            byte[] fileBytes = file.getBytes();
+            os = new FileOutputStream(absPath);
+            os.write(fileBytes);
+            os.flush();
+            os.close();
+            //保存到部署文件夹中
+            pathFile = new File(realPath + "images" + File.separator + "avaterImages" + File.separator);
+            if(!pathFile.exists())
+                pathFile.mkdirs();
+            os = new FileOutputStream(realPath + relPath);
+            os.write(fileBytes);
+            os.flush();
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return relPath;
     }
 }

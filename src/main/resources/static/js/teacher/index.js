@@ -44,36 +44,53 @@ $(function () {
     //设置关闭modal框按钮事件
     $(".clsBtn").click(closeDialogBtn);
     //打开用户信息面板
-    $("#userProfile").click(function () {
-       openBox("#userInfoBox",null,function () {
-           //初始化icheck
-           $('input[type="radio"].flat-red').iCheck({
-               radioClass: 'iradio_flat-red'
-           });
-           //查询用户信息并装填到表单中
-           $.ajax({
-               type: "get",
-               url: "userInfo/queryUserInfoByUsername",
-               success: function (data) {
-                   if(!data) return;
-                   $("input[name='nickName']").val(data.nickName);
-                   $("input[name='job']").val(data.job);
-                   $("input[value='"+data.sex+"']").iCheck("check");
-                   $("input[name='phone']").val(data.phone);
-                   $("input[name='qq']").val(data.qq);
-                   $("input[name='email']").val(data.email);
-                   $("input[name='birthday']").val(data.birthday);
-                   $("textarea[name='profile']").val(data.profile);
-                   //开启遮罩效果
-                   $("#userBirthday").inputmask("yyyy/mm/dd", {"placeholder": "yyyy/mm/dd"});
-                   $("#userPhone").inputmask("999-9999-9999", {"placeholder": "___-____-____"});
-               }
-           });
-       },true);
-    });
+    function openUserInfo() {
+        openBox("#userInfoBox",null,function () {
+            //初始化icheck
+            $('input[type="radio"].flat-red').iCheck({
+                radioClass: 'iradio_flat-red'
+            });
+            //查询用户信息并装填到表单中
+            $.ajax({
+                type: "get",
+                url: "userInfo/queryUserInfoByUsername",
+                success: function (data) {
+                    if(!data) return;
+                    $("input[name='nickName']").val(data.nickName);
+                    $("input[name='job']").val(data.job);
+                    $("input[value='"+data.sex+"']").iCheck("check");
+                    $("input[name='phone']").val(data.phone);
+                    $("input[name='qq']").val(data.qq);
+                    $("input[name='email']").val(data.email);
+                    $("input[name='birthday']").val(data.birthday);
+                    $("textarea[name='profile']").val(data.profile);
+                    //开启遮罩效果
+                    $("#userBirthday").inputmask("yyyy/mm/dd", {"placeholder": "yyyy/mm/dd"});
+                    $("#userPhone").inputmask("999-9999-9999", {"placeholder": "___-____-____"});
+                }
+            });
+        },true);
+    }
+    $("#userProfile").click(openUserInfo);
+    $("#usernameShow").click(openUserInfo);
+    //打开用户更换头像会话框
     $(".userAvater").click(function () {
-        openBox("#userAvaterBox",null,null);
+        openBox("#userAvaterBox",null,function () {
+            if(hasAvater){
+                $("#previewAvater")[0].src = hasAvater;
+            }else{
+                $("#previewAvater")[0].src = $(".userAvater")[0].src;
+            }
+        });
     });
+    //选择头像文件表单的事件
+    $("#userAvater").on('change',function () {
+       selectImage(this,function (data) {
+           hasAvater = data;
+           $("#previewAvater")[0].src = data;
+       });
+    });
+    //点击按钮提交用户信息
     $("#submitUserInfo").click(function () {
         $("#userInfoForm").ajaxSubmit({
             type: "GET",
@@ -85,7 +102,6 @@ $(function () {
                 if (data === true) {
                     openDialog("#successDialog", "<p>更改成功!</p>", null, true);
                     $("#profileShow").text($("textarea[name='profile']").val());
-                    if (typeof call == "function") call();
                 }
                 else {
                     openDialog("#errorDialog", "<p>更改失败,原因未知</p>", null, true);
@@ -97,6 +113,29 @@ $(function () {
             }
         });
     });
+    //点击按钮提交用户头像
+    $("#submitUserAvater").click(function () {
+        $("#userAvaterForm").ajaxSubmit({
+            type: "POST",
+            beforeSend: function () {
+                startProgress();
+            },
+            success: function (data) {
+                endProgress();
+                if (data) {
+                    openDialog("#successDialog", "<p>头像上传成功!</p>", null, true);
+                    $("img[alt='User Image']").attr("src",data);
+                }
+                else {
+                    openDialog("#errorDialog", "<p>上传失败,原因未知!</p>", null, true);
+                }
+            },
+            error: function () {
+                endProgress();
+                openDialog("#errorDialog", "<p>上传失败,服务器端错误!</p>", null, true);
+            }
+        });
+    })
 });
 /**
  * 切换标签页
@@ -375,6 +414,9 @@ function uploadFile(form, url, call) {
                 endProgress();
                 if (data === true) {
                     openDialog("#successDialog", "<p>上传成功!</p>", null, true);
+                    if(typeof call === 'function'){
+                        call();
+                    }
                 }
                 else {
                     openDialog("#errorDialog", "<p>上传失败,原因未知</p>", null, true);
@@ -656,4 +698,26 @@ function systemTime(selector) {
         var fullTime = year + "-" + month + "-" + date + " 周" + day + " " + hours + ":" + minutes + ":" + seconds;
         $(selector).html(fullTime);
     }
+}
+
+/**
+ * 本地添加图片后预览
+ * @param file
+ * @param cache //图片数据的缓存变量
+ */
+var hasAvater = null;//判断是否选择了头像
+function selectImage(file,callback) {
+    if (!file.files || !file.files[0]) {
+        return;
+    }
+    var reader = new FileReader();
+    reader.onload = function (evt) {
+        // $("#previewImage").get(0).src = evt.target.result;
+        debugger;
+        var data = evt.target.result;
+        if(typeof callback === 'function'){
+            callback(data);
+        }
+    };
+    reader.readAsDataURL(file.files[0]);
 }
