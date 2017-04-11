@@ -134,13 +134,13 @@
                                 class="glyphicon glyphicon-pencil"></i> 添加试卷</a></li>
                     </ul>
                 </li>
-                <!--<li th:remove="${#sets.contains(session.resources,'baseData_manage')} ? none : all" class="treeview">
+                <li th:remove="${#sets.contains(session.resources,'userInfo_manage')} ? none : all" class="treeview">
                     <a id="query_userInfo" href="#">
                         <i class="fa fa-user"></i> <span>用户信息</span>
                     </a>
                     <ul class="treeview-menu">
                     </ul>
-                </li>-->
+                </li>
                 <li th:remove="${#sets.contains(session.resources,'baseData_manage')} ? none : all" class="treeview">
                     <a id="query_basedata" href="#">
                         <i class="fa fa-table"></i> <span>基础数据</span>

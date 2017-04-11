@@ -5,7 +5,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.context.annotation.Scope;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,5 +33,17 @@ public interface UserInfoDao {
     @Select("SELECT i.relpath AS \"avater\",u.PROFILE AS \"profile\" FROM user_info u " +
             " JOIN image i ON u.avaterid = i.uuid WHERE username=#{param}")
     public Map<String,String> queryAvaterAndProfile(String username);
-
+    //查询所有的用户信息
+    @Select("SELECT u.*,to_char(u.birthday,'yyyy-mm-dd') \"timeStr\" FROM user_info u")
+    public List<UserInfo> queryAllUserInfo();
+    //查询年纪用于统计
+    @Select("SELECT count(*) AS \"cnt\",ROUND(to_number(SYSDATE - birthday) / 365) AS \"name\" " +
+            " FROM user_info GROUP BY ROUND(to_number(SYSDATE - birthday) / 365)")
+    public List<Map<String,Object>> queryAgeForSta();
+    //查询职业用于统计
+    @Select("SELECT COUNT(*) AS \"cnt\",job AS \"name\" FROM user_info GROUP BY job")
+    public List<Map<String,Object>> queryJobForSta();
+    //查询性别用于统计
+    @Select("SELECT COUNT(*) AS \"cnt\",sex AS \"name\" FROM user_info GROUP BY sex")
+    public List<Map<String,Object>> querySexForSta();
 }

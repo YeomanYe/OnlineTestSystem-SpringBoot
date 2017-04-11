@@ -1,7 +1,7 @@
 <div class="tab-pane active" id="userInfoTab">
     <section class="content-header">
         <h1>用户信息
-            <small>userInfo manage</small>
+            <small>userInfo list</small>
         </h1>
         <ol class="breadcrumb">
             <li><i class="fa fa-dashboard"></i> 主目录</li>
@@ -13,145 +13,93 @@
     <section class="content">
         <div class="row" xmlns:th="http://www.w3.org/1999/xhtml">
             <div class="col-xs-12">
+                <!-- /.box -->
                 <div class="box">
-                    <div class="box-header" style="cursor: pointer;">
-
+                    <div style="cursor: pointer;" class="box-header">
+                        <div class="glyphicon glyphicon-refresh" id="refreshUserInfo" title="刷新">刷新</div>
+                        <div th:remove="${#sets.contains(session.resources,'userInfo_download')} ? none : all" class="glyphicon glyphicon-download-alt" id="downloadUserInfo" title="下载"><a href="userInfo/downloadExcel">下载</a></div>
+                        <div th:remove="${#sets.contains(session.resources,'userInfo_chart')} ? none : all" class="glyphicon glyphicon-stats" id="chartUserInfo" title="图表">图表</div>
                     </div>
+                    <!-- /.box-header -->
                     <div class="box-body">
-                        <div class="col-xs-8">
-                            <form role="form" id="userInfoForm" action="userInfo/addSubject">
-                                <div class="form-group">
-                                    <label>昵称:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">@</span>
-                                        <input type="text" class="form-control" placeholder="Nickname"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>职业:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-linux"></i></span>
-                                        <input type="text" class="form-control" placeholder="Job"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>
-                                        <input type="radio" name="sex" class="flat-red" checked="checked"/>
-                                        男
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="sex" class="flat-red"/>
-                                        女
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="sex" class="flat-red"/>
-                                        保密
-                                    </label>
-                                </div>
-                                <div class="form-group">
-                                    <label>电话:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-phone"></i>
-                                        </div>
-                                        <input type="text" id="userPhone" class="form-control"/>
-                                    </div>
-                                    <!-- /.input group -->
-                                </div>
-                                <div class="form-group">
-                                    <label>QQ:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-qq"></i></span>
-                                        <input type="text" class="form-control" placeholder="QQ"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>微信:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-weixin"></i></span>
-                                        <input type="text" class="form-control" placeholder="Weixin"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>邮箱:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                        <input type="email" class="form-control" placeholder="Email"/>
-                                    </div>
-                                </div>
-                                <!-- Date -->
-                                <div class="form-group">
-                                    <label>出生日期:</label>
-
-                                    <div class="input-group date">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" class="form-control pull-right" id="userBirthday"/>
-                                    </div>
-                                    <!-- /.input group -->
-                                </div>
-                                <div class="form-group">
-                                    <label>个性签名:</label>
-                                    <textarea class="form-control" rows="3"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-xs-4">
+                        <div id="userInfo1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                             <div class="row">
-                                <img src="images/imgPlaceholder.jpg" alt="..." class="img-rounded"/>
-                            </div>
-                            <div class="row">
-                                <form enctype="multipart/form-data" action="subject/imgUpload" id="subjectImgForm"
-                                      method="post">
-                                    <div class="form-group">
-                                        <label for="userAvater">用户头像</label>
-                                        <input type="hidden" name="username"/>
-                                        <input type="file" id="userAvater" name="userAvater"/>
-                                        <p class="help-block">注意:必须先保存用户信息才能上传图片,图片有且只有一张</p>
-                                    </div>
-                                </form>
+                                <div class="col-sm-12">
+                                    <form role="form" id="userInfoListForm">
+                                        <table id="userInfo1" class="table table-bordered table-striped dataTable">
+                                            <thead>
+                                            <tr>
+                                                <th>
+                                                    <input class="thCheckbox" type="checkbox"/></th>
+                                                <th>用户名</th>
+                                                <th>昵称</th>
+                                                <th>性别</th>
+                                                <th>生日</th>
+                                                <th>职业</th>
+                                                <th>电话</th>
+                                                <th>QQ</th>
+                                                <th>邮箱</th>
+                                                <th>个性签名</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="box-footer">
-                        <button type="reset" class="margin btn btn-primary pull-right">重置</button>
-                        <button type="submit" id="userInfoSubmit" class="margin btn btn-primary pull-right">提交</button>
-                    </div>
+                    <!-- /.box-body -->
                 </div>
+                <!-- /.box -->
             </div>
+            <!-- /.col -->
         </div>
     </section>
 </div>
+<!--/.tab-pane -->
+
+<div class="modal" id="userInfoChartDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close clsBtn" data-dismiss="userInfoChartDialog" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">图表展示</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <canvas width="600" height="230" id="userInfoChartCanvase"></canvas>
+                </div>
+                <div class="row blue-button-group">
+                    <button type="button" id="staUserInfoSex" class="btn pull-right btn-default margin">性别</button>
+                    <button type="button" id="staUserInfoJob" class="btn pull-right btn-default margin">职业</button>
+                    <button type="button" id="staUserInfoAge" class="btn pull-right btn-danger btn-default margin">年龄</button>
+                </div>
+                <div class="row green-button-group">
+                    <button type="button" id="staUserInfoBar" class="btn pull-right btn-default btn-success margin">柱状图</button>
+                    <button type="button" id="staUserInfoLine" class="btn pull-right btn-default margin">折线图</button>
+                    <button type="button" id="staUserInfoRadar" class="btn pull-right btn-default margin">雷达图</button>
+                    <button type="button" id="staUserInfoDoughnut" class="btn pull-right btn-default margin">饼图</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="launchStaUserInfo" class="btn btn-warning margin">统计</button>
+                <button type="button" class="btn btn-info clsBtn" data-dismiss="userInfoChartDialog">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 
 
-<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datepicker/datepicker3.css"/>
-<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/iCheck/all.css"/>
-<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/select2/select2.min.css"/>
-<link rel="stylesheet" href="AdminLTE-2.3.11/dist/css/AdminLTE.min.css"/>
-<link rel="stylesheet" href="AdminLTE-2.3.11/dist/css/skins/_all-skins.min.css"/>
-
+<link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.css"/>
 <style>
-    .itemCheckbox {
-        height: 14px;
-    }
-
-    .input-group-addon {
-        cursor: pointer;
+    #downloadUserInfo a{
+        color:black;
     }
 </style>
-<script src="AdminLTE-2.3.11/plugins/input-mask/jquery.inputmask.js"></script>
-<script src="AdminLTE-2.3.11/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-<script src="AdminLTE-2.3.11/plugins/datepicker/bootstrap-datepicker.js"></script>
-<script src="AdminLTE-2.3.11/plugins/iCheck/icheck.min.js"></script>
-<script src="AdminLTE-2.3.11/plugins/select2/select2.full.min.js"></script>
-<script>
-    $(function () {
-        $("input[data-mask]").inputmask();
-        $('input[type="radio"].flat-red').iCheck({
-            radioClass: 'iradio_flat-red'
-        });
-        $("#userBirthday").inputmask("yyyy/mm/dd", {"placeholder": "yyyy/mm/dd"});
-        $("#userPhone").inputmask("999-9999-9999", {"placeholder": "___-____-____"});
-    });
-</script>
+<script src="AdminLTE-2.3.11/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/chartjs/Chart.min.js"></script>
+<script src="js/teacher/userInfo.js"></script>

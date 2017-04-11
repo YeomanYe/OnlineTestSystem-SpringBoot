@@ -26,6 +26,16 @@ public class UserInfo {
     private String profile;
     //头像ID
     private String avaterId;
+    //时间字符串，数据库不存在对应字段
+    private String timeStr;
+
+    public String getTimeStr() {
+        return timeStr;
+    }
+
+    public void setTimeStr(String timeStr) {
+        this.timeStr = timeStr;
+    }
 
     public String getUserName() {
         return userName;

@@ -12,10 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import cn.edu.tjut.ots.po.Paper;
-import cn.edu.tjut.ots.po.Subject;
-import cn.edu.tjut.ots.po.SubjectItem;
-import cn.edu.tjut.ots.po.UserLog;
+import cn.edu.tjut.ots.po.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -46,6 +43,8 @@ public class ExcelUtil {
             exportPaper(wb,getHeadStyle(wb),getCellStyle(wb),list);
         }else if(clazz.equals(UserLog.class)){
             exportUserLog(wb,getHeadStyle(wb),getCellStyle(wb),list);
+        }else if(clazz.equals(UserInfo.class)){
+            exportUserInfo(wb, getHeadStyle(wb), getCellStyle(wb), list);
         }
         wb.write(os);
     }
@@ -405,6 +404,92 @@ public class ExcelUtil {
 
             cell = row.createCell(9);
             cell.setCellValue(df.format(p.getUpdateWhen()));
+            cell.setCellStyle(cellStyle);
+
+        }
+    }
+    private static void exportUserInfo(Workbook wb, CellStyle headStyle, CellStyle cellStyle, List<UserInfo> datas) {
+        CreationHelper createHelper = wb.getCreationHelper();
+        Sheet sheet = wb.createSheet("用户信息表");
+        //创建表头
+        Row row = sheet.createRow(0);
+
+        Cell cell = row.createCell(0);
+        cell.setCellValue("用户名");
+        cell.setCellStyle(headStyle);
+
+        cell = row.createCell(1);
+        cell.setCellValue("昵称");
+        cell.setCellStyle(headStyle);
+
+        cell = row.createCell(2);
+        cell.setCellValue("职业");
+        cell.setCellStyle(headStyle);
+
+        cell = row.createCell(3);
+        cell.setCellValue("性别");
+        cell.setCellStyle(headStyle);
+
+        cell = row.createCell(4);
+        cell.setCellValue("电话");
+        cell.setCellStyle(headStyle);
+
+        cell = row.createCell(5);
+        cell.setCellValue("QQ");
+        cell.setCellStyle(headStyle);
+
+        cell = row.createCell(6);
+        cell.setCellValue("Email");
+        cell.setCellStyle(headStyle);
+
+        cell = row.createCell(7);
+        cell.setCellValue("生日");
+        cell.setCellStyle(headStyle);
+
+        cell = row.createCell(8);
+        cell.setCellValue("个性签名");
+        cell.setCellStyle(headStyle);
+
+        int i = 1;
+        for (UserInfo p : datas) {
+            //创建列
+            row = sheet.createRow(i);
+            ++i;
+            //填写试题数据
+            cell = row.createCell(0);
+            cell.setCellValue(p.getUserName());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(1);
+            cell.setCellValue(p.getNickName());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(2);
+            cell.setCellValue(p.getJob());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(3);
+            cell.setCellValue(p.getSex());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(4);
+            cell.setCellValue(p.getPhone());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(5);
+            cell.setCellValue(p.getQq());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(6);
+            cell.setCellValue(p.getEmail());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(7);
+            cell.setCellValue(df.format(p.getBirthday()));
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(8);
+            cell.setCellValue(p.getProfile());
             cell.setCellStyle(cellStyle);
 
         }

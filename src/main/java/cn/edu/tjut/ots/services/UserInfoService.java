@@ -2,6 +2,8 @@ package cn.edu.tjut.ots.services;
 
 import cn.edu.tjut.ots.po.UserInfo;
 
+import java.io.OutputStream;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,4 +30,23 @@ public interface UserInfoService {
      * @return
      */
     public Map<String,String> queryAvaterAndProfile(String username);
+
+    /**
+     * 查询信息用于统计
+     * @param type
+     * @return
+     */
+    public List<Map<String,Object>> queryForSta(String type);
+
+    /**
+     * 查询全部的用户信息
+     * @return
+     */
+    public List<UserInfo> queryAllUserInfo();
+
+    /**
+     * 导出用户信息
+     * @param os
+     */
+    public void exportUserInfo(OutputStream os);
 }
