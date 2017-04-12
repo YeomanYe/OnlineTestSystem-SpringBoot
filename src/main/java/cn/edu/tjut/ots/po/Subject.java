@@ -31,10 +31,6 @@ public class Subject {
     private String imgId;
     //更新时间字符串表示
     private String updateWhenStr;
-    //数量,辅助变量,用于统计图
-    private int cont;
-    //名称，辅助变量，用于统计图
-    private String name;
 
     public String getImgId() {
         return imgId;
@@ -42,22 +38,6 @@ public class Subject {
 
     public void setImgId(String imgId) {
         this.imgId = imgId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCont() {
-        return cont;
-    }
-
-    public void setCont(int cont) {
-        this.cont = cont;
     }
 
     public String getUpdateWhenStr() {

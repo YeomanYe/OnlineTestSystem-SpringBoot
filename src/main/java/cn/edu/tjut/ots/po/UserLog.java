@@ -18,26 +18,6 @@ public class UserLog {
     private Date time;
     //以字符串形式表示的时间戳
     private String timeStr;
-    //用于统计的辅助字段,名字
-    private String name;
-    //用于统计的辅助字段,数量
-    private String cont;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCont() {
-        return cont;
-    }
-
-    public void setCont(String cont) {
-        this.cont = cont;
-    }
 
     public String getTimeStr() {
         return timeStr;

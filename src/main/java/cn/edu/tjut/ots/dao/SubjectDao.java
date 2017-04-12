@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by KINGBOOK on 2017/3/1.
@@ -51,20 +52,20 @@ public interface SubjectDao {
     @Select("select subjectType from subject where uuid = #{param}")
     public String querySubjectType(String uuid);
     //查询类型为了统计
-    @Select("SELECT COUNT(*) AS CONT,b.name AS name " +
+    @Select("SELECT COUNT(*) AS \"cont\",b.name AS \"name\" " +
             "FROM subject s JOIN basedata b ON s.subjecttype = b.uuid " +
             "GROUP BY b.name")
-    public List<Subject> queryTypeForSta();
+    public List<Map<String,Object>> queryTypeForSta();
     //查询日期为了统计
-    @Select("SELECT COUNT(*) AS CONT,to_char(s.updateWhen,'yyyy-MM-dd') AS NAME FROM subject  s " +
+    @Select("SELECT COUNT(*) AS \"cont\",to_char(s.updateWhen,'yyyy-MM-dd') AS \"name\" FROM subject  s " +
             "GROUP BY s.updateWhen ORDER BY s.updateWhen")
-    public List<Subject> queryUpdateWhenForSta();
+    public List<Map<String,Object>> queryUpdateWhenForSta();
     //查询更新者为了统计
-    @Select("SELECT COUNT(*) AS CONT,s.updateBy AS NAME FROM subject  s GROUP BY s.updateBy")
-    public List<Subject> queryUpdateByForSta();
+    @Select("SELECT COUNT(*) AS \"cont\",s.updateBy AS \"name\" FROM subject  s GROUP BY s.updateBy")
+    public List<Map<String,Object>> queryUpdateByForSta();
     //查询分数为了统计
-    @Select("SELECT COUNT(*) AS CONT,s.subjectScore AS NAME FROM subject  s GROUP BY s.subjectScore")
-    public List<Subject> queryScoreForSta();
+    @Select("SELECT COUNT(*) AS \"cont\",s.subjectScore AS \"name\" FROM subject  s GROUP BY s.subjectScore")
+    public List<Map<String,Object>> queryScoreForSta();
     //查询试题在表中的数量
     public int queryCntSubjectInPaper(String[] subjectIds);
 }

@@ -4,6 +4,7 @@ import cn.edu.tjut.ots.po.Paper;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by KINGBOOK on 2017/3/11.
@@ -45,16 +46,16 @@ public interface PaperDao {
     @Select("SELECT * FROM paper WHERE uuid = #{param}")
     public Paper queryPaperById(String paperId);
     //查询类型为了统计
-    @Select("SELECT b.name AS NAME,COUNT(*) AS CONT FROM paper p " +
+    @Select("SELECT b.name AS \"name\",COUNT(*) AS \"cont\" FROM paper p " +
             "JOIN basedata b ON p.papertype = b.uuid GROUP BY b.name")
-    public List<Paper> queryTypeForSta();
+    public List<Map<String,Object>> queryTypeForSta();
     //查询更新日期为了统计
-    @Select("SELECT to_char(p.updateWhen,'yyyy-mm-dd') AS NAME,COUNT(*) AS CONT FROM paper p GROUP BY p.updateWhen")
-    public List<Paper> queryUpdateWhenForSta();
+    @Select("SELECT to_char(p.updateWhen,'yyyy-mm-dd') AS \"name\",COUNT(*) AS \"cont\" FROM paper p GROUP BY p.updateWhen")
+    public List<Map<String,Object>> queryUpdateWhenForSta();
     //查询试题量为了统计
-    @Select("SELECT p.subjectCnt AS NAME,COUNT(*) AS CONT FROM paper p GROUP BY p.subjectCnt")
-    public List<Paper> querySubjectCntForSta();
+    @Select("SELECT p.subjectCnt AS \"name\",COUNT(*) AS \"cont\" FROM paper p GROUP BY p.subjectCnt")
+    public List<Map<String,Object>> querySubjectCntForSta();
     //查询答题时间为了统计
-    @Select("SELECT p.ansTime AS NAME,COUNT(*) AS CONT FROM paper p GROUP BY p.ansTime")
-    public List<Paper> queryAnsTimeForSta();
+    @Select("SELECT p.ansTime AS \"name\",COUNT(*) AS \"cont\" FROM paper p GROUP BY p.ansTime")
+    public List<Map<String,Object>> queryAnsTimeForSta();
 }

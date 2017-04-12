@@ -30,26 +30,6 @@ public class Paper {
     private Date updateWhen;
     //更新时间字符串，不保存到数据库
     private String updateWhenStr;
-    //名称，用于统计
-    private String name;
-    //数量,用于统计
-    private int cont;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCont() {
-        return cont;
-    }
-
-    public void setCont(int cont) {
-        this.cont = cont;
-    }
 
     public String getUpdateWhenStr() {
         return updateWhenStr;
