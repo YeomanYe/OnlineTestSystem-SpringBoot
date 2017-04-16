@@ -40,12 +40,12 @@ $(function () {
         }));
     $("#query_userLog").click(toggleTabs("userLogListTab", "日志管理", "userLog/listUserLogPage"));
     $("#query_permission").click(toggleTabs("permissionListTab", "权限管理", "permission/listPermissionPage"));
-    $("#query_userInfo").click(toggleTabs("userInfoTab","用户信息","userInfo/userInfoPage"));
+    $("#query_userInfo").click(toggleTabs("userInfoTab", "用户信息", "userInfo/userInfoPage"));
     //设置关闭modal框按钮事件
     $(".clsBtn").click(closeDialogBtn);
     //打开用户信息面板
     function openUserInfo() {
-        openBox("#userInfoBox",null,function () {
+        openBox("#userInfoBox", null, function () {
             //初始化icheck
             $('input[type="radio"].flat-red').iCheck({
                 radioClass: 'iradio_flat-red'
@@ -55,10 +55,10 @@ $(function () {
                 type: "get",
                 url: "userInfo/queryUserInfoByUsername",
                 success: function (data) {
-                    if(!data) return;
+                    if (!data) return;
                     $("input[name='nickName']").val(data.nickName);
                     $("input[name='job']").val(data.job);
-                    $("input[value='"+data.sex+"']").iCheck("check");
+                    $("input[value='" + data.sex + "']").iCheck("check");
                     $("input[name='phone']").val(data.phone);
                     $("input[name='qq']").val(data.qq);
                     $("input[name='email']").val(data.email);
@@ -69,26 +69,27 @@ $(function () {
                     $("#userPhone").inputmask("999-9999-9999", {"placeholder": "___-____-____"});
                 }
             });
-        },true);
+        }, true);
     }
+
     $("#userProfile").click(openUserInfo);
     $("#usernameShow").click(openUserInfo);
     //打开用户更换头像会话框
     $(".userAvater").click(function () {
-        openBox("#userAvaterBox",null,function () {
-            if(hasAvater){
+        openBox("#userAvaterBox", null, function () {
+            if (hasAvater) {
                 $("#previewAvater")[0].src = hasAvater;
-            }else{
+            } else {
                 $("#previewAvater")[0].src = $(".userAvater")[0].src;
             }
         });
     });
     //选择头像文件表单的事件
-    $("#userAvater").on('change',function () {
-       selectImage(this,function (data) {
-           hasAvater = data;
-           $("#previewAvater")[0].src = data;
-       });
+    $("#userAvater").on('change', function () {
+        selectImage(this, function (data) {
+            hasAvater = data;
+            $("#previewAvater")[0].src = data;
+        });
     });
     //点击按钮提交用户信息
     $("#submitUserInfo").click(function () {
@@ -124,7 +125,7 @@ $(function () {
                 endProgress();
                 if (data) {
                     openDialog("#successDialog", "<p>头像上传成功!</p>", null, true);
-                    $("img[alt='User Image']").attr("src",data);
+                    $("img[alt='User Image']").attr("src", data);
                 }
                 else {
                     openDialog("#errorDialog", "<p>上传失败,原因未知!</p>", null, true);
@@ -168,12 +169,37 @@ function toggleTabs(tabId, tabName, url, ajaxPos, toggleCallback) {
                 success: function (data) {
                     debugger;
                     if (!$(".content-wrapper .tab-content").length) {
-                        $(".nav-tabs-custom").append('<ul class="nav nav-tabs"><li class="active"><a href="#' + tabId + '" data-toggle="tab">' + tabName + '</a></li></ul>');
+                        $(".nav-tabs-custom").append('<ul class="nav nav-tabs">' +
+                            '<li class="active tabHeader"><a href="#' + tabId + '" data-toggle="tab">' + tabName + '</a>' +
+                            '<button type="button" class="close clsTab" data-dismiss="' + tabId + '">' +
+                            '<span aria-hidden="true">×</span></button></li></ul>');
                         $(".nav-tabs-custom").append('<div class="tab-content">' + data + '</div>');
                     } else {
-                        $(".nav-tabs").append('<li class="active"><a href="#' + tabId + '" data-toggle="tab">' + tabName + '</a></li>');
+                        $(".nav-tabs").append('<li class="active tabHeader"><a href="#' + tabId + '" data-toggle="tab">' + tabName + '</a>' +
+                            '<button type="button" class="close clsTab" data-dismiss="' + tabId + '">' +
+                            '<span aria-hidden="true">×</span></button></li>');
                         $(".tab-content").append(data);
                     }
+                    //给关闭标签页按钮添加方法
+                    $(".clsTab").click(function () {
+                        //获取tabId,li标签
+                       var tabId = $(this).data("dismiss"),
+                           $liElem = $("a[href='#"+tabId+"']").parent(),
+                           $ulElem = $liElem.parent(),
+                           $tabPanel = $("#"+tabId);
+                        if($ulElem.children().length == 1){
+                            $ulElem.remove();
+                            $tabPanel.parent().remove();
+                        }else{
+                            $liElem.remove();
+                            $tabPanel.remove();
+                        }
+                        //如果关闭的标签页是显示标签页，则设置第一个标签页为激活状态
+                        if($liElem.hasClass("active")){
+                            $(".tabHeader").eq(0).addClass("active");
+                            $(".tab-pane").eq(0).addClass("active");
+                        }
+                    });
                     //调用回调函数
                     if (typeof toggleCallback === "function") toggleCallback();
 
@@ -414,7 +440,7 @@ function uploadFile(form, url, call) {
                 endProgress();
                 if (data === true) {
                     openDialog("#successDialog", "<p>上传成功!</p>", null, true);
-                    if(typeof call === 'function'){
+                    if (typeof call === 'function') {
                         call();
                     }
                 }
@@ -436,19 +462,19 @@ function uploadFile(form, url, call) {
  * @param callback
  * @param flag true表示不垂直居中
  */
-function openBox(selector, content, callback,flag) {
+function openBox(selector, content, callback, flag) {
     if (content) {
         $(selector).find(".box-body").html(content);
     }
     $(selector).find(".box").show();
-    if(flag){
+    if (flag) {
         $(selector).css({
             position: "absolute",
             top: 60,
             left: ($(window).width() - $(selector).width()) / 2 > 0 ? ($(window).width() - $(selector).width()) / 2 : 60,
             zIndex: 999
         });
-    }else{
+    } else {
         $(selector).css({
             position: "absolute",
             top: ($(window).height() - $(selector).height()) / 2 > 0 ? ($(window).height() - $(selector).height()) / 2 : 60,
@@ -706,7 +732,7 @@ function systemTime(selector) {
  * @param cache //图片数据的缓存变量
  */
 var hasAvater = null;//判断是否选择了头像
-function selectImage(file,callback) {
+function selectImage(file, callback) {
     if (!file.files || !file.files[0]) {
         return;
     }
@@ -715,7 +741,7 @@ function selectImage(file,callback) {
         // $("#previewImage").get(0).src = evt.target.result;
         debugger;
         var data = evt.target.result;
-        if(typeof callback === 'function'){
+        if (typeof callback === 'function') {
             callback(data);
         }
     };
