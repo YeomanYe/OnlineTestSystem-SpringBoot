@@ -58,4 +58,7 @@ public interface PaperDao {
     //查询答题时间为了统计
     @Select("SELECT p.ansTime AS \"name\",COUNT(*) AS \"cont\" FROM paper p GROUP BY p.ansTime")
     public List<Map<String,Object>> queryAnsTimeForSta();
+    @Select("SELECT p.paperName,p.paperDesc,p.paperScore,p.anstime,p.subjectcnt,b.name AS paperType FROM paper p " +
+            "JOIN basedata b ON p.papertype = b.uuid WHERE p.uuid = #{param}")
+    public Paper queryPaperInfoById(String paperId);
 }

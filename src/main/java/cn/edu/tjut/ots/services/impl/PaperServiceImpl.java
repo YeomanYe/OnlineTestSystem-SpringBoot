@@ -1,7 +1,9 @@
 package cn.edu.tjut.ots.services.impl;
 
 import cn.edu.tjut.ots.dao.PaperDao;
+import cn.edu.tjut.ots.dao.SubjectDao;
 import cn.edu.tjut.ots.po.Paper;
+import cn.edu.tjut.ots.po.Subject;
 import cn.edu.tjut.ots.services.PaperService;
 import cn.edu.tjut.ots.utils.CreateUserBy;
 import cn.edu.tjut.ots.utils.ExcelUtil;
@@ -23,7 +25,10 @@ import java.util.*;
 public class PaperServiceImpl implements PaperService {
 
     @Resource
-    PaperDao paperDao;
+    private PaperDao paperDao;
+
+    @Resource
+    private SubjectDao subjectDao;
 
     @Override
     public List queryPaper() {
@@ -113,5 +118,15 @@ public class PaperServiceImpl implements PaperService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Map queryPaperInfoById(String paperId) {
+        Paper paper =  paperDao.queryPaperInfoById(paperId);
+        List<Subject> subjects = subjectDao.querySubjectInfoByPaperId(paperId);
+        Map<String,Object> map = new HashMap();
+        map.put("paper",paper);
+        map.put("subjects",subjects);
+        return map;
     }
 }

@@ -1,8 +1,5 @@
 package cn.edu.tjut.ots.services;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
@@ -70,4 +67,11 @@ public interface PaperService {
      * @param os
      */
     public void exportPaper(OutputStream os);
+
+    /**
+     * 查询试卷信息
+     * @param paperId
+     * @return
+     */
+    public Map queryPaperInfoById(String paperId);
 }

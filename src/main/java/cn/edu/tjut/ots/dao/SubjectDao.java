@@ -68,4 +68,10 @@ public interface SubjectDao {
     public List<Map<String,Object>> queryScoreForSta();
     //查询试题在表中的数量
     public int queryCntSubjectInPaper(String[] subjectIds);
+    //根据试卷ID查询试题信息
+    @Select("SELECT d.uuid,d.subjectName,d.subjectScore,b.name AS subjectType FROM basedata b " +
+            "JOIN (SELECT s.uuid,s.subjectName,s.subjectScore,s.subjecttype FROM subject s " +
+            "JOIN (SELECT ps.subjectid FROM paper_subject ps JOIN paper p ON p.uuid = ps.paperid where p.uuid=#{param}) t ON s.uuid = t.subjectid) d " +
+            "ON b.uuid = d.subjectType")
+    public List<Subject> querySubjectInfoByPaperId(String paperId);
 }

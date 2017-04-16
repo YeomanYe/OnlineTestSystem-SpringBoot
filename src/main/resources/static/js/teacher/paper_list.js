@@ -32,16 +32,19 @@ $(function () {
         "columnDefs": [
             {
                 "targets": [0],
+                "orderable":false,
                 "data": "uuid",
                 "render": function (data, type, full) {
-
                     return '<input name="paperIds" type="checkbox" class="paperCheckbox" value="' + data + '"/>'
                 }
             },
             {
                 "targets": [6],
-                "render": function () {
-                    return '<div class="fa fa-fw fa-file tb_paperInfo" onclick="paperInfoClick()" title="详情"></div>';
+                "orderable":false,
+                "data":"uuid",
+                "render": function (data) {
+                    debugger
+                    return '<div class="fa fa-fw fa-file tb_paperInfo" onclick="paperInfoClick(\''+data+'\')" title="详情"></div>';
                 }
             }
         ]
@@ -192,3 +195,92 @@ function paperRefresh() {
     $('#paper1').DataTable().ajax.reload();
 }
 
+function paperInfoClick(id) {
+    openBox("#paperInfoBox", null, function () {
+        $.ajax({
+            url: "paper/queryPaperInfo?paperId="+id,
+            type: "get",
+            beforeSend:function () {
+                startProgress();
+            },
+            success: function (data) {
+                debugger;
+                endProgress();
+                //装载试卷类型信息
+                var $paperInfo = $("#paperInfoBox").find(".box-body div:first");
+                if (data) {
+                    var paper = data.paper,
+                        paperName = paper.paperName,
+                        ansTime = paper.ansTime,
+                        paperScore = paper.paperScore,
+                        subjectCnt = paper.subjectCnt,
+                        paperDesc = paper.paperDesc,
+                        paperType = paper.paperType;
+                    var content = "";
+                    content += "<h3 class='text-center'>" + paperName + "</h3>";
+                    content += "<p><span class='col-xs-3'>答卷时间:" + ansTime + "</span>" +
+                        "<span class='paperInfoScore col-xs-3'>试卷总分:" + paperScore + "</span> " +
+                        " <span class='paperInfoSubjectCnt col-xs-3'>试题数量:" + subjectCnt + "</span>" +
+                        " <span class='col-xs-3'>试卷类型:" + paperType + "</span>" + "</p>";
+                    content += "<p class='col-xs-12'>试卷描述:" + paperDesc + "</p>";
+                    $paperInfo.html(content);
+
+                    //加载前先清空数据
+                    $("#paperInfoSubjectTable").DataTable().destroy();
+                    var dtPaperInfoOption = {
+                        "rowCallback": function (row, data, index) {
+                            //双极显示试题信息
+                            $(row).on("dblclick", function () {
+                                var subjectId = $(this).find(":checkbox").val();
+                                subjectInfoShow(subjectId);
+                            });
+                            //单击选择元素
+                            $(row).on("click", function () {
+                                debugger;
+                                if ($(this).find(":checkbox").prop("checked")) {
+                                    $(this).find(":checkbox").prop({checked: false});
+                                } else {
+                                    $(this).find(":checkbox").prop({checked: true});
+                                }
+                            })
+                        },
+                        "data": data.subjects,
+                        "columns": [
+                            {data: 'uuid'},
+                            {data: 'subjectType'},
+                            {
+                                data: 'subjectName',
+                                className: 'tb_subjectName'
+                            },
+                            {
+                                data: 'subjectScore',
+                                className: 'subjectScore'
+                            },
+                        ],
+                        "columnDefs": [
+                            {
+                                "targets": [0],
+                                "data": "uuid",
+                                "render": function (data, type, full) {
+                                    debugger
+                                    return '<input name="subjectIds" type="checkbox" class="paperSubjectCheckbox" value="' + data + '"/>'
+                                }
+                            },
+                            {
+                                "targets": [4],
+                                "data": "uuid",
+                                "render": function (data) {
+                                    return '<div style="cursor: pointer;" class="glyphicon glyphicon-list-alt margin" onclick="subjectInfoShow(\'' + data + '\')" title="详情"></div>';
+                                }
+                            }
+                        ]
+                    };
+                    $("#paperInfoSubjectTable").DataTable($.extend(dtPaperInfoOption, dtTemplateOption));
+                }
+            },
+            error:function () {
+                endProgress();
+            }
+        });
+    },true);
+}

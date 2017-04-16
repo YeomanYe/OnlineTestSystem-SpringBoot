@@ -24,7 +24,7 @@ import java.util.Map;
 @Scope("prototype")
 public class PaperController {
     @Resource
-    PaperService paperServiceImpl;
+    private PaperService paperServiceImpl;
 
     @RequestMapping("listPaperPage")
     public String getPaperListPage(){
@@ -98,6 +98,12 @@ public class PaperController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @ResponseBody
+    @RequestMapping("queryPaperInfo")
+    public Map queryPaperInfo(@RequestParam("paperId") String paperId){
+        return paperServiceImpl.queryPaperInfoById(paperId);
     }
 
 }
