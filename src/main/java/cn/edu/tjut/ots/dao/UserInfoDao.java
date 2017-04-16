@@ -30,7 +30,7 @@ public interface UserInfoDao {
     @Update("update user_info set avaterId=#{avaterId} where username=#{userName}")
     public void updateAvaterId(UserInfo userInfo);
     //查询头像和个性签名
-    @Select("SELECT i.relpath AS \"avater\",u.PROFILE AS \"profile\" FROM user_info u " +
+    @Select("SELECT i.relpath AS \"avater\",u.PROFILE AS \"profile\",u.NICKNAME AS \"nickname\" FROM user_info u " +
             " JOIN image i ON u.avaterid = i.uuid WHERE username=#{param}")
     public Map<String,String> queryAvaterAndProfile(String username);
     //查询所有的用户信息

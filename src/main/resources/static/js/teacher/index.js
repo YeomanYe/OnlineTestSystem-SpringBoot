@@ -103,6 +103,8 @@ $(function () {
                 if (data === true) {
                     openDialog("#successDialog", "<p>更改成功!</p>", null, true);
                     $("#profileShow").text($("textarea[name='profile']").val());
+                    debugger
+                    $(".nicknameShow").text($("input[name='nickName']").val());
                 }
                 else {
                     openDialog("#errorDialog", "<p>更改失败,原因未知</p>", null, true);

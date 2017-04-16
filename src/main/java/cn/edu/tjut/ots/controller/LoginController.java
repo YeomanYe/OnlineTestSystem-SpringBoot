@@ -59,6 +59,7 @@ public class LoginController {
                 Map<String,String> map = userInfoServiceImpl.queryAvaterAndProfile(username);
                 req.setAttribute("avater",map.get("avater"));
                 req.setAttribute("profile",map.get("profile"));
+                req.setAttribute("nickname",map.get("nickname"));
                 map = roleServiceImpl.queryMaxResRole(username);
                 req.setAttribute("rolename",map.get("rolename"));
                 return "teacher/index";
