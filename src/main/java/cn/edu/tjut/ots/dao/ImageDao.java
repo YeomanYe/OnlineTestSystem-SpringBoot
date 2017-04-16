@@ -21,7 +21,9 @@ public interface ImageDao {
             " FROM image i WHERE uuid = #{param}")
     public List<Image> queryImageById(String imageId);
     //保存image
-    @Insert("INSERT INTO image VALUES(#{uuid},#{absPath},#{formerName},#{presentName},#{fileType}," +
+    @Insert("INSERT INTO image (uuid,absPath,formerName,presentName," +
+            "fileType,fileSize,createBy,createWhen,updateBy,updateWhen,relPath) " +
+            " VALUES(#{uuid},#{absPath},#{formerName},#{presentName},#{fileType}," +
             "#{fileSize},#{createBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd')," +
             "#{updateBy},to_date(to_char(sysdate,'yyyy/mm/dd'),'yyyy/mm/dd'),#{relPath})")
     public void addImage(Image image);

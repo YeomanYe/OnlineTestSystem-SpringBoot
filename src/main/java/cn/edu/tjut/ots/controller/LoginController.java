@@ -57,11 +57,17 @@ public class LoginController {
                 session.setAttribute("username",username);
                 session.setAttribute("resources",permissionServiceImpl.queryUserAuth(username));
                 Map<String,String> map = userInfoServiceImpl.queryAvaterAndProfile(username);
-                req.setAttribute("avater",map.get("avater"));
-                req.setAttribute("profile",map.get("profile"));
-                req.setAttribute("nickname",map.get("nickname"));
+                if(!EmptyUtil.isObjEmpty(map)){
+                    req.setAttribute("avater",map.get("avater"));
+                    req.setAttribute("profile",map.get("profile"));
+                    req.setAttribute("nickname",map.get("nickname"));
+                }else{
+                    req.setAttribute("nickname",username);
+                }
                 map = roleServiceImpl.queryMaxResRole(username);
-                req.setAttribute("rolename",map.get("rolename"));
+                if(!EmptyUtil.isObjEmpty(map)){
+                    req.setAttribute("rolename",map.get("rolename"));
+                }
                 return "teacher/index";
             }
         }
