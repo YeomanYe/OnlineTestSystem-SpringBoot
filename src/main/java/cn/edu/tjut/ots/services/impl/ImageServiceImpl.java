@@ -117,8 +117,7 @@ public class ImageServiceImpl implements ImageService {
                 File file = new File("src/main/resources/static/"+filePath);
                 if(file.exists()) file.delete();
                 //删除部署文件夹中的图片
-                filePath = realPath + image.getRelPath();
-                file = new File(filePath);
+                file = new File(realPath + filePath);
                 if(file.exists()) file.delete();
                 imageDao.deleteImage(imageId);
             }
