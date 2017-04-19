@@ -113,8 +113,8 @@ public class ImageServiceImpl implements ImageService {
             Image image = images.get(0);
             if(!EmptyUtil.isObjEmpty(image)){
                 //删除资源文件夹中的图片
-                String filePath = image.getAbsPath();
-                File file = new File(filePath);
+                String filePath = image.getRelPath();
+                File file = new File("src/main/resources/static/"+filePath);
                 if(file.exists()) file.delete();
                 //删除部署文件夹中的图片
                 filePath = realPath + image.getRelPath();
