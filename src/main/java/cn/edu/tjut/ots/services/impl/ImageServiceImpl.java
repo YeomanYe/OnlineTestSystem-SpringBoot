@@ -54,6 +54,7 @@ public class ImageServiceImpl implements ImageService {
         String lastImgId = lastSub.getImgId();
         if(!EmptyUtil.isFieldEmpty(lastImgId)){
             deleteImage(lastImgId, realPath);
+
         }
         //生成新图片的UUID
         String imgId = UUID.randomUUID().toString().replace("-", "");

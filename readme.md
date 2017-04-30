@@ -3,6 +3,27 @@ OnlineTestSystem-SpringBoot是对去年写的OnlineTestSystem的用SpringBoot重
 后台:SpringBoot + SpringMVC + Mybatis
 前台:AdminLTE
 
+## 部署
+### Windows平台上部署
+部署前提是安装了Oracle 11g、Java 1.8、maven
+
+下载好工程后，到src/main/resources目录下，导入数据库
+```sql
+# 新建一个用户
+create user ots identified by "ots";
+# 授予zhangsan用户创建session的权限，即登陆权限
+grant create session to zhangsan;
+# 授予zhangsan用户使用表空间的权限
+grant unlimited tablespace to zhangsan;
+# 导入数据表与记录
+imp ots/ots file=ots.dmp
+```
+
+启动项目
+```txt
+mvn spring-boot:run
+```
+
 ## Screenshot
 试题列表
 ![试题列表](screenshot/试题列表.png)
@@ -58,5 +79,3 @@ OnlineTestSystem-SpringBoot/
    │
    └──其他                       * IDEA生成文件
 ```
-
-## 坑和经验
